@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import view.joystick.MyJoyStick?>
+<?import view.viewlist.MyViewList?>
+<?import view.graph.MyGraph?>
+<?import view.openfiles.OpenFiles?>
+<?import view.buttons.MyButtons?>
+<?import javafx.scene.layout.Pane?>
+
+<BorderPane prefHeight="600" prefWidth="900" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.WindowController">
+  
+   <left>
+   <MyViewList fx:id="viewlist"></MyViewList>
+   </left>
+    <top>
+     <OpenFiles fx:id="openFiles"></OpenFiles>
+   </top>
+   <center>
+	<MyGraph fx:id="Graph"></MyGraph>
+   </center>
+   <right>
+   	<MyJoyStick fx:id="myJoystick"></MyJoyStick>
+   	</right>
+   <bottom>
+      <MyButtons fx:id="myButtons"></MyButtons>
+    </bottom>
+   
+</BorderPane>

@@ -1,4 +1,2 @@
-package view.viewlist;
-
-public class MyViewList {
+package view.viewlist;public class MyViewList {
 }
