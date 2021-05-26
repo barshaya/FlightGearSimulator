@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="15.0.1" class="java.beans.XMLDecoder">
+ <object class="model.Properties">
+  <void property="associateName">
+   <string>aileron1</string>
+  </void>
+  <void property="max">
+   <int>1000</int>
+  </void>
+  <void property="min">
+   <int>-1000</int>
+  </void>
+  <void property="name">
+   <string>aileron</string>
+  </void>
+ </object>
+ <object class="model.Properties">
+  <void property="associateName">
+   <string>elevator1</string>
+  </void>
+  <void property="max">
+   <int>-1000</int>
+  </void>
+  <void property="min">
+   <int>1000</int>
+  </void>
+  <void property="name">
+   <string>elevator</string>
+  </void>
+ </object>
+ <object class="model.Properties">
+  <void property="associateName">
+   <string>throttle1</string>
+  </void>
+  <void property="max">
+   <int>-1000</int>
+  </void>
+  <void property="min">
+   <int>1000</int>
+  </void>
+  <void property="name">
+   <string>throttle</string>
+  </void>
+ </object>
+ <object class="model.Properties">
+  <void property="associateName">
+   <string>rudder1</string>
+  </void>
+  <void property="max">
+   <int>-1000</int>
+  </void>
+  <void property="min">
+   <int>1000</int>
+  </void>
+  <void property="name">
+   <string>rudder</string>
+  </void>
+ </object>
+ <object class="model.Properties">
+  <void property="associateName">
+   <string>sp4</string>
+  </void>
+  <void property="max">
+   <int>-1000</int>
+  </void>
+  <void property="min">
+   <int>1000</int>
+  </void>
+  <void property="name">
+   <string>speed4</string>
+  </void>
+ </object>
+ <object class="model.Properties">
+  <void property="associateName">
+   <string>sp5</string>
+  </void>
+  <void property="max">
+   <int>-1000</int>
+  </void>
+  <void property="min">
+   <int>1000</int>
+  </void>
+  <void property="name">
+   <string>speed5</string>
+  </void>
+ </object>
+ <object class="model.Properties">
+  <void property="associateName">
+   <string>sp6</string>
+  </void>
+  <void property="max">
+   <int>-1000</int>
+  </void>
+  <void property="min">
+   <int>1000</int>
+  </void>
+  <void property="name">
+   <string>speed6</string>
+  </void>
+ </object>
+ <object class="model.Properties">
+  <void property="associateName">
+   <string>sp7</string>
+  </void>
+  <void property="max">
+   <int>-1000</int>
+  </void>
+  <void property="min">
+   <int>1000</int>
+  </void>
+  <void property="name">
+   <string>speed7</string>
+  </void>
+ </object>
+ <object class="model.Properties">
+  <void property="associateName">
+   <string>sp8</string>
+  </void>
+  <void property="max">
+   <int>-1000</int>
+  </void>
+  <void property="min">
+   <int>1000</int>
+  </void>
+  <void property="name">
+   <string>speed8</string>
+  </void>
+ </object>
+</java>
