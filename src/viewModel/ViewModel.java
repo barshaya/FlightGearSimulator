@@ -3,9 +3,7 @@ package viewModel;
 import java.util.Observable;
 import java.util.Observer;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.*;
 import model.Features;
 import model.Model;
 import view.HandleGUI;
@@ -13,7 +11,20 @@ import view.HandleGUI;
 public class ViewModel implements Observer {
 
     Features features;
-    public DoubleProperty aileron,elevators,rudder,throttle;
+    public DoubleProperty aileron=new SimpleDoubleProperty();
+    public DoubleProperty elevators=new SimpleDoubleProperty();
+    public DoubleProperty rudder=new SimpleDoubleProperty();
+    public DoubleProperty throttle=new SimpleDoubleProperty();
+    public StringProperty yaw=new SimpleStringProperty();
+    public StringProperty roll=new SimpleStringProperty();
+    public StringProperty pitch=new SimpleStringProperty();
+    public StringProperty speed=new SimpleStringProperty();
+    public StringProperty direction=new SimpleStringProperty();
+    public StringProperty heigth=new SimpleStringProperty();
+    public StringProperty line=new SimpleStringProperty();
+    public StringProperty FlightStatus = new SimpleStringProperty();
+    public StringProperty FlightMessage= new SimpleStringProperty();
+    public SimpleDoubleProperty rate = new SimpleDoubleProperty();
 
     public ViewModel(Features features) {
         this.features=features;

@@ -20,7 +20,7 @@ public class MyOpenFiles extends AnchorPane {
         super();
         try {
             FXMLLoader fxl = new FXMLLoader();
-            AnchorPane open = fxl.load(getClass().getResource("OpenFiles.fxml").openStream());
+            AnchorPane open = fxl.load(getClass().getResource("MyOpenFiles.fxml").openStream());
             MyOpenFilesController myOpenFilesController = fxl.getController();
             algo = myOpenFilesController.algo;
             algoname = myOpenFilesController.AlgoName;
