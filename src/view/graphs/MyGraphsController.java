@@ -1,4 +1,4 @@
 package view.graphs;
 
-public class MyGraphController {
+public class MyGraphsController {
 }

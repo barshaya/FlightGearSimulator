@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.BorderPane?>
-<?import view.joystick.MyJoyStick?>
+<?import view.joystick.MyJoystick?>
 <?import view.viewlist.MyViewList?>
-<?import view.graph.MyGraph?>
+<?import view.graphs.MyGraphs?>
 <?import view.openfiles.OpenFiles?>
 <?import view.buttons.MyButtons?>
 <?import javafx.scene.layout.Pane?>
@@ -17,10 +17,10 @@
      <OpenFiles fx:id="openFiles"></OpenFiles>
    </top>
    <center>
-	<MyGraph fx:id="Graph"></MyGraph>
+	<MyGraphs fx:id="Graph"></MyGraphs>
    </center>
    <right>
-   	<MyJoyStick fx:id="myJoystick"></MyJoyStick>
+   	<MyJoystick fx:id="myJoystick"></MyJoystick>
    	</right>
    <bottom>
       <MyButtons fx:id="myButtons"></MyButtons>
