@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.viewlist.MyViewListController">
+<AnchorPane prefHeight="437.0" prefWidth="264.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.viewlist.MyViewListController">
 	<!-- TODO Add Nodes -->	
          <children>
-            <ListView fx:id="listView" layoutX="19.0" layoutY="55.0" prefHeight="351.0" prefWidth="200.0" />
+            <ListView fx:id="listView" layoutX="8.0" layoutY="19.0" prefHeight="361.0" prefWidth="247.0" />
+      <Button layoutX="32.0" layoutY="385.0" mnemonicParsing="false" onAction="#openXMLFile" prefHeight="25.0" prefWidth="209.0" text="Load XML File" />
          </children>
 </AnchorPane>
