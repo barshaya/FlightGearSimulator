@@ -25,9 +25,8 @@ public class MyButtonsController {
     @FXML Button doubleforward;
     @FXML ChoiceBox videoSpeed;
     @FXML Slider videoSlider;
-    @FXML Label VideoTime;
+    @FXML Label videoTime;
     StringProperty FlightStatus;
-    @FXML Label FlightGear;
     DoubleProperty forwardCnt;
     double f = 0;
     SimpleDoubleProperty forward2Cnt;
