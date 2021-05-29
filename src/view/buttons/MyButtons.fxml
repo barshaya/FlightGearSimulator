@@ -10,4 +10,9 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="view.buttons.MyButtons"
             prefHeight="400.0" prefWidth="600.0">
+
+
+
+
+
 </AnchorPane>
