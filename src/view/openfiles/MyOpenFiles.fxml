@@ -8,19 +8,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="view.openfiles.MyOpenFilesController"
+            fx:controller="view.openfiles.MyOpenFiles"
             prefHeight="400.0" prefWidth="600.0">
-
-    <MenuBar prefHeight="26.0" prefWidth="900" BorderPane.alignment="CENTER">
-    <menus>
-        <Menu mnemonicParsing="false" text="File">
-            <items>
-                <MenuItem mnemonicParsing="false" onAction="#openXMLFile" text="Load XML File" fx:id="xml" />
-                <MenuItem fx:id="csv" mnemonicParsing="false" onAction="#openCSVFile" text="Load CSV File" />
-                <MenuItem fx:id="algo" mnemonicParsing="false" onAction="#openCLASSFile" text="Load Algo File" />
-            </items>
-        </Menu>
-    </menus>
-</MenuBar>
 
 </AnchorPane>
