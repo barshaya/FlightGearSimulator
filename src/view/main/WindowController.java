@@ -14,7 +14,7 @@ import view.joystick.MyJoyStick;
 import view.openfiles.OpenFiles;
 import view.viewlist.MyViewList;
 import view_model.ViewModel;
-
+t
 public class WindowController implements Initializable {
     ViewModel vm;
     @FXML

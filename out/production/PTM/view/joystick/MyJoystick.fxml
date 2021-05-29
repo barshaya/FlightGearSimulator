@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="view.joystick.MyJoystick"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="456.0" prefWidth="261.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.joystick.MyJoyStickController">
+	<!-- TODO Add Nodes -->
+	      <children>
+            <Circle fx:id="CanvasCircle" fill="#c6c6c7" layoutX="133.0" layoutY="89.0" radius="61.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fx:id="movingCircle" layoutX="134.0" layoutY="89.0" radius="32.0" stroke="BLACK" strokeType="INSIDE" />
+            <Slider fx:id="rudder" layoutX="60.0" layoutY="176.0" />
+            <Slider fx:id="throttle" layoutX="21.0" layoutY="24.0" orientation="VERTICAL" />
+            <Label layoutX="19.0" layoutY="223.0" text="Yaw" />
+            <Label layoutX="81.0" layoutY="223.0" text="Altitude" />
+            <Label layoutX="151.0" layoutY="223.0" text="Direction" />
+            <Label layoutX="13.0" layoutY="330.0" text="Speed" />
+            <Label layoutX="87.0" layoutY="330.0" text="Pitch" />
+            <Label layoutX="167.0" layoutY="330.0" text="Roll" />
+            <Label fx:id="yawValue" layoutX="21.0" layoutY="300.0" text="0.0" />
+            <Label fx:id="AltitudeValue" layoutX="95.0" layoutY="300.0" text="0.0" />
+            <Label fx:id="DirectionValue" layoutX="169.0" layoutY="300.0" text="0.0" />
+            <Label fx:id="speedValue" layoutX="16.0" layoutY="407.0" text="0.0" />
+            <Label fx:id="PitchValue" layoutX="95.0" layoutY="407.0" text="0.0" />
+            <Label fx:id="RollValue" layoutX="170.0" layoutY="407.0" prefHeight="17.0" prefWidth="40.0" text="0.0" />
+            <Label layoutX="107.0" layoutY="190.0" text="Rudder" />
+            <Label layoutX="-11.0" layoutY="89.0" rotate="-90.0" text="Throttle" />
+         </children>
 </AnchorPane>
