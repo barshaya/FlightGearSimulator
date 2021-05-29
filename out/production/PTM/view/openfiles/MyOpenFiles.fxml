@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.openfiles.MyOpenFilesController">
+<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="view.openfiles.MyOpenFilesController">
 
     <MenuBar prefHeight="26.0" prefWidth="900" BorderPane.alignment="CENTER">
     <menus>
         <Menu mnemonicParsing="false" text="File">
             <items>
-                <MenuItem fx:id="xml" mnemonicParsing="false" onAction="#openXMLFile" text="Load XML File" />
-
+                <MenuItem mnemonicParsing="false" onAction="#openXMLFile" text="Load XML File" fx:id="xml" />
                 <MenuItem fx:id="csv" mnemonicParsing="false" onAction="#openCSVFile" text="Load CSV File" />
                 <MenuItem fx:id="algo" mnemonicParsing="false" onAction="#openCLASSFile" text="Load Algo File" />
             </items>
