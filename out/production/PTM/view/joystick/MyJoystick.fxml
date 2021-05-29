@@ -1,28 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Circle?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="383.0" prefWidth="247.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.joystick.MyJoystickController">
-	<!-- TODO Add Nodes -->
-	      <children>
-            <Circle fx:id="CanvasCircle" layoutX="133.0" layoutY="89.0" radius="61.0" stroke="WHITE" strokeType="INSIDE" />
-            <Circle fx:id="movingCircle" fill="WHITE" layoutX="134.0" layoutY="89.0" radius="32.0" stroke="WHITE" strokeType="INSIDE" />
-            <Slider fx:id="rudder" layoutX="60.0" layoutY="176.0" />
-            <Slider fx:id="throttle" layoutX="21.0" layoutY="24.0" orientation="VERTICAL" />
-            <Label layoutX="19.0" layoutY="223.0" text="Yaw" />
-            <Label layoutX="14.0" layoutY="248.0" text="Altitude" />
-            <Label layoutX="12.0" layoutY="274.0" text="Direction" />
-            <Label layoutX="13.0" layoutY="298.0" text="Speed" />
-            <Label layoutX="15.0" layoutY="321.0" text="Pitch" />
-            <Label layoutX="18.0" layoutY="350.0" text="Roll" />
-            <Label fx:id="yawValue" layoutX="87.0" layoutY="223.0" text="0.0" />
-            <Label fx:id="AltitudeValue" layoutX="87.0" layoutY="248.0" text="0.0" />
-            <Label fx:id="DirectionValue" layoutX="87.0" layoutY="274.0" text="0.0" />
-            <Label fx:id="speedValue" layoutX="87.0" layoutY="298.0" text="0.0" />
-            <Label fx:id="PitchValue" layoutX="87.0" layoutY="321.0" text="0.0" />
-            <Label fx:id="RollValue" layoutX="83.0" layoutY="350.0" prefHeight="17.0" prefWidth="40.0" text="0.0" />
-         </children>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="view.joystick.MyJoystick"
+            prefHeight="400.0" prefWidth="600.0">
+
 </AnchorPane>

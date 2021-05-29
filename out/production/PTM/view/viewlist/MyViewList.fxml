@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.viewlist.MyViewListController">
-	<!-- TODO Add Nodes -->	
-         <children>
-            <ListView fx:id="listView" layoutX="19.0" layoutY="55.0" prefHeight="351.0" prefWidth="200.0" />
-         </children>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="view.viewlist.MyViewList"
+            prefHeight="400.0" prefWidth="600.0">
+
 </AnchorPane>

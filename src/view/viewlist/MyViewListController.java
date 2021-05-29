@@ -9,7 +9,6 @@ public class MyViewListController {
         ListView listView;
 
         public MyViewListController() {
-                super();
         }
 
 
