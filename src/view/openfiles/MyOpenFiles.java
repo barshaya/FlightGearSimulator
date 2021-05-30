@@ -13,8 +13,7 @@ public class MyOpenFiles extends AnchorPane {
     public StringProperty algopath;
     public MenuItem csv;
     public StringProperty csvpath;
-    public MenuItem xml;
-    public StringProperty xmlpath;
+
 
     public MyOpenFiles() {
         super();
@@ -27,8 +26,6 @@ public class MyOpenFiles extends AnchorPane {
             algopath = myOpenFilesController.AlgoPath;
             csv = myOpenFilesController.csv;
             csvpath = myOpenFilesController.CsvPath;
-            xml = myOpenFilesController.xml;
-            xmlpath = myOpenFilesController.XmlPath;
             this.getChildren().add(open);
         } catch (IOException e) {
             e.printStackTrace();
