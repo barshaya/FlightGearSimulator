@@ -11,18 +11,16 @@ import javafx.stage.FileChooser;
 import java.io.File;
 
 public class MyOpenFilesController {
-    @FXML
-    MenuItem xml;
+
     @FXML
     MenuItem csv;
     @FXML
     MenuItem algo;
 
-    StringProperty XmlPath,CsvPath,AlgoPath,AlgoName;
+    StringProperty CsvPath,AlgoPath,AlgoName;
 
     public MyOpenFilesController() {
         super();
-        XmlPath = new SimpleStringProperty();
         CsvPath = new SimpleStringProperty();
         ObservableList<Object> csvTitle = FXCollections.observableArrayList();
         AlgoPath = new SimpleStringProperty();
@@ -30,20 +28,7 @@ public class MyOpenFilesController {
     }
 
 
-    public void openXMLFile() {
-        FileChooser fc = new FileChooser();
-        fc.setTitle("File Choose");
-        fc.setInitialDirectory(new File("./resources"));
-        FileChooser.ExtensionFilter ef = new FileChooser.ExtensionFilter("XML Files (*.xml)","*.xml");
-        fc.getExtensionFilters().add(ef);
-        File chosen = fc.showOpenDialog(null);
-        if(chosen!=null)
-        {
-            //vm.loadXml("resources/"+chosen.getName());
-            XmlPath.setValue("resources/"+chosen.getName());
 
-        }
-    }
 
     public void openCSVFile() {
         FileChooser fc = new FileChooser();
@@ -67,7 +52,7 @@ public class MyOpenFilesController {
     public void openCLASSFile() {
         FileChooser fc = new FileChooser();
         fc.setTitle("File Choose");
-        fc.setInitialDirectory(new File("./bin/Model"));
+        fc.setInitialDirectory(new File("./out/production/PTM/algorithms"));
         FileChooser.ExtensionFilter ef = new FileChooser.ExtensionFilter("Class Files (*.class)","*.class");
         fc.getExtensionFilters().add(ef);
         File chosen = fc.showOpenDialog(null);
