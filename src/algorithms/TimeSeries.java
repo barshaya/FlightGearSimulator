@@ -32,7 +32,45 @@ public class TimeSeries {
 			this.parameters = parameters;
 		}
 	}
-	
+
+	public ArrayList<String> getFeaturesNames(){
+		ArrayList<String> list = new ArrayList<>();
+		for(col feature: this.features){
+			list.add(feature.name);
+		}
+		return list;
+	}
+
+	public ArrayList<Float> readLine(int index){
+		ArrayList<Float> line = new ArrayList<Float>();
+		for (int i = 0; i < this.features.length; i++) {
+			line.add(this.features[i].getParameters().get(index));
+		}
+		return line;
+	}
+
+	public float getSepecificValue(String ColName , int TimeStemp) {
+		col f = this.getFeatureByNameid(ColName);
+		if (f == null) {
+			return (Float) null;
+		}
+		if (TimeStemp > f.parameters.size()) {
+			return (Float) null;
+		}
+		return f.getParameters().get(TimeStemp);
+	}
+
+	public col getFeatureByNameid(String s){
+		for (col feature : features) {
+			String n = feature.name;
+			if (n.equals(s)) {
+				return feature;
+			}
+		}
+		return null;
+	}
+
+
 	private col[] features;
 	private BufferedReader reader;
 	public col[] getFeatures() {

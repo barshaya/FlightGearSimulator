@@ -45,6 +45,11 @@ public class ZScore implements TimeSeriesAnomalyDetector {
         return liveReports;
     }
 
+    @Override
+    public Runnable paint() {
+        return null;
+    }
+
     public float calculateZScore(ArrayList<Float> parameters, int index){
         float mean  = calculateMean(parameters, index);
         float sd = calculateSD(parameters,mean,index);
