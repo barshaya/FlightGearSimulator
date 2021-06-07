@@ -6,23 +6,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-
 <AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="view.buttons.MyButtonsController"
             prefHeight="113.0" prefWidth="900.0">
     <children>
-        <Button fx:id="doubleback" layoutX="8.0" layoutY="15.0" mnemonicParsing="false" onAction="#SkipbackwardDouble" prefHeight="26.0" prefWidth="76.0" text="&lt;&lt;" />
-        <Button fx:id="back" layoutX="95.0" layoutY="14.0" mnemonicParsing="false" onAction="#Skipbackward" prefHeight="26.0" prefWidth="66.0" text="&lt;" />
-        <Button fx:id="play" layoutX="178.0" layoutY="14.0" mnemonicParsing="false" onAction="#startFlight" prefHeight="26.0" prefWidth="82.0" text="play" />
-        <Button fx:id="pause" layoutX="267.0" layoutY="15.0" mnemonicParsing="false" onAction="#pauseFlight" prefHeight="26.0" prefWidth="82.0" text="pause" />
-        <Button fx:id="stop" layoutX="358.0" layoutY="15.0" mnemonicParsing="false" onAction="#stopFlight" prefHeight="26.0" prefWidth="82.0" text="stop" />
-        <Button fx:id="forward" layoutX="457.0" layoutY="15.0" mnemonicParsing="false" onAction="#SkipForward" prefHeight="26.0" prefWidth="66.0" text="&gt;" />
-        <Button fx:id="doubleforward" layoutX="538.0" layoutY="14.0" mnemonicParsing="false" onAction="#SkipForwardDouble" prefHeight="26.0" prefWidth="76.0" text="&gt;&gt;" />
-        <Label layoutX="666.0" layoutY="19.0" prefHeight="18.0" prefWidth="66.0" text="speed" />
-        <ChoiceBox fx:id="videoSpeed" layoutX="752.0" layoutY="15.0" prefHeight="25.0" prefWidth="126.0" />
-        <Slider fx:id="videoSlider" layoutX="21.0" layoutY="63.0" prefHeight="14.0" prefWidth="788.0" />
-        <Label fx:id="videoTime" layoutX="815.0" layoutY="61.0" prefHeight="17.0" prefWidth="66.0" text="00:00" />
+        <Button fx:id="doubleBack" layoutX="8.0" layoutY="15.0" mnemonicParsing="false" onAction="#skipDoubleBack" prefHeight="26.0" prefWidth="76.0" text="&lt;&lt;" />
+        <Button fx:id="back" layoutX="95.0" layoutY="14.0" mnemonicParsing="false" onAction="#skipBack" prefHeight="26.0" prefWidth="66.0" text="&lt;" />
+        <Button fx:id="play" layoutX="178.0" layoutY="14.0" mnemonicParsing="false" onAction="#startFlight" prefHeight="26.0" prefWidth="82.0" text="Play" />
+        <Button fx:id="pause" layoutX="267.0" layoutY="15.0" mnemonicParsing="false" onAction="#pauseFlight" prefHeight="26.0" prefWidth="82.0" text="Pause" />
+        <Button fx:id="stop" layoutX="358.0" layoutY="15.0" mnemonicParsing="false" onAction="#stopFlight" prefHeight="26.0" prefWidth="82.0" text="Stop" />
+        <Button fx:id="forward" layoutX="457.0" layoutY="15.0" mnemonicParsing="false" onAction="#skipForward" prefHeight="26.0" prefWidth="66.0" text="&gt;" />
+        <Button fx:id="doubleForward" layoutX="538.0" layoutY="14.0" mnemonicParsing="false" onAction="#skipDoubleForward" prefHeight="26.0" prefWidth="76.0" text="&gt;&gt;" />
+        <Label layoutX="660.0" layoutY="19.0" prefHeight="18.0" prefWidth="66.0" text="Flight Speed" />
+        <ChoiceBox fx:id="flightSpeed" layoutX="752.0" layoutY="15.0" prefHeight="25.0" prefWidth="126.0" />
+        <Slider fx:id="flightSlider" layoutX="21.0" layoutY="63.0" prefHeight="14.0" prefWidth="788.0" />
+        <Label fx:id="flightTime" layoutX="815.0" layoutY="61.0" prefHeight="17.0" prefWidth="66.0" text="00:00" />
 
     </children>
 </AnchorPane>
