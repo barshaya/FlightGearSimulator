@@ -67,7 +67,7 @@ public class OpenFilesController {
 	public void openCLASSFile() {
 		FileChooser fc = new FileChooser();
 		fc.setTitle("File Choose");
-		fc.setInitialDirectory(new File("./bin/Model"));
+		fc.setInitialDirectory(new File("./out/production/PTM/algorithms"));
 		ExtensionFilter ef = new ExtensionFilter("Class Files (*.class)","*.class");
 		fc.getExtensionFilters().add(ef);
 		File chosen = fc.showOpenDialog(null);
