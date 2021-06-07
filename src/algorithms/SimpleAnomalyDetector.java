@@ -89,7 +89,12 @@ public class SimpleAnomalyDetector implements TimeSeriesAnomalyDetector {
 		}
 		return liveReports;
 	}
-	
+
+	@Override
+	public Runnable paint() {
+		return null;
+	}
+
 	public List<CorrelatedFeatures> getNormalModel(){
 		return correlates;
 	}

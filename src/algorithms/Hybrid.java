@@ -142,4 +142,9 @@ public class Hybrid implements TimeSeriesAnomalyDetector{
 
         return anomalyReports;
     }
+
+    @Override
+    public Runnable paint() {
+        return null;
+    }
 }
