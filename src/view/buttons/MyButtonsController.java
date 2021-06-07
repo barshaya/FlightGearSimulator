@@ -16,35 +16,31 @@ import javafx.scene.control.Label;
 
 public class MyButtonsController {
 
-    @FXML Button doubleback;
+    @FXML Button doubleBack;
     @FXML Button back;
     @FXML Button play;
     @FXML Button pause;
     @FXML Button stop;
     @FXML Button forward;
-    @FXML Button doubleforward;
-    @FXML ChoiceBox videoSpeed;
-    @FXML Slider videoSlider;
-    @FXML Label videoTime;
+    @FXML Button doubleForward;
+    @FXML ChoiceBox flightSpeed;
+    @FXML Slider flightSlider;
+    @FXML Label flightTime;
+    SimpleDoubleProperty backwardSkip;
+    SimpleDoubleProperty backwardDoubleSkip;
+    DoubleProperty forwardSkip;
+    SimpleDoubleProperty forwardDoubleSkip;
     StringProperty FlightStatus;
-    DoubleProperty forwardCnt;
-    double f = 0;
-    SimpleDoubleProperty forward2Cnt;
-    SimpleDoubleProperty backwardCnt;
-    SimpleDoubleProperty backward2Cnt;
-
-
-
+    double d = 0;
 
     public MyButtonsController() {
         super();
         // TODO Auto-generated constructor stub
         FlightStatus = new SimpleStringProperty();
-        forwardCnt = new SimpleDoubleProperty();
-        forward2Cnt = new SimpleDoubleProperty();
-        backwardCnt = new SimpleDoubleProperty();
-        backward2Cnt = new SimpleDoubleProperty();
-
+        forwardSkip = new SimpleDoubleProperty();
+        forwardDoubleSkip = new SimpleDoubleProperty();
+        backwardSkip = new SimpleDoubleProperty();
+        backwardDoubleSkip = new SimpleDoubleProperty();
     }
 
     @FXML public void startFlight() {
@@ -52,27 +48,22 @@ public class MyButtonsController {
     }
 
     @FXML private void stopFlight() {
-        if ( FlightStatus.getValue() == null || (!FlightStatus.getValue().equals("Fly") && !FlightStatus.getValue().equals("pause Fly") &&!FlightStatus.getValue().equals("skip") ) ) {
-            Alert a = new Alert(AlertType.ERROR);
-            a.setHeaderText("Error on stop flight");
-            a.setContentText("there is no flight to stop");
-            a.showAndWait();
+        if ((!FlightStatus.getValue().equals("Fly") && !FlightStatus.getValue().equals("pause Fly") &&!FlightStatus.getValue().equals("skip") ) || FlightStatus.getValue() == null ) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setHeaderText("Error - stop flight");
+            alert.setContentText("No flight");
+            alert.showAndWait();
         }
         else {
             FlightStatus.set("not Fly");
         }
     }
-    public String toStringTime(Double object) {
-        long seconds = object.longValue();
-        long minutes = TimeUnit.SECONDS.toMinutes(seconds);
-        long remainingseconds = seconds - TimeUnit.MINUTES.toSeconds(minutes);
-        return String.format("%02d", minutes) + ":" + String.format("%02d", remainingseconds);
-    }
+
     @FXML private void pauseFlight() {
-        if ( FlightStatus.getValue() == null || FlightStatus.getValue().equals("not Fly")) {
+        if ( FlightStatus.getValue().equals("not Fly") || FlightStatus.getValue() == null) {
             Alert a = new Alert(AlertType.ERROR);
-            a.setHeaderText("Error on pause flight");
-            a.setContentText("there is no flight to pause");
+            a.setHeaderText("Error - pause flight");
+            a.setContentText("No flight");
             a.showAndWait();
         }
         else {
@@ -80,20 +71,30 @@ public class MyButtonsController {
         }
     }
 
-    @FXML public void SkipForward() {
-        forwardCnt.setValue(f++);
+    @FXML public void skipForward() {
         FlightStatus.set("skip");
+        forwardSkip.setValue(d++);
     }
-    @FXML public void SkipForwardDouble() {
-        forward2Cnt.setValue(f++);
+
+    @FXML public void skipDoubleForward() {
         FlightStatus.set("skip");
+        forwardDoubleSkip.setValue(d++);
     }
-    @FXML public void Skipbackward() {
-        backwardCnt.setValue(f++);
+
+    @FXML public void skipBack() {
         FlightStatus.set("skip");
+        backwardSkip.setValue(d++);
     }
-    @FXML public void SkipbackwardDouble() {
-        backward2Cnt.setValue(f++);
+
+    @FXML public void skipDoubleBack() {
         FlightStatus.set("skip");
+        backwardDoubleSkip.setValue(d++);
+    }
+
+    public String toStringTime(Double obj) {
+        long sec = obj.longValue();
+        long min = TimeUnit.SECONDS.toMinutes(sec);
+        long remainSeconds = sec - TimeUnit.MINUTES.toSeconds(min);
+        return String.format("%02d", min) + ":" + String.format("%02d", remainSeconds);
     }
 }

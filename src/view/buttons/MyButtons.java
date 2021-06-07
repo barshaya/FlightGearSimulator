@@ -15,25 +15,22 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-//tryout
-
 public class MyButtons extends AnchorPane {
     public Button back;
-    public Button doubleback;
-    public Button doubleforward;
+    public Button doubleBack;
+    public Button doubleForward;
     public StringProperty FlightStatus;
     public Button forward;
     public Button pause;
     public Button play;
     public Button stop;
-    public Slider videoSlider;
-    public ChoiceBox videoSpeed;
-    public Label videoTime;
-    public DoubleProperty forwardCnt;
-    public SimpleDoubleProperty forward2Cnt;
-    public SimpleDoubleProperty backwardCnt;
-    public SimpleDoubleProperty backward2Cnt;
-
+    public Slider flightSlider;
+    public ChoiceBox flightSpeed;
+    public Label flightTime;
+    public SimpleDoubleProperty backwardSkip;
+    public SimpleDoubleProperty backwardDoubleSkip;
+    public DoubleProperty forwardSkip;
+    public SimpleDoubleProperty forwardDoubleSkip;
 
     public MyButtons() {
         super();
@@ -41,39 +38,34 @@ public class MyButtons extends AnchorPane {
             FXMLLoader fxl = new FXMLLoader();
             AnchorPane Buttons = fxl.load(getClass().getResource("MyButtons.fxml").openStream());
             MyButtonsController myButtonsController = fxl.getController();
+            doubleBack = myButtonsController.doubleBack;
             back = myButtonsController.back;
-            doubleback = myButtonsController.doubleback;
-            doubleforward = myButtonsController.doubleforward;
-            FlightStatus = myButtonsController.FlightStatus;
-            forward = myButtonsController.forward;
-            pause = myButtonsController.pause;
             play = myButtonsController.play;
+            pause = myButtonsController.pause;
             stop = myButtonsController.stop;
-            videoSlider = myButtonsController.videoSlider;
-            videoSpeed = myButtonsController.videoSpeed;
-            ObservableList<Number> s  = FXCollections.observableArrayList(0.25,0.5,0.75,1.0,1.25,1.5,1.75,2.0);
-            videoSpeed.setItems(s);
-            videoSpeed.setValue(1.0);
-            videoTime = myButtonsController.videoTime;
-            forwardCnt = myButtonsController.forwardCnt;
-            forward2Cnt = myButtonsController.forward2Cnt;
-            backwardCnt = myButtonsController.backwardCnt;
-            backward2Cnt = myButtonsController.backward2Cnt;
+            forward = myButtonsController.forward;
+            doubleForward = myButtonsController.doubleForward;
+            flightSlider = myButtonsController.flightSlider;
+            flightSpeed = myButtonsController.flightSpeed;
+            FlightStatus = myButtonsController.FlightStatus;
+            ObservableList<Number> speedList  = FXCollections.observableArrayList(0.5,1.0,1.5,2.0);
+            flightSpeed.setItems(speedList);
+            flightSpeed.setValue(1.0);
+            flightTime = myButtonsController.flightTime;
+            backwardSkip = myButtonsController.backwardSkip;
+            backwardDoubleSkip = myButtonsController.backwardDoubleSkip;
+            forwardSkip = myButtonsController.forwardSkip;
+            forwardDoubleSkip = myButtonsController.forwardDoubleSkip;
             this.getChildren().add(Buttons);
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
-    public String toStringTime(Double object) {
-        long seconds = object.longValue();
-        long minutes = TimeUnit.SECONDS.toMinutes(seconds);
-        long remainingseconds = seconds - TimeUnit.MINUTES.toSeconds(minutes);
-        return String.format("%02d", minutes) + ":" + String.format("%02d", remainingseconds);
+    public String toStringTime(Double obj) {
+        long sec = obj.longValue();
+        long min = TimeUnit.SECONDS.toMinutes(sec);
+        long remainSeconds = sec - TimeUnit.MINUTES.toSeconds(min);
+        return String.format("%02d", min) + ":" + String.format("%02d", remainSeconds);
     }
-
-
 }
