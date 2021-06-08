@@ -166,7 +166,7 @@
    </object>
   </void>
   <void property="host">
-   <string>localhost</string>
+   <string>127.0.0.1</string>
   </void>
   <void property="port">
    <int>5400</int>
