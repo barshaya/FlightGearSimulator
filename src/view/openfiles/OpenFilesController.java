@@ -74,7 +74,7 @@ public class OpenFilesController {
 		if(chosen!=null)
 		{
 			AlgoPath.setValue("resources/"+chosen.getName());
-			AlgoName.setValue("model."+chosen.getName().substring(0, chosen.getName().length()-6));
+			AlgoName.setValue("algorithms."+chosen.getName().substring(0, chosen.getName().length()-6));
 			}
 		}
 }
