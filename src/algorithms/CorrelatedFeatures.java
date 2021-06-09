@@ -1,7 +1,5 @@
 package algorithms;
 
-import utils.Line;
-
 public class CorrelatedFeatures {
 	public final String feature1,feature2;
 	public final float correlation;

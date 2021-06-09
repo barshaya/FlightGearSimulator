@@ -10,7 +10,9 @@ import java.net.URLClassLoader;
 import java.util.List;
 
 
-public class AlgoLoader implements TimeSeriesAnomalyDetector {
+public class AlgoLoader implements TimeSeriesAnomalyDetector
+{
+
     TimeSeriesAnomalyDetector algo;
 
     public AlgoLoader(String p,String classname) throws MalformedURLException, ClassNotFoundException, InstantiationException, IllegalAccessException {

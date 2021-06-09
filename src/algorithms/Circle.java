@@ -1,118 +1,83 @@
 package algorithms;
-import utils.Point;
 
-import java.util.*;
 import java.util.List;
 
-public class Circle {
+public class Circle {	
 	public Point center;
 	public float radius;
-
+	
+	//-------------Circle Constructors---------------
+	
+	//Circle constructor by center point and radius
 	public Circle(final Point center, float radius) {
 		this.center = center;
 		this.radius = radius;
 	}
-
+	//Circle constructor by point's values and radius
 	public Circle(float x, float y, float radius) {
 		center = new Point(x, y);
 		this.radius = radius;
 	}
-
+	//Circle constructor by two points
 	public Circle(final Point p1, final Point p2) {
-		center = new Point((p1.x + p2.x) * 0.5f, (p1.y + p2.y) * 0.5f);
-		radius = center.distanceTo(p1);
+		float x = (float) ((p1.x + p2.x) * 0.5);
+		float y = (float) ((p1.y + p2.y) * 0.5);
+		center = new Point(x,y);
+		radius = center.distance(p1);
 	}
-
+	//Circle constructor by three points
 	public Circle(final Point p1, final Point p2, final Point p3) {
-		final float P2_MINUS_P1_Y = p2.y - p1.y;
-		final float P3_MINUS_P2_Y =  p3.y - p2.y;
+		float baY = p2.y - p1.y;
+		float cbY=  p3.y - p2.y;
 
-		if (P2_MINUS_P1_Y == 0.0 || P3_MINUS_P2_Y == 0.0) {
-			center = new Point(0.0f, 0.0f);
-			radius = 0.0f;
+		if (baY == 0.0 || cbY == 0.0) {
+			center = new Point(0, 0);
+			radius = 0;
 		}
 		else {
-			final float A = -(p2.x - p1.x) / P2_MINUS_P1_Y;
-			final float A_PRIME = -(p3.x - p2.x) / P3_MINUS_P2_Y;
-			final float A_PRIME_MINUS_A = A_PRIME - A;
-
-			if (A_PRIME_MINUS_A == 0.0f) {
-				center = new Point(0.0f, 0.0f);
-				radius = 0.0f;
+			float baX = -(p2.x - p1.x) / baY;
+			float cbX = -(p3.x - p2.x) / cbY;
+			float sub= cbX-baX;
+			
+			if (sub == 0.0) {
+				center = new Point(0, 0);
+				radius = 0;
 			}
 			else {
-				final float P2_SQUARED_X = p2.x * p2.x;
-				final float P2_SQUARED_Y = p2.y * p2.y;
+				float p2X = p2.x * p2.x;
+				float p2Y = p2.y * p2.y;
 
-
-				final float B = (float) ((float) (P2_SQUARED_X - p1.x * p1.x + P2_SQUARED_Y - p1.y * p1.y) /
-										(2.0 * P2_MINUS_P1_Y));
-				final float B_PRIME = (float) ((p3.x * p3.x - P2_SQUARED_X + p3.y * p3.y - P2_SQUARED_Y) /
-										(2.0 * P3_MINUS_P2_Y));
-
-
-				final float XC = (B - B_PRIME) / A_PRIME_MINUS_A;
-				final float YC = A * XC + B;
-
-				final float DXC = p1.x - XC;
-				final float DYC = p1.y - YC;
-
-				center = new Point(XC, YC);
-				radius = (float) Math.sqrt(DXC * DXC + DYC * DYC);
+				
+				float f1 = (float) ((p2X - p1.x * p1.x + p2Y - p1.y * p1.y) / (2.0 * baY));
+				float f2 = (float) ((p3.x * p3.x - p2X + p3.y * p3.y - p2Y) / (2.0 * cbY));
+				
+		
+				float pointX = (f1 - f2) / sub;
+				float pointY = baX * pointX + f1;
+				
+				float dX = p1.x - pointX;
+				float dY = p1.y - pointY;
+				
+				center = new Point(pointX, pointY);
+				radius = (float) Math.sqrt(dX * dX + dY * dY);
 			}
 		}
 	}
-
-	public boolean containsAllPoints(final List<Point> points2d) {
-		for (final Point p : points2d) {
-			if (p != center && !containsPoint(p)) {
+	
+	//-------------Circle Functions---------------
+	
+	//Checking if the circle contains all the points in the list
+	public boolean isContainsAllPoints(List<Point> points) {
+		for (Point p : points) {
+			if (p != center && !isContainsPoint(p)) 
 				return false;
-			}
 		}
-
 		return true;
 	}
-
-	public static Circle FindMinCircle(final List<Point> points) {
-		return WelezAlgo(points, new ArrayList<Point>());
+	
+	//Checking if the circle contains the point
+	public boolean isContainsPoint(Point p) {
+		return p.distanceSquared(center) <= radius * radius;
 	}
-
-	private static Circle WelezAlgo(final List<Point> points, final List<Point> R) {
-		Circle minimumCircle = null;
-
-		if (R.size() == 3) {
-			minimumCircle = new Circle(R.get(0), R.get(1), R.get(2));
-		}
-		else if (points.isEmpty() && R.size() == 2) {
-			minimumCircle = new Circle(R.get(0), R.get(1));
-		}
-		else if (points.size() == 1 && R.isEmpty()) {
-			minimumCircle = new Circle(points.get(0).x, points.get(0).y, 0.0F);
-		}
-		else if (points.size() == 1 && R.size() == 1) {
-			minimumCircle = new Circle(points.get(0), R.get(0));
-		}
-		else {
-			Random rand = new Random();
-			Point p = points.remove(rand.nextInt(points.size()));
-			minimumCircle = WelezAlgo(points, R);
-
-			if (minimumCircle != null && !minimumCircle.containsPoint(p)) {
-				R.add(p);
-				minimumCircle = WelezAlgo(points, R);
-				R.remove(p);
-				points.add(p);
-			}
-		}
-		return minimumCircle;
-	}
-
-	public boolean containsPoint(final Point p) {
-		return p.distanceSquaredTo(center) <= radius * radius;
-	}
-
-	@Override
-	public String toString() {
-		return center.toString()  +  ", Radius: " + radius;
-	}
+	
 }
