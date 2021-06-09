@@ -12,7 +12,7 @@ import javafx.scene.layout.AnchorPane;
 public class MyViewList extends AnchorPane {
     public ListView list;
     public Button xml;
-    public StringProperty xmlpath;
+    public static StringProperty xmlpath;
 
     public MyViewList() {
         try {
@@ -26,6 +26,5 @@ public class MyViewList extends AnchorPane {
         } catch (IOException var4) {
             var4.printStackTrace();
         }
-
     }
 }

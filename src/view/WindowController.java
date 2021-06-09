@@ -48,7 +48,7 @@ public class WindowController implements Initializable {
         // TODO Auto-generated method stub
         this.vm = vm2;
 
-        openFiles.xmlpath.addListener((o,ov,nv)->{
+        MyViewList.xmlpath.addListener((o,ov,nv)->{
             this.vm.loadXml(nv);
             if (vm.getXs() != null) {
                 double maxR = this.vm.getXs().getSetting("rudder").getMax();

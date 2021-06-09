@@ -37,9 +37,6 @@ public class MyViewListController {
                 {
                         //vm.loadXml("resources/"+chosen.getName());
                         XmlPath.setValue("resources/"+chosen.getName());
-
                 }
         }
-
-
 }
