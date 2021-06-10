@@ -34,11 +34,6 @@ public class WindowController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-	/*		// TODO Auto-generated method stub
-		myJoystick.aileron = new SimpleDoubleProperty();
-		myJoystick.elevators = new SimpleDoubleProperty();
-		myJoystick.rudder = new SimpleDoubleProperty();
-		myJoystick.throttle = new SimpleDoubleProperty();*/
     }
 
 
@@ -72,7 +67,7 @@ public class WindowController implements Initializable {
         openFiles.algoname.addListener((o,ov,nv)->{
             this.vm.loadAnomalyAlgo(openFiles.algopath.get(), nv);
             if (this.vm.getAd() !=null) {
-                Graph.Bchart.setTitle(nv.substring(6));
+                Graph.Bchart.setTitle(nv.substring(11));
             }
         });
 

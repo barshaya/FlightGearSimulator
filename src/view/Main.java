@@ -20,6 +20,7 @@ public class Main extends Application {
             xc.WriteXmlToUser();
             FXMLLoader fxl = new FXMLLoader();
             BorderPane root = fxl.load(getClass().getResource("sample.fxml").openStream());
+            primaryStage.setTitle("Flight Gear Simulator GUI");
             Model m = new Model();
             WindowController wc = fxl.getController();
             ViewModel vm = new ViewModel(m);

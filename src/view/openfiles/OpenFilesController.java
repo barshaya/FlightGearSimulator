@@ -34,7 +34,7 @@ public class OpenFilesController {
 
 	public void openCSVFile() {
 		FileChooser fc = new FileChooser();
-		fc.setTitle("File Choose");
+		fc.setTitle("\"The File Choose");
 		fc.setInitialDirectory(new File("./resources"));
 		ExtensionFilter ef = new ExtensionFilter("CSV Files (*.csv)","*.csv");
 		fc.getExtensionFilters().add(ef);
@@ -47,7 +47,7 @@ public class OpenFilesController {
 
 	public void openCLASSFile() {
 		FileChooser fc = new FileChooser();
-		fc.setTitle("File Choose");
+		fc.setTitle("The File Choose");
 		fc.setInitialDirectory(new File("./out/production/PTM/algorithms"));
 		ExtensionFilter ef = new ExtensionFilter("Class Files (*.class)","*.class");
 		fc.getExtensionFilters().add(ef);

@@ -50,24 +50,24 @@ public class MyButtonsController {
     @FXML private void stopFlight() {
         if ((!FlightStatus.getValue().equals("Fly") && !FlightStatus.getValue().equals("pause Fly") &&!FlightStatus.getValue().equals("skip") ) || FlightStatus.getValue() == null ) {
             Alert alert = new Alert(AlertType.ERROR);
-            alert.setHeaderText("Error - stop flight");
+            alert.setHeaderText("Error - can't stop the flight");
             alert.setContentText("No flight");
             alert.showAndWait();
         }
         else {
-            FlightStatus.set("not Fly");
+            FlightStatus.set("Not Fly");
         }
     }
 
     @FXML private void pauseFlight() {
         if ( FlightStatus.getValue().equals("not Fly") || FlightStatus.getValue() == null) {
             Alert a = new Alert(AlertType.ERROR);
-            a.setHeaderText("Error - pause flight");
+            a.setHeaderText("Error - can't pause flight");
             a.setContentText("No flight");
             a.showAndWait();
         }
         else {
-            FlightStatus.set("pause Fly");
+            FlightStatus.set("Pause Fly");
         }
     }
 

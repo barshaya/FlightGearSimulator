@@ -220,7 +220,7 @@ public class Model extends Observable implements ModelInterface {
 			fg = null;
 		}
 		
-		System.out.println("flight is finish");
+		System.out.println("The flight is finish");
 		resetValues();
 	}
 
@@ -273,7 +273,7 @@ public class Model extends Observable implements ModelInterface {
 			ao.execute(()->fg = null);
 			
 		}catch (Exception e) {
-			this.setConnectMessage("Flight Gear Is Not Connected");
+			this.setConnectMessage("The FlightGear not connected");
 			for (int i = start; i < ts.NumOfRows; i++) {
 				final int j = i;
 				ao.execute(()->{
@@ -284,7 +284,7 @@ public class Model extends Observable implements ModelInterface {
 			}
 		}
 		ao.execute(()->resetValues());
-		ao.execute(()->setFlightStatus("no fly"));
+		ao.execute(()->setFlightStatus("No fly"));
 		
 		
 		

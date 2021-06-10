@@ -99,25 +99,24 @@ public class ViewModel implements Observer {
 	
 	public void loadCsv(String csvPath) {
 		if (this.xs == null) {
-			//System.out.println();
 			Alert a = new Alert(AlertType.ERROR);
-			a.setHeaderText("Xml Error");
-			a.setContentText("please upload fixed xml before upload csv flight");
+			a.setHeaderText("Error with XML - Please upload correct xml before upload csv flight");
+//			a.setContentText("Please upload correct xml before upload csv flight");
 			a.showAndWait();
 		}
 		else {
 			this.ts = new TimeSeries(csvPath);
 			if (this.ts.table == null) {
 				Alert a = new Alert(AlertType.ERROR);
-				a.setHeaderText("csv Failed");
-				a.setContentText("Error in csv loading try again");
+				a.setHeaderText("Error with CSV loading - please try again");
+//				a.setContentText("Error with CSV loading - please try again");
 				a.showAndWait();
 				this.ts = null;
 			}
 			else {
 				Alert a = new Alert(AlertType.INFORMATION);
-				a.setHeaderText("csv success");
-				a.setContentText("success in csv loading");
+				a.setHeaderText("Success loading CSV file");
+//				a.setContentText("Success loading CSV file");
 				a.showAndWait();
 				m.setTimeSeries(ts);
 			}
@@ -147,16 +146,12 @@ public class ViewModel implements Observer {
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
 		DecimalFormat d = new DecimalFormat("#.##");
-		//System.out.println(o);
-		//System.out.println(arg);
 		if (o == m && arg.equals("line")) {
 			Platform.runLater(()->yaw.setValue(m.getLine()));
-			//System.out.println(this.aileron);
 		}
 		
 		if (o == m && arg.equals("aileron")) {
 			this.aileron.setValue((m.getAileron()));
-			//System.out.println(this.aileron);
 		}
 		if (o == m && arg.equals("elevators")) {
 			this.elevators.setValue((m.getElevators()));
@@ -166,37 +161,24 @@ public class ViewModel implements Observer {
 		}
 		if (o == m && arg.equals("throttle")) {
 			this.throttle.setValue((m.getThrottle()));
-			//System.out.println(this.throttle);
 		}
 		if (o == m && arg.equals("yaw")) {
-			//this.yaw.setValue(String.valueOf(m.getYaw()));
 			Platform.runLater(()->yaw.setValue(d.format(m.getYaw())));
-			//System.out.println(this.throttle);
 		}
 		if (o == m && arg.equals("heigth")) {
-			//this.heigth.setValue(String.valueOf(m.getHeigth()));
 			Platform.runLater(()->heigth.setValue(d.format(m.getHeigth())));
-			//System.out.println(this.heigth);
 		}
 		if (o == m && arg.equals("speed")) {
-			//this.speed.setValue(String.valueOf(m.getSpeed()));
 			Platform.runLater(()->speed.setValue(d.format(m.getSpeed())));
-			//System.out.println(this.throttle);
 		}
 		if (o == m && arg.equals("direction")) {
 			Platform.runLater(()->direction.setValue(d.format(m.getDirection())));
-			//this.direction.setValue(String.valueOf(m.getDirection()));
-			//System.out.println(this.throttle);
 		}
 		if (o == m && arg.equals("roll")) {
 			Platform.runLater(()->roll.setValue(d.format(m.getRoll())));
-			//this.roll.setValue(String.valueOf(m.getRoll()));
-			//System.out.println(this.throttle);
 		}
 		if (o == m && arg.equals("pitch")) {
-			//this.pitch.setValue(String.valueOf(m.getPitch()));
 			Platform.runLater(()->pitch.setValue(d.format(m.getPitch())));
-			//System.out.println(this.throttle);
 		}
 		if (o == m && arg.equals("FligthStatus")) {
 			this.FlightStatus.setValue((m.getFlightStatus()));
@@ -219,8 +201,8 @@ public class ViewModel implements Observer {
 			}
 			else {
 				Alert a = new Alert(AlertType.ERROR);
-				a.setHeaderText("wrong Speed");
-				a.setContentText("speed as set to defult 1.0");
+				a.setHeaderText("Wrong Speed");
+				a.setContentText("The default speed is 1.0");
 				a.showAndWait();
 				this.rate.setValue(1.0);
 			}
@@ -247,16 +229,16 @@ public class ViewModel implements Observer {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			Alert a = new Alert(AlertType.ERROR);
-			a.setHeaderText("Algo load Failed");
-			a.setContentText("unable to load this algorithm please try again");
+			a.setHeaderText("Failed load the algorithm - Please try again");
+//			a.setContentText("Unable to load the algorithm - Please try again ");
 			a.showAndWait();
 			this.ad = null;
 		}
 		if (this.ad != null) {
 			System.out.println("");
 			Alert a = new Alert(AlertType.INFORMATION);
-			a.setHeaderText("Algo Success");
-			a.setContentText("Success Algo Loading");
+			a.setHeaderText("Success Algo Loading");
+//			a.setContentText("Success Algo Loading");
 			a.showAndWait();
 			m.setAnomalyDetector(ad);
 		}	
@@ -266,8 +248,8 @@ public class ViewModel implements Observer {
 		// TODO Auto-generated method stub
 		if (this.ts == null) {
 			Alert a = new Alert(AlertType.ERROR);
-			a.setHeaderText("Error on play flight");
-			a.setContentText("please upload csv fligt before try to fly");
+			a.setHeaderText("Error - play flight");
+			a.setContentText("Please upload CSV before you fly");
 			a.showAndWait();
 		}
 		else {
