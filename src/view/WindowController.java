@@ -72,7 +72,7 @@ public class WindowController implements Initializable {
         openFiles.algoname.addListener((o,ov,nv)->{
             this.vm.loadAnomalyAlgo(openFiles.algopath.get(), nv);
             if (this.vm.getAd() !=null) {
-                Graph.Bchart.setTitle(nv.substring(6));
+                Graph.Bchart.setTitle(nv.substring(11));
             }
         });
 
