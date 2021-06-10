@@ -35,7 +35,7 @@ public class XmlComplete {
         for (String s : this.fd) {
             FeatureSettings f = new FeatureSettings();
             f.setReal_col_name(s);
-            f.setAssosicate_name("Enter name in CSV file");
+            f.setAssosicate_name("enter name in CSV file(Assosicate_name)");
             f.setMax(1);
             f.setMin(-1);
             fs.add(f);
@@ -51,7 +51,7 @@ public class XmlComplete {
             this.SettingCheck(new_setting);
             Alert a = new Alert(AlertType.INFORMATION);
             a.setHeaderText("XML Success");
-//            a.setContentText("Success load the XML settings");
+//            a.setContentText("Success load XML settings");
             a.show();
             this.ClientBackUp = new_setting;
         } catch (Exception e) {
@@ -59,13 +59,13 @@ public class XmlComplete {
             if (this.ClientBackUp != null) {
                 Alert a = new Alert(AlertType.WARNING);
                 a.setHeaderText("XML Failed");
-//                a.setContentText("Failed load XML settings instead load backup settings");
+                a.setContentText("Failed load XML settings instaed load backup settings");
                 a.showAndWait();
                 return this.ClientBackUp;
             }
             Alert a = new Alert(AlertType.ERROR);
-            a.setHeaderText("Failed load XML settings");
-//            a.setContentText("Failed load XML settings");
+            a.setHeaderText("XML Failed");
+//            a.setContentText("Failed load XML settings ");
             a.showAndWait();
             new_setting = null;
         }
@@ -74,8 +74,8 @@ public class XmlComplete {
     //|| FeatureSetting.getAssosicate_name().equals("please Enter Title here")
     public void SettingCheck(XmlSettings xs) throws Exception {
         for (FeatureSettings FeatureSetting : xs.getAfs()) {
-            if (FeatureSetting.getAssosicate_name().equals("") || FeatureSetting.getAssosicate_name().equals("Enter name in CSV file(Assosicate_name)")  ) {
-                throw new Exception("Missing Assosicate name");
+            if (FeatureSetting.getAssosicate_name().equals("") || FeatureSetting.getAssosicate_name().equals("enter name in CSV file(Assosicate_name)")  ) {
+                throw new Exception("Missing Assosicate_name");
             }
             if (FeatureSetting.getMax() <= FeatureSetting.getMin()) {
                 throw new Exception("Invalid min max Values");
@@ -92,7 +92,7 @@ public class XmlComplete {
             XmlWR.WriteToXML(xs);
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            System.out.println("file could not save");
+            System.out.println("THe file couldn't save");
         }
     }
 

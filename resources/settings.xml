@@ -6,7 +6,7 @@
     <void method="add">
      <object class="model.FeatureSettings">
       <void property="assosicate_name">
-       <string>Enter name in CSV file</string>
+       <string>enter name in CSV file(Assosicate_name)</string>
       </void>
       <void property="max">
        <double>1.0</double>
@@ -22,7 +22,7 @@
     <void method="add">
      <object class="model.FeatureSettings">
       <void property="assosicate_name">
-       <string>Enter name in CSV file</string>
+       <string>enter name in CSV file(Assosicate_name)</string>
       </void>
       <void property="max">
        <double>1.0</double>
@@ -38,7 +38,7 @@
     <void method="add">
      <object class="model.FeatureSettings">
       <void property="assosicate_name">
-       <string>Enter name in CSV file</string>
+       <string>enter name in CSV file(Assosicate_name)</string>
       </void>
       <void property="max">
        <double>1.0</double>
@@ -54,7 +54,7 @@
     <void method="add">
      <object class="model.FeatureSettings">
       <void property="assosicate_name">
-       <string>Enter name in CSV file</string>
+       <string>enter name in CSV file(Assosicate_name)</string>
       </void>
       <void property="max">
        <double>1.0</double>
@@ -70,7 +70,7 @@
     <void method="add">
      <object class="model.FeatureSettings">
       <void property="assosicate_name">
-       <string>Enter name in CSV file</string>
+       <string>enter name in CSV file(Assosicate_name)</string>
       </void>
       <void property="max">
        <double>1.0</double>
@@ -86,7 +86,7 @@
     <void method="add">
      <object class="model.FeatureSettings">
       <void property="assosicate_name">
-       <string>Enter name in CSV file</string>
+       <string>enter name in CSV file(Assosicate_name)</string>
       </void>
       <void property="max">
        <double>1.0</double>
@@ -102,7 +102,7 @@
     <void method="add">
      <object class="model.FeatureSettings">
       <void property="assosicate_name">
-       <string>Enter name in CSV file</string>
+       <string>enter name in CSV file(Assosicate_name)</string>
       </void>
       <void property="max">
        <double>1.0</double>
@@ -118,7 +118,7 @@
     <void method="add">
      <object class="model.FeatureSettings">
       <void property="assosicate_name">
-       <string>Enter name in CSV file</string>
+       <string>enter name in CSV file(Assosicate_name)</string>
       </void>
       <void property="max">
        <double>1.0</double>
@@ -134,7 +134,7 @@
     <void method="add">
      <object class="model.FeatureSettings">
       <void property="assosicate_name">
-       <string>Enter name in CSV file</string>
+       <string>enter name in CSV file(Assosicate_name)</string>
       </void>
       <void property="max">
        <double>1.0</double>
@@ -150,7 +150,7 @@
     <void method="add">
      <object class="model.FeatureSettings">
       <void property="assosicate_name">
-       <string>Enter name in CSV file</string>
+       <string>enter name in CSV file(Assosicate_name)</string>
       </void>
       <void property="max">
        <double>1.0</double>

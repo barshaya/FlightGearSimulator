@@ -53,7 +53,7 @@ public class XmlSettings implements Serializable{
                 return featureSettings.getAssosicate_name();
             }
         }
-        System.out.println("invalid name");
+        System.out.println("Invalid name");
         return null;
     }
 
@@ -64,7 +64,7 @@ public class XmlSettings implements Serializable{
                     return featureSettings;
                 }
             }
-        }catch (Exception e) {System.out.println("invalid name");}
+        }catch (Exception e) {System.out.println("Invalid name");}
         return null;
     }
 }
