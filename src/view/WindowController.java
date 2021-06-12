@@ -71,18 +71,18 @@ public class WindowController implements Initializable {
             }
         });
 
-        myButtons.forwardSkip.addListener((o,ov,nv)->{
+        myButtons.forwardCnt.addListener((o,ov,nv)->{
             vm.Forward1();
         });
-        myButtons.forwardDoubleSkip.addListener((o,ov,nv)->{
+        myButtons.forward2Cnt.addListener((o,ov,nv)->{
             vm.Forward2();
         });
 
-        myButtons.backwardSkip.addListener((o,ov,nv)->{
+        myButtons.backwardCnt.addListener((o,ov,nv)->{
             vm.Backward1();
         });
 
-        myButtons.backwardDoubleSkip.addListener((o,ov,nv)->{
+        myButtons.backward2Cnt.addListener((o,ov,nv)->{
             vm.Backward2();
         });
 
@@ -90,12 +90,12 @@ public class WindowController implements Initializable {
 
 
 
-        vm.rate.bindBidirectional(myButtons.flightSpeed.valueProperty());
-        myButtons.flightSpeed.valueProperty().addListener((o,ov,nv)->{
-            myButtons.flightSpeed.setValue(nv);
+        vm.rate.bindBidirectional(myButtons.videoSpeed.valueProperty());
+        myButtons.videoSpeed.valueProperty().addListener((o,ov,nv)->{
+            myButtons.videoSpeed.setValue(nv);
         });
         myButtons.FlightStatus.bindBidirectional(vm.FlightStatus);
-        myButtons.flightTime.textProperty().bind(vm.FlightMessage);
+        myButtons.FlightGear.textProperty().bind(vm.FlightMessage);
         myButtons.FlightStatus.addListener((o,ov,nv)->{
             if (((String)nv).equals("Fly")) {
                 this.vm.StartFligt(0);

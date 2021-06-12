@@ -273,7 +273,7 @@ public class Model extends Observable implements ModelInterface {
 			ao.execute(()->fg = null);
 			
 		}catch (Exception e) {
-			this.setConnectMessage("The FlightGear not connected");
+			this.setConnectMessage("The FlightGear is not connected");
 			for (int i = start; i < ts.NumOfRows; i++) {
 				final int j = i;
 				ao.execute(()->{

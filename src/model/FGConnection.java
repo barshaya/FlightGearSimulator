@@ -14,8 +14,9 @@ public class FGConnection
     Socket client;
     PrintWriter OutToServer;
 
-    public FGConnection(XmlSettings setiing) throws UnknownHostException, IOException {
-        this.flySettings = setiing;
+    //create the connection to the simulator
+    public FGConnection(XmlSettings setting) throws UnknownHostException, IOException {
+        this.flySettings = setting;
         client = new Socket(flySettings.host, flySettings.port);
         OutToServer = new PrintWriter(client.getOutputStream());
     }
