@@ -45,7 +45,8 @@ public class ViewModel implements Observer {
 	public StringProperty FlightStatus = new SimpleStringProperty();
 	public StringProperty FlightMessage= new SimpleStringProperty();
 	public SimpleDoubleProperty rate = new SimpleDoubleProperty();
-	
+
+
 	XmlSettings xs;
 	XmlComplete xc;
 	TimeSeries ts;

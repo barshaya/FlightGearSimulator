@@ -86,6 +86,9 @@ public class WindowController implements Initializable {
             vm.Backward2();
         });
 
+        /*myButtons.VideoTime.addListener((o,ov,nv)->{
+            vm.
+        }); */
 
 
 
@@ -93,6 +96,7 @@ public class WindowController implements Initializable {
         vm.rate.bindBidirectional(myButtons.videoSpeed.valueProperty());
         myButtons.videoSpeed.valueProperty().addListener((o,ov,nv)->{
             myButtons.videoSpeed.setValue(nv);
+
         });
         myButtons.FlightStatus.bindBidirectional(vm.FlightStatus);
         myButtons.FlightGear.textProperty().bind(vm.FlightMessage);
