@@ -129,7 +129,7 @@ public class ViewModel implements Observer {
 	
 	public ArrayList<String> getColTitels(){
 		if (ts != null) {
-			return ts.ColNames;
+			return ts.ColumnNames;
 		}
 		return null;
 	}
@@ -272,7 +272,7 @@ public class ViewModel implements Observer {
 	}
 
 	public void Forward1() {
-		if (m.getTime() + 10 < ts.NumOfRows-1) {
+		if (m.getTime() + 10 < ts.num-1) {
 			m.ClearTask();
 			m.play(m.getTime() + 10);
 		}
@@ -281,7 +281,7 @@ public class ViewModel implements Observer {
 
 	public void Forward2() {
 		// TODO Auto-generated method stub
-		if (m.getTime() + 20 < ts.NumOfRows-1) {
+		if (m.getTime() + 20 < ts.num-1) {
 			m.ClearTask();
 			m.play(m.getTime() + 20);
 		}

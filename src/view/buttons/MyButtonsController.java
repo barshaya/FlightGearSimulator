@@ -13,7 +13,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
-import org.jetbrains.annotations.NotNull;
 
 public class MyButtonsController {
 

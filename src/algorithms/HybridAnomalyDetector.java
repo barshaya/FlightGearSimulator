@@ -9,130 +9,120 @@ import algorithms.TimeSeries.Feature;
 
 public class HybridAnomalyDetector implements TimeSeriesAnomalyDetector
 {
+	HashMap<String, LinearAnomalyDetector> Linear = new HashMap<>();
+	HashMap<String, ZscoreAnomalyDetector> ZScore=new HashMap<>();
 	HashMap<String, Circle> hybrid = new HashMap<>();
-	HashMap<String, LinearAnomalyDetector> lin = new HashMap<>();
-	HashMap<String, ZscoreAnomalyDetector> zScore=new HashMap<>();
 	private Random rand = new Random();
 	
 	@Override
 	public void learnNormal(TimeSeries ts) {
 		ArrayList<Point> points = new ArrayList<>();
-		
-		ArrayList<MatchFeature> mf = StatLib.FindMatch(ts).match;
-		
-		for (MatchFeature matchFeature : mf) {
-			Feature f1 = ts.getFeatureByName2(matchFeature.f1);
-			Feature f2 = ts.getFeatureByName2(matchFeature.f2);
+		ArrayList<MatchFeature> match = StatLib.FindMatch(ts).match;
+		for (MatchFeature matchFeature : match) {
+			Feature f1 = ts.getFeatureByName1(matchFeature.f1);
+			Feature f2 = ts.getFeatureByName1(matchFeature.f2);
 			String name=f1.getName()+"-"+f2.getName();
 			
 			if(Math.abs(matchFeature.correlation)>=0.95)
 			{
-				TimeSeries t = new TimeSeries(f1,f2);
-				LinearAnomalyDetector linear = new LinearAnomalyDetector();
-				linear.learnNormal(t);
-				lin.put(name,linear);
+				TimeSeries t1 = new TimeSeries(f1,f2);
+				LinearAnomalyDetector l= new LinearAnomalyDetector();
+				l.learnNormal(t1);
+				Linear.put(name,l);
 			}
 			else if(Math.abs(matchFeature.correlation)<0.5) {
-				TimeSeries t = new TimeSeries(f1,f2);
+				TimeSeries t2 = new TimeSeries(f1,f2);
 				ZscoreAnomalyDetector z = new ZscoreAnomalyDetector();
-				z.learnNormal(t);
-				zScore.put(name, z);
+				z.learnNormal(t2);
+				ZScore.put(name, z);
 			}
 			else {
-				TimeSeries t = new TimeSeries(f1,f2);
+				TimeSeries t3 = new TimeSeries(f1,f2);
 				for(int i=0;i<f1.size;i++)
 				{
-					Point p=new Point(f1.samples.get(i),f2.samples.get(i));
+					Point p=new Point(f1.examples.get(i),f2.examples.get(i));
 					points.add(p);
 				}
 				hybrid.put(name,findMinimumCircle(points));
 				points=new ArrayList<>();
 			}
 		}
-		for (Feature f : StatLib.FindMatch(ts).noMatch) {
-			TimeSeries t = new TimeSeries(f);
+		for (Feature fe : StatLib.FindMatch(ts).notMatch) {
+			TimeSeries ti = new TimeSeries(fe);
 			ZscoreAnomalyDetector z = new ZscoreAnomalyDetector();
-			z.learnNormal(t);
-			zScore.put(f.name, z);
+			z.learnNormal(ti);
+			ZScore.put(fe.name, z);
 		}
 	}
 
 	@Override
 	public List<AnomalyReport> detect(TimeSeries ts) {
+		int index=1;
 		ArrayList<AnomalyReport> resultList = new ArrayList<AnomalyReport>();
-		
 		for (int i = 0; i < ts.table.size(); i++) {
 			for (int j = 0; j < ts.table.size(); j++) {
-				Feature f1 = ts.getTable().get(i);
-				Feature f2 = ts.getTable().get(j);
-				TimeSeries t = new TimeSeries(f1,f2);
-				String name= f1.getName()+"-"+f2.getName();
+				Feature f = ts.getTable().get(i);
+				Feature f1 = ts.getTable().get(j);
+				TimeSeries t = new TimeSeries(f,f1);
+				String name= f.getName()+"-"+f1.getName();
 				if(hybrid.containsKey(name)) {
 					ArrayList<Point> points = new ArrayList<>();
 					for(int k=0;k<f1.size;k++)
 					{
-						Point p=new Point(f1.samples.get(k),f2.samples.get(k));
+						Point p=new Point(f.examples.get(k),f1.examples.get(k));
 						points.add(p);
 					}
-					int index=1;
 					for (Point point : points) {
 						if(!this.hybrid.get(name).isContainsPoint(point)) {
-							String discription = f1.name_id + "-" + f2.name_id;
-							String discription2 = f2.name_id + "-" + f1.name_id;
-							AnomalyReport report = new AnomalyReport(discription,index);
-							AnomalyReport report2 = new AnomalyReport(discription2,index);
-							if(!StatLib.isContain(resultList,report) && !StatLib.isContain(resultList,report2))
+							String description = f.nameId + "-" + f1.nameId;
+							String description1 = f1.nameId + "-" + f.nameId;
+							AnomalyReport report = new AnomalyReport(description,index);
+							AnomalyReport report1 = new AnomalyReport(description1,index);
+							if(!StatLib.isContain(resultList,report) && !StatLib.isContain(resultList,report1))
 								resultList.add(report);
 						}
 						index++;
 					}
 				}
-				else if(lin.containsKey(name))
+				else if(Linear.containsKey(name))
 				{
-					
-					List<AnomalyReport> reports =this.lin.get(name).detect(t);
+					List<AnomalyReport> reports =this.Linear.get(name).detect(t);
 					for (AnomalyReport anomalyReport : reports) {
-						AnomalyReport anomalyReport2 = new AnomalyReport(StatLib.ReverseString(anomalyReport.description), anomalyReport.timeStep);
-						if(!StatLib.isContain(resultList,anomalyReport) && !StatLib.isContain(resultList,anomalyReport2))
+						AnomalyReport anomalyReport1 = new AnomalyReport(StatLib.RevString(anomalyReport.description), anomalyReport.timeStep);
+						if(!StatLib.isContain(resultList,anomalyReport) && !StatLib.isContain(resultList,anomalyReport1))
 							resultList.add(anomalyReport);
 					}
 				}
-				else if(this.zScore.containsKey(name)){
-					List<AnomalyReport> reports =this.zScore.get(name).detect(t);
+				else if(this.ZScore.containsKey(name)){
+					List<AnomalyReport> reports =this.ZScore.get(name).detect(t);
 					for (AnomalyReport anomalyReport : reports) {
-						AnomalyReport anomalyReport2 = new AnomalyReport(StatLib.ReverseString(anomalyReport.description), anomalyReport.timeStep);
-						if(!StatLib.isContain(resultList,anomalyReport) && !StatLib.isContain(resultList,anomalyReport2))
+						AnomalyReport anomalyReport1 = new AnomalyReport(StatLib.RevString(anomalyReport.description), anomalyReport.timeStep);
+						if(!StatLib.isContain(resultList,anomalyReport) && !StatLib.isContain(resultList,anomalyReport1))
 							resultList.add(anomalyReport);
 					}
 				}	
 			}	
 		}
-		for (Feature f : StatLib.FindMatch(ts).noMatch) {
-			if (zScore.containsKey(f.name)) {
+		for (Feature f : StatLib.FindMatch(ts).notMatch) {
+			if (ZScore.containsKey(f.name)) {
 				TimeSeries t = new TimeSeries(f);
-				List<AnomalyReport> reports =this.zScore.get(f.name).detect(t);
+				List<AnomalyReport> reports =this.ZScore.get(f.name).detect(t);
 				for (AnomalyReport anomalyReport : resultList) {
 					if(!StatLib.isContain(resultList,anomalyReport))
 						resultList.add(anomalyReport);	
 				}
 			}
 		}
-		
-		
-		
 		resultList.sort((x,y)->{
 			return (int) (x.timeStep-y.timeStep);
 		});
 		return resultList;
 	}
-	
 	public Circle findMinimumCircle(final List<Point> points) {
 		return WelezAlgo(points, new ArrayList<Point>());
     }
-	
     private Circle WelezAlgo(final List<Point> points, final List<Point> R) {
     	Circle minimumCircle = null;
-		
 		if (R.size() == 3) {
 			minimumCircle = new Circle(R.get(0), R.get(1), R.get(2));
 		}
@@ -148,7 +138,6 @@ public class HybridAnomalyDetector implements TimeSeriesAnomalyDetector
 		else {
 			Point p = points.remove(rand.nextInt(points.size()));
 			minimumCircle = WelezAlgo(points, R);
-			
 			if (minimumCircle != null && !minimumCircle.isContainsPoint(p)) {
 				R.add(p);
 				minimumCircle = WelezAlgo(points, R);
@@ -156,15 +145,11 @@ public class HybridAnomalyDetector implements TimeSeriesAnomalyDetector
 				points.add(p);
 			}
 		}
-				
 		return minimumCircle;
     }
-
 	@Override
 	public Runnable paint() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-
 }

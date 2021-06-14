@@ -2,176 +2,113 @@ package algorithms;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import algorithms.TimeSeries.Feature;
 
 public class StatLib {
 
-	
-	
-	public static float[] al_to_fl(List<Float> list) {
-		float[] arr = new float[list.size()];
-		int index = 0;
-		for (Float value: list) {
-		   arr[index++] = value;
-		}	
-		return arr;
-	
-	}
-	
-	
-	// simple average
+
 	public static float avg(float[] x){
-		float sum =0;
-		for (float f : x) {
-			sum = f + sum;
-		}
-		
-		return sum / x.length;
-	}
-
-	// returns the variance of X and Y
-	public static float var(float[] x){
-		float xavg = avg(x);
-		float temp = 0;
-		for (float f : x) {
-			temp += (f-xavg)*(f-xavg);
-		}
-		
-		return temp / (x.length);
-	}
-
-	// returns the covariance of X and Y
-	public static float cov(float[] x, float[] y){
-		float avgx = avg(x);
-		float  avgy = avg(y);
-		float  sum = 0;
-		for (int i = 0; i < y.length; i++) {
-			sum += (((x[i] -avgx) * (y[i] - avgy))); 
-		}
-		
+		float sum=0;
+		for(int i=0;i<x.length;sum+=x[i],i++);
 		return sum/x.length;
 	}
 
-
-	// returns the Pearson correlation coefficient of X and Y
-	public static float pearson(float[] x, float[] y){
-		float covxy = cov(x, y);
-		float varx = var(x);
-		float vary = var(y);
-		double stdx = Math.sqrt(varx);
-		double stdy = Math.sqrt(vary);
-		
-		return (float) (covxy / (stdx * stdy));
-	}
-
-	// performs a linear regression and returns the line equation
-	public static Line linear_reg(Point[] points){
-		float[] x = new float[points.length];
-		float[] y = new float[points.length];
-		int i = 0;
-		for (Point p : points) {
-			x[i] = p.x;
-			y[i] = p.y;
-			i++;
+	public static float var(float[] x){
+		float av=avg(x);
+		float sum=0;
+		for(int i=0;i<x.length;i++){
+			sum+=x[i]*x[i];
 		}
-		float xavg = avg(x);
-		float yavg = avg(y);
-		float xvar = var(x);
-		float covxy = cov(x, y);
-		float a = covxy/xvar;
-		float b = yavg - (a * xavg);
-		Line l = new Line(a, b);
-		
-		return l;
+		return sum/x.length - av*av;
 	}
 
-	// returns the deviation between point p and the line equation of the points
+	public static float cov(float[] x, float[] y){
+		float sum=0;
+		for(int i=0;i<x.length;i++){
+			sum+=x[i]*y[i];
+		}
+		sum/=x.length;
+		return sum - avg(x)*avg(y);
+	}
+
+
+	public static float pearson(float[] x, float[] y){
+		return (float) (cov(x,y)/(Math.sqrt(var(x))*Math.sqrt(var(y))));
+	}
+
+	public static Line linear_reg(Point[] points){
+			float x[]=new float[points.length];
+			float y[]=new float[points.length];
+			for(int i=0;i<points.length;i++){
+				x[i]=points[i].x;
+				y[i]=points[i].y;
+			}
+			float a=cov(x,y)/var(x);
+			float b=avg(y) - a*(avg(x));
+
+			return new Line(a,b);
+		}
+
 	public static float dev(Point p,Point[] points){
 		Line lrg = linear_reg(points);
-		
 		return Math.abs(lrg.f(p.x) - p.y);
 	}
 
-	// returns the deviation between point p and the line
 	public static float dev(Point p,Line l){
-		return Math.abs(l.f(p.x) - p.y);
+		return Math.abs(p.y-l.f(p.x));
 	}
-	
-	
-	
-	public static MatchAndNoMatch FindMatch(TimeSeries ts){
-		ArrayList<MatchFeature> mfl = new ArrayList<MatchFeature>();
-		ArrayList<Feature> noMatch = new ArrayList<Feature>();
-		float max =-1;
-		MatchFeature mf = null ;
-		for (int i = 0; i < ts.getTable().size()-1; i++) {
-			TimeSeries.Feature f1 = ts.getTable().get(i);
-			for (int j = i+1; j < ts.getTable().size(); j++) {
-					TimeSeries.Feature f2 = ts.getTable().get(j);
-					float cor = Math.abs(pearson(al_to_fl(f1.getSamples()), al_to_fl(f2.getSamples())));
-					if(cor > max) {
-						max = cor;
-						mf = new MatchFeature(f1.getName(), f2.getName(), cor);
-					}
-			}
-			if (mf != null) {
-				mfl.add(mf);
-			}
-			else {
-				noMatch.add(f1);
-			}
-			max = -1;
-			mf= null;
-		}
-		return new MatchAndNoMatch(mfl, noMatch);
-	}
-	
-	
-	public static boolean isContain(ArrayList<AnomalyReport> arl, AnomalyReport ar) {
-		for (AnomalyReport anomalyReport : arl) {
-			if (anomalyReport.description.equals(ar.description) && 
-					anomalyReport.timeStep == ar.timeStep)
-			{
-				return true;
-			}
-			
-		}
-		return false;
-	}
-	
-	
-	public static String ReverseString(String s) {
-	   
-	 
-	        // getBytes() method to convert string
-	        // into bytes[].
+	public static String RevString(String s) {
 	        byte[] strAsByteArray = s.getBytes();
-	 
 	        byte[] result = new byte[strAsByteArray.length];
-	 
-	        // Store result in reverse order into the
-	        // result byte[]
 	        for (int i = 0; i < strAsByteArray.length; i++)
 	            result[i] = strAsByteArray[strAsByteArray.length - i - 1];
-	 
 	        return new String(result);
 	    
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	public static float[]  FloatListToFloatArr(List<Float> list) {
+		int i = 0;
+		float[] array = new float[list.size()];
+		for (Float value: list) {
+			array[i++] = value;
+		}
+		return array;
+	}
+
+	public static boolean isContain(ArrayList<AnomalyReport> arrayl, AnomalyReport array) {
+		for (AnomalyReport anomalyReport : arrayl) {
+			if (anomalyReport.description.equals(array.description) &&
+					anomalyReport.timeStep == array.timeStep)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	public static MatchFeature FindMatch(TimeSeries ts){
+		MatchFeature matchf = null ;
+		ArrayList<MatchFeature> match = new ArrayList<MatchFeature>();
+		ArrayList<Feature> notMatch = new ArrayList<Feature>();
+		float max =-1;
+		for (int i = 0; i < ts.getTable().size()-1; i++) {
+			TimeSeries.Feature f1 = ts.getTable().get(i);
+			for (int j = i+1; j < ts.getTable().size(); j++) {
+				TimeSeries.Feature f2 = ts.getTable().get(j);
+				float cor = Math.abs(pearson(FloatListToFloatArr(f1.getExamples()), FloatListToFloatArr(f2.getExamples())));
+				if(max<cor) {
+					max = cor;
+					matchf = new MatchFeature(f1.getName(), f2.getName(), cor);
+				}
+			}
+			if (matchf != null) {
+				match.add(matchf);
+			}
+			else {
+				notMatch.add(f1);
+			}
+			max = -1;
+			matchf= null;
+		}
+		return new MatchFeature(match, notMatch);
+	}
 }

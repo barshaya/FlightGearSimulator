@@ -1,5 +1,6 @@
 package algorithms;
-
+import java.util.ArrayList;
+import algorithms.TimeSeries.Feature;
 public class MatchFeature {
 
 	String f1;
@@ -14,34 +15,30 @@ public class MatchFeature {
 		this.correlation = num;
 	}
 
+	ArrayList<MatchFeature> match;
+	ArrayList<Feature> notMatch;
 
-	protected String getF1() {
-		return f1;
+	public MatchFeature(ArrayList<MatchFeature> match, ArrayList<Feature> notMatch) {
+		this.match = match;
+		this.notMatch = notMatch;
 	}
-
-
-	protected void setF1(String f1) {
-		this.f1 = f1;
-	}
-
-
-	protected String getF2() {
-		return f2;
-	}
-
-
-	protected void setF2(String f2) {
-		this.f2 = f2;
-	}
-
-
 	protected float getCorrelation() {
 		return correlation;
 	}
-
-
 	protected void setCorrelation(float correlation) {
 		this.correlation = correlation;
 	}
-	
+	protected String getFeature1() {
+		return f1;
+	}
+	protected void setFeature1(String f1) {
+		this.f1 = f1;
+	}
+	protected String getFeature2() {
+		return f2;
+	}
+	protected void setFeature2(String f2) {
+		this.f2 = f2;
+	}
+
 }

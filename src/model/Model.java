@@ -259,12 +259,12 @@ public class Model extends Observable implements ModelInterface {
 				this.fg = new FGConnection(ClientSettings);
 			}
 			this.setConnectMessage("");
-			for (int i = start; i < ts.NumOfRows; i++) {
+			for (int i = start; i < ts.num; i++) {
 				final int j = i;
 				ao.execute(()->{
 					updateValues(j);
 					setTime(j);
-					fg.SendCommand(ts.readLine(j));
+					fg.SendCommand(ts.ReadLine(j));
 					try {Thread.sleep((long) (100/rate));} catch (InterruptedException e) {}
 					
 				});
@@ -274,7 +274,7 @@ public class Model extends Observable implements ModelInterface {
 			
 		}catch (Exception e) {
 			this.setConnectMessage("The FlightGear is not connected");
-			for (int i = start; i < ts.NumOfRows; i++) {
+			for (int i = start; i < ts.num; i++) {
 				final int j = i;
 				ao.execute(()->{
 					updateValues(j);
@@ -295,16 +295,16 @@ public class Model extends Observable implements ModelInterface {
 		
 		
 	public void updateValues(int i) {
-		setAileron(getTs().getSepecificValue(getClientSettings().getAssociate("aileron"),i));
-		setElevators(getTs().getSepecificValue(getClientSettings().getAssociate("elevator"),i));
-		setRudder(getTs().getSepecificValue(getClientSettings().getAssociate("rudder"), i));
-		setThrottle(getTs().getSepecificValue(getClientSettings().getAssociate("throttle"), i));
-		setYaw(getTs().getSepecificValue(getClientSettings().getAssociate("yaw"), i));
-		setPitch(getTs().getSepecificValue(getClientSettings().getAssociate("pitch"), i));
-		setRoll(getTs().getSepecificValue(getClientSettings().getAssociate("roll"), i));
-		setHeigth(getTs().getSepecificValue(getClientSettings().getAssociate("heigth"), i));
-		setDirection(getTs().getSepecificValue(getClientSettings().getAssociate("direction"), i));
-		setSpeed(getTs().getSepecificValue(getClientSettings().getAssociate("speed"), i));
+		setAileron(getTs().getValue(getClientSettings().getAssociate("aileron"),i));
+		setElevators(getTs().getValue(getClientSettings().getAssociate("elevator"),i));
+		setRudder(getTs().getValue(getClientSettings().getAssociate("rudder"), i));
+		setThrottle(getTs().getValue(getClientSettings().getAssociate("throttle"), i));
+		setYaw(getTs().getValue(getClientSettings().getAssociate("yaw"), i));
+		setPitch(getTs().getValue(getClientSettings().getAssociate("pitch"), i));
+		setRoll(getTs().getValue(getClientSettings().getAssociate("roll"), i));
+		setHeigth(getTs().getValue(getClientSettings().getAssociate("heigth"), i));
+		setDirection(getTs().getValue(getClientSettings().getAssociate("direction"), i));
+		setSpeed(getTs().getValue(getClientSettings().getAssociate("speed"), i));
 	}
 	
 	public void resetValues() {

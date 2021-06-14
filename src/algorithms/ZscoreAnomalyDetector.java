@@ -4,62 +4,65 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ZscoreAnomalyDetector implements TimeSeriesAnomalyDetector{
-	ArrayList<Double> t_x = new ArrayList<Double>();
+	ArrayList<Double> var = new ArrayList<Double>();
 
 	@Override
 	public void learnNormal(TimeSeries ts) {
 		// TODO Auto-generated method stub
-		for (TimeSeries.Feature f : ts.getTable()) {
-			double max = -1;
-			for (int i = 2; i < f.getSamples().size(); i++) {
-				double x_avg = StatLib.avg( StatLib.al_to_fl( f.getSamples().subList(0, i)));
-				double std =  Math.sqrt(StatLib.var(StatLib.al_to_fl(f.getSamples().subList(0, i))));
+		for (TimeSeries.Feature feature : ts.getTable()) {
+			double maximum = -1;
+			double zScore;
+			double var_avg;
+			double std;
+			int i ;
+			for (i=2; i < feature.getExamples().size(); i++) {
+				std=  Math.sqrt(StatLib.var(StatLib.FloatListToFloatArr(feature.getExamples().subList(0, i))));
+				var_avg = StatLib.avg( StatLib.FloatListToFloatArr( feature.getExamples().subList(0, i)));
 				for (int j = 0; j < i; j++) {
-					double z_score;
 					if (std != 0 ) {
-						z_score = Math.abs( f.getSamples().get(j) - x_avg) / std;
+						zScore = Math.abs( feature.getExamples().get(j) - var_avg) / std;
 					}
 					else {
-						z_score = 0;
+						zScore = 0;
 					}
-					if (z_score > max) {
-						max = z_score;
+					if (zScore > maximum) {
+						maximum = zScore;
 					}
 				}	
 			}
-			t_x.add(max);
-			max = -1;
+			var.add(maximum);
+			maximum = -1;
 		}
 	}
 		
 
 	@Override
 	public List<AnomalyReport> detect(TimeSeries ts) {
-		ArrayList<AnomalyReport> arl = new ArrayList<AnomalyReport>();
+		ArrayList<AnomalyReport> arrayL = new ArrayList<AnomalyReport>();
 		// TODO Auto-generated method stub
+		double x_avg;
+		double std;
+		double zScore;
 		for (int i = 0; i < ts.getTable().size(); i++) {
-			TimeSeries.Feature f = ts.getTable().get(i);
-			for (int j = 2; j < f.getSamples().size(); j++) {
-				double x_avg = StatLib.avg( StatLib.al_to_fl( f.getSamples().subList(0, j)));
-				double std =  Math.sqrt(StatLib.var(StatLib.al_to_fl(f.getSamples().subList(0, j))));
+			TimeSeries.Feature feature = ts.getTable().get(i);
+			for (int j = 2; j < feature.getExamples().size(); j++) {
+				 x_avg = StatLib.avg( StatLib.FloatListToFloatArr( feature.getExamples().subList(0, j)));
+				 std =  Math.sqrt(StatLib.var(StatLib.FloatListToFloatArr(feature.getExamples().subList(0, j))));
 				if (std != 0 ) {
-					for (int k = 0; k < j; k++) {
-						double z_score = Math.abs( f.getSamples().get(k) - x_avg) / std;
-						if (z_score > t_x.get(i)) {
-							AnomalyReport ar = new AnomalyReport(f.getName_id(), k+1);
-							if (!StatLib.isContain(arl, ar)) {
-								arl.add(ar);
+					for (int s = 0; s < j; s++) {
+						 zScore = Math.abs(( feature.getExamples().get(s) - x_avg) )/ std;
+						if (zScore > var.get(i)) {
+							AnomalyReport ar = new AnomalyReport(feature.getNameId(), s+1);
+							if (!StatLib.isContain(arrayL, ar)) {
+								arrayL.add(ar);
 							}
 						}
 					}
 				}
 			}	
 		}
-		
-		return arl;
+		return arrayL;
 	}
-
-
 	@Override
 	public Runnable paint() {
 		// TODO Auto-generated method stub

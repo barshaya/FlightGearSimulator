@@ -7,26 +7,16 @@ public class Point {
 		this.x=x;
 		this.y=y;
 	}
-	
-	//Calculate the distance squared
-	public float distanceSquared(final Point p) {
-		float disX = this.x - p.x;
-		float disY = this.y - p.y;
-		
-		return (float) (Math.pow(disX,2) + Math.pow(disY,2));
+	public float distanceSquaredTo(final Point p) {
+		final float DX = x - p.x;
+		final float DY = y - p.y;
+		return DX * DX + DY * DY;
 	}
-	
-	//Calculate the distance
-	public float distance(final Point p) {
-		return (float) Math.sqrt(distanceSquared(p));
+	public float distanceTo(final Point p) {
+		return (float) Math.sqrt(distanceSquaredTo(p));
 	}
-	
-	//Checking if the three points are collinear
 	public static boolean areColinear(final Point p1, final Point p2, final Point p3) {
-		float temp1 = p2.y - p3.y;
-		float temp2 = p3.y - p1.y;
-		float temp3 = p1.y - p2.y;
-		return Math.abs(p1.x * temp1 + p2.x * temp2 + p3.x * temp3) == 0.0;
+		return Math.abs(p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y)) == 0.0;
 	}
 	
 }
