@@ -52,9 +52,6 @@ public class ViewModel implements Observer {
 	TimeSeries ts;
 	TimeSeriesAnomalyDetector ad;
 
-	
-	
-	
 	public TimeSeriesAnomalyDetector getAd() {
 		return ad;
 	}
@@ -187,9 +184,6 @@ public class ViewModel implements Observer {
 		if (o == m && arg.equals("flightMessage")) {
 			this.FlightMessage.setValue((m.getConnectMessage()));
 		}
-		
-		
-		
 	}
 	public void loadXml(String name) {
 		// TODO Auto-generated method stub
@@ -268,7 +262,6 @@ public class ViewModel implements Observer {
 
 	public void pauseFlight() {
 		m.pause();
-		
 	}
 
 	public void Forward1() {
@@ -305,7 +298,7 @@ public class ViewModel implements Observer {
 		}
 		
 	}
-	
-	
-	
+
+
+
 }

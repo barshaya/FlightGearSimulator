@@ -1,5 +1,7 @@
 package view;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -86,18 +88,24 @@ public class WindowController implements Initializable {
             vm.Backward2();
         });
 
-        /*myButtons.VideoTime.addListener((o,ov,nv)->{
-            vm.
-        }); */
-
-
-
-
         vm.rate.bindBidirectional(myButtons.videoSpeed.valueProperty());
         myButtons.videoSpeed.valueProperty().addListener((o,ov,nv)->{
             myButtons.videoSpeed.setValue(nv);
 
         });
+
+        myButtons.videoSlider.valueProperty().addListener(new ChangeListener<Number>() {
+
+            @Override
+            public void changed(
+                    ObservableValue<? extends Number> observableValue,
+                    Number oldValue,
+                    Number newValue) {
+                myButtons.VideoTime.textProperty().setValue(
+                        String.valueOf(newValue.intValue()));
+            }
+        });
+
         myButtons.FlightStatus.bindBidirectional(vm.FlightStatus);
         myButtons.FlightGear.textProperty().bind(vm.FlightMessage);
         myButtons.FlightStatus.addListener((o,ov,nv)->{

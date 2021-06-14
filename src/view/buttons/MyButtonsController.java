@@ -6,6 +6,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -13,7 +14,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
-import org.jetbrains.annotations.NotNull;
 
 public class MyButtonsController {
 
@@ -35,9 +35,6 @@ public class MyButtonsController {
     SimpleDoubleProperty backwardCnt;
     SimpleDoubleProperty backward2Cnt;
 
-
-
-
     public MyButtonsController() {
         super();
         // TODO Auto-generated constructor stub
@@ -46,7 +43,6 @@ public class MyButtonsController {
         forward2Cnt = new SimpleDoubleProperty();
         backwardCnt = new SimpleDoubleProperty();
         backward2Cnt = new SimpleDoubleProperty();
-
     }
 
     @FXML public void startFlight() {
@@ -94,4 +90,6 @@ public class MyButtonsController {
         backward2Cnt.setValue(f++);
         FlightStatus.set("skip");
     }
+
+
 }
