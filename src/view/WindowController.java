@@ -52,7 +52,9 @@ public class WindowController implements Initializable {
                 double minR = this.vm.getXs().getSetting("rudder").getMin();
                 double maxT = this.vm.getXs().getSetting("throttle").getMax();
                 double minT = this.vm.getXs().getSetting("throttle").getMin();
+                double maxTime = this.vm.getTs().NumOfRows;
                 myJoystick.SetMaxMinForSliders(maxR, minR, maxT, minT);
+                myButtons.setMaxSlider(maxTime);
             }
         });
 
@@ -94,8 +96,8 @@ public class WindowController implements Initializable {
 
         });
 
-        myButtons.videoSlider.valueProperty().addListener(new ChangeListener<Number>() {
 
+        myButtons.videoSlider.addListener(new ChangeListener<Number>() {
             @Override
             public void changed(
                     ObservableValue<? extends Number> observableValue,

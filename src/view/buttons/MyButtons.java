@@ -25,7 +25,7 @@ public class MyButtons extends AnchorPane {
     public Button pause;
     public Button play;
     public Button stop;
-    public Slider videoSlider;
+    public DoubleProperty videoSlider;
     public ChoiceBox videoSpeed;
     public Label VideoTime;
     public Label FlightGear;
@@ -33,6 +33,7 @@ public class MyButtons extends AnchorPane {
     public SimpleDoubleProperty forward2Cnt;
     public SimpleDoubleProperty backwardCnt;
     public SimpleDoubleProperty backward2Cnt;
+    public MyButtonsController MyButtonsController;
 
 
     public MyButtons() {
@@ -49,7 +50,7 @@ public class MyButtons extends AnchorPane {
             pause = myButtonsController.pause;
             play = myButtonsController.play;
             stop = myButtonsController.stop;
-            videoSlider = myButtonsController.videoSlider;
+            videoSlider = myButtonsController.videoSlider.valueProperty();
             videoSpeed = myButtonsController.videoSpeed;
             ObservableList<Number> s  = FXCollections.observableArrayList(0.25,0.5,0.75,1.0,1.25,1.5,1.75,2.0);
             videoSpeed.setItems(s);
@@ -68,6 +69,10 @@ public class MyButtons extends AnchorPane {
             e.printStackTrace();
         }
 
+    }
+
+    public void setMaxSlider(double max) {
+        this.MyButtonsController.videoSlider.setMax(max);
     }
 
     public String toStringTime(Double object) {

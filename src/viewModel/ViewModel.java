@@ -45,6 +45,7 @@ public class ViewModel implements Observer {
 	public StringProperty FlightStatus = new SimpleStringProperty();
 	public StringProperty FlightMessage= new SimpleStringProperty();
 	public SimpleDoubleProperty rate = new SimpleDoubleProperty();
+	public DoubleProperty time =new SimpleDoubleProperty();
 
 
 	XmlSettings xs;
@@ -61,6 +62,14 @@ public class ViewModel implements Observer {
 	}
 	public XmlSettings getXs() {
 		return xs;
+	}
+
+	public DoubleProperty getTime() {
+		return time;
+	}
+
+	public void setTime(DoubleProperty time) {
+		this.time = time;
 	}
 	
 	public DoubleProperty getAileron() {
@@ -99,7 +108,6 @@ public class ViewModel implements Observer {
 		if (this.xs == null) {
 			Alert a = new Alert(AlertType.ERROR);
 			a.setHeaderText("Error with XML - Please upload correct xml before upload csv flight");
-//			a.setContentText("Please upload correct xml before upload csv flight");
 			a.showAndWait();
 		}
 		else {
@@ -107,20 +115,16 @@ public class ViewModel implements Observer {
 			if (this.ts.table == null) {
 				Alert a = new Alert(AlertType.ERROR);
 				a.setHeaderText("Error with CSV loading - please try again");
-//				a.setContentText("Error with CSV loading - please try again");
 				a.showAndWait();
 				this.ts = null;
 			}
 			else {
 				Alert a = new Alert(AlertType.INFORMATION);
 				a.setHeaderText("Success loading CSV file");
-//				a.setContentText("Success loading CSV file");
 				a.showAndWait();
 				m.setTimeSeries(ts);
 			}
 		}
-		
-		
 	}
 
 	
@@ -146,6 +150,10 @@ public class ViewModel implements Observer {
 		DecimalFormat d = new DecimalFormat("#.##");
 		if (o == m && arg.equals("line")) {
 			Platform.runLater(()->yaw.setValue(m.getLine()));
+		}
+
+		if (o == m && arg.equals("time")) {
+			this.time.setValue((m.getTime()));
 		}
 		
 		if (o == m && arg.equals("aileron")) {
@@ -201,9 +209,7 @@ public class ViewModel implements Observer {
 				a.showAndWait();
 				this.rate.setValue(1.0);
 			}
-			
 		}
-		
 	}
 	
 	public FeatureSettings getFeatureSetting(String ColName) {
@@ -225,7 +231,6 @@ public class ViewModel implements Observer {
 			// TODO Auto-generated catch block
 			Alert a = new Alert(AlertType.ERROR);
 			a.setHeaderText("Failed load the algorithm - Please try again");
-//			a.setContentText("Unable to load the algorithm - Please try again ");
 			a.showAndWait();
 			this.ad = null;
 		}
@@ -233,7 +238,6 @@ public class ViewModel implements Observer {
 			System.out.println("");
 			Alert a = new Alert(AlertType.INFORMATION);
 			a.setHeaderText("Success Algo Loading");
-//			a.setContentText("Success Algo Loading");
 			a.showAndWait();
 			m.setAnomalyDetector(ad);
 		}	
@@ -296,9 +300,5 @@ public class ViewModel implements Observer {
 			m.ClearTask();
 			m.play(m.getTime() - 20);
 		}
-		
 	}
-
-
-
 }
