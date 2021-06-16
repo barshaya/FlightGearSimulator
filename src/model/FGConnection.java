@@ -10,34 +10,32 @@ import java.util.ArrayList;
 public class FGConnection
 {
     Model model;
-    XmlSettings flySettings;
-    Socket client;
-    PrintWriter OutToServer;
+    Properties properties;
+    Socket fg;
+    PrintWriter outToFG;
 
     //create the connection to the simulator
-    public FGConnection(XmlSettings setting) throws UnknownHostException, IOException {
-        this.flySettings = setting;
-        client = new Socket(flySettings.host, flySettings.port);
-        OutToServer = new PrintWriter(client.getOutputStream());
+    public FGConnection(Properties setting) throws UnknownHostException, IOException {
+        this.properties = setting;
+        fg = new Socket(properties.host, properties.port);
+        outToFG = new PrintWriter(fg.getOutputStream());
     }
 
-    public String ftos(ArrayList<Float>line) {
+    //send a line of values from the csv to the simulator
+    public void SendCommand(ArrayList<Float> values) {
         String out = "";
-        for (Float float1 : line) {
-            out += float1 + ",";
+        for (Float val : values) {
+            out += val + ",";
         }
         String res = out.substring(0, out.length()-1);
-        return res;
+        outToFG.println(res);
+        outToFG.flush();
     }
 
-    public void SendCommand(ArrayList<Float> data) {
-        OutToServer.println(ftos(data));
-        OutToServer.flush();
-    }
     public void CloseSocket() {
         try {
-            client.close();
-            OutToServer.close();
+            fg.close();
+            outToFG.close();
         } catch (IOException e) {}
     }
 }

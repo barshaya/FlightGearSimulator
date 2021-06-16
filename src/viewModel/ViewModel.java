@@ -1,13 +1,8 @@
 package viewModel;
 
-import java.awt.List;
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.net.MalformedURLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,22 +10,16 @@ import algorithms.TimeSeries;
 import algorithms.TimeSeriesAnomalyDetector;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.FloatProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import model.AlgoLoader;
-import model.FeatureSettings;
-import model.ModelInterface;
-import model.XmlComplete;
-import model.XmlSettings;
+import model.*;
 
 public class ViewModel implements Observer {
 	
-	ModelInterface m;
+	Model m;
 	public DoubleProperty aileron=new SimpleDoubleProperty();
 	public DoubleProperty elevators=new SimpleDoubleProperty();
 	public DoubleProperty rudder=new SimpleDoubleProperty();
@@ -48,7 +37,7 @@ public class ViewModel implements Observer {
 	public DoubleProperty videoslider =new SimpleDoubleProperty();
 
 
-	XmlSettings xs;
+	Properties xs;
 	XmlComplete xc;
 	TimeSeries ts;
 	TimeSeriesAnomalyDetector ad;
@@ -69,7 +58,7 @@ public class ViewModel implements Observer {
 	public TimeSeries getTs() {
 		return ts;
 	}
-	public XmlSettings getXs() {
+	public Properties getXs() {
 		return xs;
 	}
 	
@@ -141,7 +130,7 @@ public class ViewModel implements Observer {
 		return null;
 	}
 	
-	public ViewModel(ModelInterface m) {
+	public ViewModel(Model m) {
 		super();
 		this.m = m;
 		xc = new XmlComplete();
@@ -221,9 +210,9 @@ public class ViewModel implements Observer {
 		
 	}
 	
-	public FeatureSettings getFeatureSetting(String ColName) {
-		for (FeatureSettings fs  : xs.getAfs()) {
-			if (fs.getReal_col_name().equals(ColName)) {
+	public FeatureProperties getFeatureSetting(String ColName) {
+		for (FeatureProperties fs  : xs.getAfs()) {
+			if (fs.getRealName().equals(ColName)) {
 				return fs;
 			}
 		}
@@ -235,7 +224,7 @@ public class ViewModel implements Observer {
 	public void loadAnomalyAlgo(String p, String name) {
 		// TODO Auto-generated method stub
 		try {
-			this.ad = new AlgoLoader(p, name).getAlgo();
+			this.ad = new AlgoLoader(p, name).getAd();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			Alert a = new Alert(AlertType.ERROR);

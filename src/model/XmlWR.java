@@ -10,7 +10,7 @@ import java.io.IOException;
 public class XmlWR {
 
 
-    public static void WriteToXML (XmlSettings settings) throws IOException
+    public static void WriteToXML (Properties settings) throws IOException
     {
         FileOutputStream fos = new FileOutputStream("resources/settings.xml");
         XMLEncoder encoder = new XMLEncoder(fos);
@@ -26,10 +26,10 @@ public class XmlWR {
 
 
 
-    public static XmlSettings deserializeFromXML(String path) throws Exception{
+    public static Properties deserializeFromXML(String path) throws Exception{
         FileInputStream fis = new FileInputStream(path);
         XMLDecoder decoder = new XMLDecoder(fis);
-        XmlSettings decodedSettings = (XmlSettings) decoder.readObject();
+        Properties decodedSettings = (Properties) decoder.readObject();
         decoder.close();
         fis.close();
         return decodedSettings;

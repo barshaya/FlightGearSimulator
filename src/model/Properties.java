@@ -3,9 +3,9 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class XmlSettings implements Serializable{
-    public XmlSettings() {}
-    private ArrayList<FeatureSettings> afs;
+public class Properties implements Serializable{
+    public Properties() {}
+    private ArrayList<FeatureProperties> afs;
     String host;
     int port;
     double timeout;
@@ -28,18 +28,18 @@ public class XmlSettings implements Serializable{
     public void setTimeout(double timeout) {
         this.timeout = timeout;
     }
-    public ArrayList<FeatureSettings> getAfs() {
+    public ArrayList<FeatureProperties> getAfs() {
         return afs;
     }
-    public void setAfs(ArrayList<FeatureSettings> afs) {
+    public void setAfs(ArrayList<FeatureProperties> afs) {
         this.afs = afs;
     }
 
     public String toString() {
         String output ="XmlSettings [" + host + " = Host " + port + " = Port " + timeout + " = readRate " ;
 
-        for (FeatureSettings featureSettings : afs) {
-            output += featureSettings.toString();
+        for (FeatureProperties featureProperties : afs) {
+            output += featureProperties.toString();
         }
 
         output += "]";
@@ -48,20 +48,20 @@ public class XmlSettings implements Serializable{
     }
 
     public String getAssociate(String realName) {
-        for (FeatureSettings featureSettings : afs) {
-            if (featureSettings.getReal_col_name().equals(realName)) {
-                return featureSettings.getAssosicate_name();
+        for (FeatureProperties featureProperties : afs) {
+            if (featureProperties.getRealName().equals(realName)) {
+                return featureProperties.getAssociateName();
             }
         }
         System.out.println("invalid name");
         return null;
     }
 
-    public FeatureSettings getSetting(String realName) {
+    public FeatureProperties getSetting(String realName) {
         try {
-            for (FeatureSettings featureSettings : afs) {
-                if (featureSettings.getReal_col_name().equals(realName)) {
-                    return featureSettings;
+            for (FeatureProperties featureProperties : afs) {
+                if (featureProperties.getRealName().equals(realName)) {
+                    return featureProperties;
                 }
             }
         }catch (Exception e) {System.out.println("invalid name");}
