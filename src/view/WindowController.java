@@ -14,6 +14,8 @@ import view.viewlist.MyViewList;
 import viewModel.ViewModel;
 
 import java.net.URL;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -94,10 +96,15 @@ public class WindowController implements Initializable {
                     ObservableValue<? extends Number> observableValue,
                     Number oldValue,
                     Number newValue) {
+                LocalTime time = LocalTime.of(newValue.intValue() / 100, newValue.intValue() % 100, newValue.intValue());
+                String timeString = intToStringTimeFormat(newValue.intValue());
                 myButtons.VideoTime.textProperty().setValue(
-                        String.valueOf(newValue.intValue()));
+                        timeString);
+                vm.setTime(newValue.intValue());
+                System.out.println(newValue.intValue());
             }
         });
+
 
         vm.rate.bindBidirectional(myButtons.videoSpeed.valueProperty());
         myButtons.videoSpeed.valueProperty().addListener((o,ov,nv)->{
@@ -146,6 +153,25 @@ public class WindowController implements Initializable {
         myJoystick.RollValue.textProperty().bind(this.vm.roll);
         myJoystick.speedValue.textProperty().bind(this.vm.speed);
         myJoystick.yawValue.textProperty().bind(this.vm.yaw);
+        myButtons.videoSlider.bind(this.vm.videoslider);
+    }
 
+    public static String intToStringTimeFormat(int time)
+    {
+        String strTemp;
+        int minutes    = time / 60;
+        int seconds    = time % 60;
+
+        if(minutes < 10)
+            strTemp = "0" + Integer.toString(minutes) + ":";
+        else
+            strTemp = Integer.toString(minutes) + ":";
+
+        if(seconds < 10)
+            strTemp = strTemp + "0" + Integer.toString(seconds);
+        else
+            strTemp = strTemp + Integer.toString(seconds);
+
+        return strTemp;
     }
 }

@@ -29,6 +29,7 @@ public interface ModelInterface {
     public String getConnectMessage();
     public void setRate(double rate);
     public int getTime();
+    public void setTime(int time);
     public void ClearTask();
 
 }

@@ -45,6 +45,7 @@ public class ViewModel implements Observer {
 	public StringProperty FlightStatus = new SimpleStringProperty();
 	public StringProperty FlightMessage= new SimpleStringProperty();
 	public SimpleDoubleProperty rate = new SimpleDoubleProperty();
+	public DoubleProperty videoslider =new SimpleDoubleProperty();
 
 
 	XmlSettings xs;
@@ -53,7 +54,9 @@ public class ViewModel implements Observer {
 	TimeSeriesAnomalyDetector ad;
 
 	
-	
+	public void setTime(int time ){
+		this.m.setTime(time);
+	}
 	
 	public TimeSeriesAnomalyDetector getAd() {
 		return ad;
@@ -165,7 +168,9 @@ public class ViewModel implements Observer {
 		}
 		if (o == m && arg.equals("yaw")) {
 			Platform.runLater(()->yaw.setValue(d.format(m.getYaw())));
+			Platform.runLater(()->videoslider.setValue(this.m.getTime()));
 		}
+
 		if (o == m && arg.equals("heigth")) {
 			Platform.runLater(()->heigth.setValue(d.format(m.getHeigth())));
 		}

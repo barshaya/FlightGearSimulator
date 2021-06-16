@@ -49,7 +49,7 @@ public class MyButtons extends AnchorPane {
             pause = myButtonsController.pause;
             play = myButtonsController.play;
             stop = myButtonsController.stop;
-            videoSlider = myButtonsController.videoSlider;
+            videoSlider = myButtonsController.videoSlider.valueProperty();
             videoSpeed = myButtonsController.videoSpeed;
             ObservableList<Number> s  = FXCollections.observableArrayList(0.25,0.5,0.75,1.0,1.25,1.5,1.75,2.0);
             videoSpeed.setItems(s);
@@ -68,13 +68,6 @@ public class MyButtons extends AnchorPane {
             e.printStackTrace();
         }
 
-    }
-
-    public String toStringTime(Double object) {
-        long seconds = object.longValue();
-        long minutes = TimeUnit.SECONDS.toMinutes(seconds);
-        long remainingseconds = seconds - TimeUnit.MINUTES.toSeconds(minutes);
-        return String.format("%02d", minutes) + ":" + String.format("%02d", remainingseconds);
     }
 
 }
