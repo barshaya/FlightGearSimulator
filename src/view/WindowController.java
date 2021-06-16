@@ -14,8 +14,6 @@ import view.viewlist.MyViewList;
 import viewModel.ViewModel;
 
 import java.net.URL;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
@@ -97,19 +95,14 @@ public class WindowController implements Initializable {
                     ObservableValue<? extends Number> observableValue,
                     Number oldValue,
                     Number newValue) {
-//                LocalTime time = LocalTime.of(newValue.intValue() / 100, newValue.intValue() % 100, newValue.intValue() / 1000);
-//                String timeString = time.format(DateTimeFormatter.ofPattern("HH:mm"));
-//                int seconds = newValue.intValue() % 60;
-//                int hours = newValue.intValue() / 100;
-//                int minutes = (newValue.intValue() - hours * 100) % 60;
-//                System.out.println(minutes + ":" + seconds);
                 String currTime = toStringTime(myButtons.videoSlider.doubleValue());
-                System.out.println(currTime);
                 myButtons.VideoTime.textProperty().setValue(
                         currTime);
                 vm.setTime(newValue.intValue());
             }
         });
+
+
 
         vm.rate.bindBidirectional(myButtons.videoSpeed.valueProperty());
         myButtons.videoSpeed.valueProperty().addListener((o,ov,nv)->{
@@ -128,7 +121,6 @@ public class WindowController implements Initializable {
             }
             else if (((String)nv).equals("pause Fly")) {
                 int currentTime = this.vm.getTime();
-                System.out.println(currentTime);
                 this.vm.pauseFlight();
                 this.vm.setTime(currentTime);
 
@@ -163,7 +155,7 @@ public class WindowController implements Initializable {
         myJoystick.RollValue.textProperty().bind(this.vm.roll);
         myJoystick.speedValue.textProperty().bind(this.vm.speed);
         myJoystick.yawValue.textProperty().bind(this.vm.yaw);
-        myButtons.videoSlider.bind(this.vm.videoslider);
+        myButtons.videoSlider.bindBidirectional(this.vm.videoslider);
     }
 
     public String toStringTime(Double object) {

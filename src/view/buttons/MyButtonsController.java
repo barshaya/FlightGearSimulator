@@ -13,6 +13,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
 
 public class MyButtonsController {
 
@@ -46,6 +47,7 @@ public class MyButtonsController {
         backwardCnt = new SimpleDoubleProperty();
         backward2Cnt = new SimpleDoubleProperty();
         videoSlider = new Slider();
+        videoSlider.setMax(1000);
     }
 
     @FXML public void startFlight() {
@@ -63,7 +65,6 @@ public class MyButtonsController {
             FlightStatus.set("not Fly");
         }
     }
-
 
     @FXML private void pauseFlight() {
         if ( FlightStatus.getValue() == null || FlightStatus.getValue().equals("not Fly")) {

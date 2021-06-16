@@ -67,7 +67,6 @@ public class MyButtons extends AnchorPane {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 
 }
