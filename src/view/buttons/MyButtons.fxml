@@ -18,7 +18,7 @@
         <Label layoutX="660.0" layoutY="19.0" prefHeight="18.0" prefWidth="66.0" text="Flight Speed" />
         <ChoiceBox fx:id="videoSpeed" layoutX="752.0" layoutY="15.0" prefHeight="25.0" prefWidth="126.0" />
         <Slider fx:id="videoSlider" layoutX="21.0" layoutY="63.0" prefHeight="14.0" prefWidth="788.0" />
-        <Label fx:id="VideoTime" layoutX="815.0" layoutY="61.0" prefHeight="17.0" prefWidth="45.0" text="00:00:00" />
+        <Label fx:id="VideoTime" layoutX="815.0" layoutY="61.0" prefHeight="17.0" prefWidth="45.0" text="00:00" />
         <Label fx:id="FlightGear" layoutX="288.0" layoutY="90.0" prefHeight="18.0" prefWidth="253.0" textFill="#ef0808" />
 
     </children>

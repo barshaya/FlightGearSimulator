@@ -18,6 +18,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 public class WindowController implements Initializable {
 
@@ -96,14 +97,16 @@ public class WindowController implements Initializable {
                     ObservableValue<? extends Number> observableValue,
                     Number oldValue,
                     Number newValue) {
-                LocalTime time = LocalTime.of(newValue.intValue() / 100, newValue.intValue() % 100, newValue.intValue() / 1000);
-                String timeString = time.format(DateTimeFormatter.ofPattern("HH:mm"));
-                int seconds = newValue.intValue() % 60;
-                int hours = newValue.intValue() / 100;
-                int minutes = (newValue.intValue() - hours * 100) % 60;
-                System.out.println(minutes + ":" + seconds);
+//                LocalTime time = LocalTime.of(newValue.intValue() / 100, newValue.intValue() % 100, newValue.intValue() / 1000);
+//                String timeString = time.format(DateTimeFormatter.ofPattern("HH:mm"));
+//                int seconds = newValue.intValue() % 60;
+//                int hours = newValue.intValue() / 100;
+//                int minutes = (newValue.intValue() - hours * 100) % 60;
+//                System.out.println(minutes + ":" + seconds);
+                String currTime = toStringTime(myButtons.videoSlider.doubleValue());
+                System.out.println(currTime);
                 myButtons.VideoTime.textProperty().setValue(
-                        timeString);
+                        currTime);
                 vm.setTime(newValue.intValue());
             }
         });
@@ -161,5 +164,12 @@ public class WindowController implements Initializable {
         myJoystick.speedValue.textProperty().bind(this.vm.speed);
         myJoystick.yawValue.textProperty().bind(this.vm.yaw);
         myButtons.videoSlider.bind(this.vm.videoslider);
+    }
+
+    public String toStringTime(Double object) {
+        long seconds = object.longValue();
+        long minutes = TimeUnit.SECONDS.toMinutes(seconds);
+        long remainingseconds = seconds - TimeUnit.MINUTES.toSeconds(minutes);
+        return String.format("%02d", minutes) + ":" + String.format("%02d", remainingseconds);
     }
 }
