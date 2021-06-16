@@ -45,7 +45,6 @@ public class MyJoystick extends AnchorPane {
             } catch (IOException var3) {
                 var3.printStackTrace();
             }
-
         }
 
         public double NormlaizeJoystic(double x, double max, double min, double a, double b) {

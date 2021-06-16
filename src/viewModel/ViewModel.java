@@ -53,7 +53,11 @@ public class ViewModel implements Observer {
 	TimeSeries ts;
 	TimeSeriesAnomalyDetector ad;
 
-	
+
+	public int getTime(){
+		return this.m.getTime();
+	}
+
 	public void setTime(int time ){
 		this.m.setTime(time);
 	}

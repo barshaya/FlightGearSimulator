@@ -96,15 +96,17 @@ public class WindowController implements Initializable {
                     ObservableValue<? extends Number> observableValue,
                     Number oldValue,
                     Number newValue) {
-                LocalTime time = LocalTime.of(newValue.intValue() / 100, newValue.intValue() % 100, newValue.intValue());
-                String timeString = intToStringTimeFormat(newValue.intValue());
+                LocalTime time = LocalTime.of(newValue.intValue() / 100, newValue.intValue() % 100, newValue.intValue() / 1000);
+                String timeString = time.format(DateTimeFormatter.ofPattern("HH:mm"));
+                int seconds = newValue.intValue() % 60;
+                int hours = newValue.intValue() / 100;
+                int minutes = (newValue.intValue() - hours * 100) % 60;
+                System.out.println(minutes + ":" + seconds);
                 myButtons.VideoTime.textProperty().setValue(
                         timeString);
                 vm.setTime(newValue.intValue());
-                System.out.println(newValue.intValue());
             }
         });
-
 
         vm.rate.bindBidirectional(myButtons.videoSpeed.valueProperty());
         myButtons.videoSpeed.valueProperty().addListener((o,ov,nv)->{
@@ -119,9 +121,14 @@ public class WindowController implements Initializable {
             }
             else if (((String)nv).equals("not Fly")) {
                 this.vm.stopFlight();
+                this.vm.setTime(0);
             }
             else if (((String)nv).equals("pause Fly")) {
+                int currentTime = this.vm.getTime();
+                System.out.println(currentTime);
                 this.vm.pauseFlight();
+                this.vm.setTime(currentTime);
+
             }
         });
 
@@ -154,24 +161,5 @@ public class WindowController implements Initializable {
         myJoystick.speedValue.textProperty().bind(this.vm.speed);
         myJoystick.yawValue.textProperty().bind(this.vm.yaw);
         myButtons.videoSlider.bind(this.vm.videoslider);
-    }
-
-    public static String intToStringTimeFormat(int time)
-    {
-        String strTemp;
-        int minutes    = time / 60;
-        int seconds    = time % 60;
-
-        if(minutes < 10)
-            strTemp = "0" + Integer.toString(minutes) + ":";
-        else
-            strTemp = Integer.toString(minutes) + ":";
-
-        if(seconds < 10)
-            strTemp = strTemp + "0" + Integer.toString(seconds);
-        else
-            strTemp = strTemp + Integer.toString(seconds);
-
-        return strTemp;
     }
 }
