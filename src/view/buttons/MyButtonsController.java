@@ -45,7 +45,7 @@ public class MyButtonsController {
         forward2Cnt = new SimpleDoubleProperty();
         backwardCnt = new SimpleDoubleProperty();
         backward2Cnt = new SimpleDoubleProperty();
-
+        videoSlider = new Slider();
     }
 
     @FXML public void startFlight() {

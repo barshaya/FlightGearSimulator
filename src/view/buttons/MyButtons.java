@@ -25,7 +25,7 @@ public class MyButtons extends AnchorPane {
     public Button pause;
     public Button play;
     public Button stop;
-    public Slider videoSlider;
+    public DoubleProperty videoSlider;
     public ChoiceBox videoSpeed;
     public Label VideoTime;
     public Label FlightGear;
