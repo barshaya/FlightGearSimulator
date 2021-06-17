@@ -28,7 +28,6 @@ public class WindowController {
 
     @FXML MyGraphs Graph;
 
-
     @FXML MyButtons myButtons;
 
     @FXML OpenFiles openFiles;
@@ -51,7 +50,7 @@ public class WindowController {
 
         openFiles.csvpath.addListener((o,ov,nv)->{
             this.vm.loadCsv(nv);
-            ArrayList<String> titles =  this.vm.getColTitels();
+            ArrayList<String> titles =  this.vm.getColTitles();
             if (titles != null) {
                 ObservableList<String> list = FXCollections.observableArrayList(titles);
                 viewlist.list.setItems(list);
