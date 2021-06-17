@@ -59,16 +59,16 @@ public class LinearAnomalyDetector implements TimeSeriesAnomalyDetector {
 		int index2 = 1;
 		ArrayList<AnomalyReport> arrayl = new ArrayList<AnomalyReport>();
 		for (CorrelatedFeatures correlatedFeature : this.corFeaturesLs) {
-			ArrayList<Float> t1 = ts.getFeatureByName(correlatedFeature.feature1);
-			ArrayList<Float> t2 = ts.getFeatureByName(correlatedFeature.feature2);
-			description =  correlatedFeature.feature1 + "-" + correlatedFeature.feature2;
+			ArrayList<Float> t1 = ts.getFeatureByName(correlatedFeature.f1);
+			ArrayList<Float> t2 = ts.getFeatureByName(correlatedFeature.f2);
+			description =  correlatedFeature.f1 + "-" + correlatedFeature.f2;
 			 f1 = StatLib.FloatListToFloatArr(t1);
 			 f2 = StatLib.FloatListToFloatArr(t2);
 			Point[] points = gen_points(f1, f2);
 			for (Point p : points) {
 				float dev_temp = StatLib.dev(p, correlatedFeature.lin_reg);
 				if ( dev_temp > correlatedFeature.threshold) {
-					String d = ts.getFeatureByName1(correlatedFeature.feature1).nameId + "-" + ts.getFeatureByName1(correlatedFeature.feature2).nameId;
+					String d = ts.getFeatureByName1(correlatedFeature.f1).nameId + "-" + ts.getFeatureByName1(correlatedFeature.f2).nameId;
 					AnomalyReport ar = new AnomalyReport(d, index2);
 					arrayl.add(ar);
 				}
@@ -92,7 +92,7 @@ public class LinearAnomalyDetector implements TimeSeriesAnomalyDetector {
 	public boolean contain(CorrelatedFeatures cof) {
 		boolean flag = false;
 		for (CorrelatedFeatures correlatedFeature : this.corFeaturesLs) {
-			if (  correlatedFeature.feature2.equals(cof.feature1) && correlatedFeature.feature1.equals(cof.feature2)){
+			if (  correlatedFeature.f2.equals(cof.f1) && correlatedFeature.f1.equals(cof.f2)){
 				flag = true;
 			}
 		}

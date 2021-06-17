@@ -17,20 +17,20 @@ public class HybridAnomalyDetector implements TimeSeriesAnomalyDetector
 	@Override
 	public void learnNormal(TimeSeries ts) {
 		ArrayList<Point> points = new ArrayList<>();
-		ArrayList<MatchFeature> match = StatLib.FindMatch(ts).match;
-		for (MatchFeature matchFeature : match) {
-			Feature f1 = ts.getFeatureByName1(matchFeature.f1);
-			Feature f2 = ts.getFeatureByName1(matchFeature.f2);
+		ArrayList<CorrelatedFeatures> correlated = StatLib.FindCorrelatedFeatures(ts).correlated;
+		for (CorrelatedFeatures correlatedFeature : correlated) {
+			Feature f1 = ts.getFeatureByName1(correlatedFeature.f1);
+			Feature f2 = ts.getFeatureByName1(correlatedFeature.f2);
 			String name=f1.getName()+"-"+f2.getName();
 			
-			if(Math.abs(matchFeature.correlation)>=0.95)
+			if(Math.abs(correlatedFeature.correlation)>=0.95)
 			{
 				TimeSeries t1 = new TimeSeries(f1,f2);
 				LinearAnomalyDetector l= new LinearAnomalyDetector();
 				l.learnNormal(t1);
 				Linear.put(name,l);
 			}
-			else if(Math.abs(matchFeature.correlation)<0.5) {
+			else if(Math.abs(correlatedFeature.correlation)<0.5) {
 				TimeSeries t2 = new TimeSeries(f1,f2);
 				ZscoreAnomalyDetector z = new ZscoreAnomalyDetector();
 				z.learnNormal(t2);
@@ -47,7 +47,7 @@ public class HybridAnomalyDetector implements TimeSeriesAnomalyDetector
 				points=new ArrayList<>();
 			}
 		}
-		for (Feature fe : StatLib.FindMatch(ts).notMatch) {
+		for (Feature fe : StatLib.FindCorrelatedFeatures(ts).notCorrelated) {
 			TimeSeries ti = new TimeSeries(fe);
 			ZscoreAnomalyDetector z = new ZscoreAnomalyDetector();
 			z.learnNormal(ti);
@@ -103,7 +103,7 @@ public class HybridAnomalyDetector implements TimeSeriesAnomalyDetector
 				}	
 			}	
 		}
-		for (Feature f : StatLib.FindMatch(ts).notMatch) {
+		for (Feature f : StatLib.FindCorrelatedFeatures(ts).notCorrelated) {
 			if (ZScore.containsKey(f.name)) {
 				TimeSeries t = new TimeSeries(f);
 				List<AnomalyReport> reports =this.ZScore.get(f.name).detect(t);

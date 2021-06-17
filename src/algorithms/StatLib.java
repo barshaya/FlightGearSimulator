@@ -85,9 +85,9 @@ public class StatLib {
 		}
 		return false;
 	}
-	public static MatchFeature FindMatch(TimeSeries ts){
-		MatchFeature matchf = null ;
-		ArrayList<MatchFeature> match = new ArrayList<MatchFeature>();
+	public static CorrelatedFeatures FindCorrelatedFeatures(TimeSeries ts){
+		CorrelatedFeatures matchf = null ;
+		ArrayList<CorrelatedFeatures> match = new ArrayList<CorrelatedFeatures>();
 		ArrayList<Feature> notMatch = new ArrayList<Feature>();
 		float max =-1;
 		for (int i = 0; i < ts.getTable().size()-1; i++) {
@@ -97,7 +97,7 @@ public class StatLib {
 				float cor = Math.abs(pearson(FloatListToFloatArr(f1.getExamples()), FloatListToFloatArr(f2.getExamples())));
 				if(max<cor) {
 					max = cor;
-					matchf = new MatchFeature(f1.getName(), f2.getName(), cor);
+					matchf = new CorrelatedFeatures(f1.getName(), f2.getName(), cor);
 				}
 			}
 			if (matchf != null) {
@@ -109,6 +109,6 @@ public class StatLib {
 			max = -1;
 			matchf= null;
 		}
-		return new MatchFeature(match, notMatch);
+		return new CorrelatedFeatures(match, notMatch);
 	}
 }
