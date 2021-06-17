@@ -19,7 +19,7 @@ import model.*;
 
 public class ViewModel implements Observer {
 	
-	Model m;
+	Model model;
 	public DoubleProperty aileron=new SimpleDoubleProperty();
 	public DoubleProperty elevators=new SimpleDoubleProperty();
 	public DoubleProperty rudder=new SimpleDoubleProperty();
@@ -29,37 +29,156 @@ public class ViewModel implements Observer {
 	public StringProperty pitch=new SimpleStringProperty();
 	public StringProperty speed=new SimpleStringProperty();
 	public StringProperty direction=new SimpleStringProperty();
-	public StringProperty heigth=new SimpleStringProperty();
+	public StringProperty height=new SimpleStringProperty();
 	public StringProperty line=new SimpleStringProperty();
 	public StringProperty FlightStatus = new SimpleStringProperty();
 	public StringProperty FlightMessage= new SimpleStringProperty();
 	public SimpleDoubleProperty rate = new SimpleDoubleProperty();
 	public DoubleProperty videoslider =new SimpleDoubleProperty();
 
-
-	Properties xs;
-	XmlComplete xc;
 	TimeSeries ts;
-	TimeSeriesAnomalyDetector ad;
+	TimeSeriesAnomalyDetector tsAnomalyDetector;
+	Properties properties;
+	XmlComplete xmlComplete;
 
+
+	public ViewModel(Model m) {
+		super();
+		this.model = m;
+		xmlComplete = new XmlComplete();
+		m.addObservers(this);
+		rate.addListener((o,ov,nv)->m.setRate(nv.doubleValue()));
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		DecimalFormat dFormat = new DecimalFormat("#.##");
+		if (o == model && arg.equals("line")) {
+			Platform.runLater(() -> yaw.setValue(model.getLine()));
+		} else if (o == model && arg.equals("aileron")) {
+			this.aileron.setValue((model.getAileron()));
+		} else if (o == model && arg.equals("elevators")) {
+			this.elevators.setValue((model.getElevators()));
+		} else if (o == model && arg.equals("rudder")) {
+			this.rudder.setValue((model.getRudder()));
+		} else if (o == model && arg.equals("throttle")) {
+			this.throttle.setValue((model.getThrottle()));
+		} else if (o == model && arg.equals("yaw")) {
+			Platform.runLater(() -> yaw.setValue(dFormat.format(model.getYaw())));
+			Platform.runLater(() -> videoslider.setValue(this.model.getTime()));
+		} else if (o == model && arg.equals("time")) {
+			Platform.runLater(() -> videoslider.setValue(this.model.getTime()));
+		} else if (o == model && arg.equals("heigth")) {
+			Platform.runLater(() -> height.setValue(dFormat.format(model.getHeight())));
+		} else if (o == model && arg.equals("pitch")) {
+			Platform.runLater(() -> pitch.setValue(dFormat.format(model.getPitch())));
+		} else if (o == model && arg.equals("FligthStatus")) {
+			this.FlightStatus.setValue((model.getFlightStatus()));
+		} else if (o == model && arg.equals("flightMessage")) {
+			this.FlightMessage.setValue((model.getConnectMessage()));
+		} else if (o == model && arg.equals("speed")) {
+			Platform.runLater(() -> speed.setValue(dFormat.format(model.getSpeed())));
+		} else if (o == model && arg.equals("direction")) {
+			Platform.runLater(() -> direction.setValue(dFormat.format(model.getDirection())));
+		} else if (o == model && arg.equals("roll")) {
+			Platform.runLater(() -> roll.setValue(dFormat.format(model.getRoll())));
+		}
+	}
+
+	public void loadCsv(String csvPath) {
+		if (this.properties == null) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setHeaderText("Error with XML");
+			alert.showAndWait();
+		}
+		else {
+			this.ts = new TimeSeries(csvPath);
+			if (this.ts.table == null) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setHeaderText("Error with CSV");
+				alert.showAndWait();
+				this.ts = null;
+			}
+			else {
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setHeaderText("Success loading CSV file");
+				alert.showAndWait();
+				model.setTimeSeries(ts);
+			}
+		}
+	}
+
+
+	public void loadXml(String name) {
+		// TODO Auto-generated method stub
+		properties = xmlComplete.LoadSettingsFromClient(name);
+		if (properties != null && properties.getHost() != null && properties.getPort() != 0 && properties.getTimeout() != 0.0) {
+			model.setClientSettings(properties);
+			ArrayList<Double> checkSpeed = new ArrayList<Double>(Arrays.asList(0.25,0.5,0.75,1.0,1.25,1.5,1.75,2.0));
+			if (checkSpeed.contains(properties.getTimeout())) {
+				this.rate.setValue(properties.getTimeout());
+			}
+			else {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setHeaderText("Wrong Speed");
+				alert.setContentText("The default speed is 1.0");
+				alert.showAndWait();
+				this.rate.setValue(1.0);
+			}
+		}
+	}
+
+	public void loadAnomalyAlgo(String p, String name) {
+		// TODO Auto-generated method stub
+		try {
+			this.tsAnomalyDetector = new AlgoLoader(p, name).getAd();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			Alert a = new Alert(AlertType.ERROR);
+			a.setHeaderText("Failed load the algorithm - Please try again");
+			a.showAndWait();
+			this.tsAnomalyDetector = null;
+		}
+		if (this.tsAnomalyDetector != null) {
+			System.out.println("");
+			Alert a = new Alert(AlertType.INFORMATION);
+			a.setHeaderText("Success Algo Loading");
+			a.showAndWait();
+			model.setAnomalyDetector(tsAnomalyDetector);
+		}
+	}
 
 	public int getTime(){
-		return this.m.getTime();
+		return this.model.getTime();
 	}
 
 	public void setTime(int time ){
-		this.m.setTime(time);
+		this.model.setTime(time);
 	}
 	
 	public TimeSeriesAnomalyDetector getAd() {
-		return ad;
+		return tsAnomalyDetector;
 	}
-	
+
 	public TimeSeries getTs() {
 		return ts;
 	}
+
+	public DoubleProperty getRudder() {
+		return rudder;
+	}
+
+	public void setRudder(DoubleProperty rudder) {
+		this.rudder = rudder;
+	}
+
+	public DoubleProperty getThrottle() {
+		return throttle;
+	}
+
 	public Properties getXs() {
-		return xs;
+		return properties;
 	}
 	
 	public DoubleProperty getAileron() {
@@ -78,144 +197,20 @@ public class ViewModel implements Observer {
 		this.elevators = elevators;
 	}
 
-	public DoubleProperty getRudder() {
-		return rudder;
-	}
-
-	public void setRudder(DoubleProperty rudder) {
-		this.rudder = rudder;
-	}
-
-	public DoubleProperty getThrottle() {
-		return throttle;
-	}
-
 	public void setThrottle(DoubleProperty throttle) {
 		this.throttle = throttle;
 	}
-	
-	public void loadCsv(String csvPath) {
-		if (this.xs == null) {
-			Alert a = new Alert(AlertType.ERROR);
-			a.setHeaderText("Error with XML - Please upload correct xml before upload csv flight");
-//			a.setContentText("Please upload correct xml before upload csv flight");
-			a.showAndWait();
-		}
-		else {
-			this.ts = new TimeSeries(csvPath);
-			if (this.ts.table == null) {
-				Alert a = new Alert(AlertType.ERROR);
-				a.setHeaderText("Error with CSV loading - please try again");
-//				a.setContentText("Error with CSV loading - please try again");
-				a.showAndWait();
-				this.ts = null;
-			}
-			else {
-				Alert a = new Alert(AlertType.INFORMATION);
-				a.setHeaderText("Success loading CSV file");
-//				a.setContentText("Success loading CSV file");
-				a.showAndWait();
-				m.setTimeSeries(ts);
-			}
-		}
-		
-		
-	}
 
-	
-	public ArrayList<String> getColTitels(){
+	public ArrayList<String> getColTitles(){
 		if (ts != null) {
 			return ts.ColumnNames;
 		}
 		return null;
 	}
-	
-	public ViewModel(Model m) {
-		super();
-		this.m = m;
-		xc = new XmlComplete();
-		m.addObservers(this);
-		rate.addListener((o,ov,nv)->m.setRate(nv.doubleValue()));
-	}
-	
-	
-	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		DecimalFormat d = new DecimalFormat("#.##");
-		if (o == m && arg.equals("line")) {
-			Platform.runLater(()->yaw.setValue(m.getLine()));
-		}
-		
-		if (o == m && arg.equals("aileron")) {
-			this.aileron.setValue((m.getAileron()));
-		}
-		if (o == m && arg.equals("elevators")) {
-			this.elevators.setValue((m.getElevators()));
-		}
-		if (o == m && arg.equals("rudder")) {
-			this.rudder.setValue((m.getRudder()));
-		}
-		if (o == m && arg.equals("throttle")) {
-			this.throttle.setValue((m.getThrottle()));
-		}
-		if (o == m && arg.equals("yaw")) {
-			Platform.runLater(()->yaw.setValue(d.format(m.getYaw())));
-			Platform.runLater(()->videoslider.setValue(this.m.getTime()));
-		}
 
-		if (o == m && arg.equals("time")) {
-			Platform.runLater(()->videoslider.setValue(this.m.getTime()));
-		}
-
-		if (o == m && arg.equals("heigth")) {
-			Platform.runLater(()->heigth.setValue(d.format(m.getHeigth())));
-		}
-		if (o == m && arg.equals("speed")) {
-			Platform.runLater(()->speed.setValue(d.format(m.getSpeed())));
-		}
-		if (o == m && arg.equals("direction")) {
-			Platform.runLater(()->direction.setValue(d.format(m.getDirection())));
-		}
-		if (o == m && arg.equals("roll")) {
-			Platform.runLater(()->roll.setValue(d.format(m.getRoll())));
-		}
-		if (o == m && arg.equals("pitch")) {
-			Platform.runLater(()->pitch.setValue(d.format(m.getPitch())));
-		}
-		if (o == m && arg.equals("FligthStatus")) {
-			this.FlightStatus.setValue((m.getFlightStatus()));
-		}
-		if (o == m && arg.equals("flightMessage")) {
-			this.FlightMessage.setValue((m.getConnectMessage()));
-		}
-		
-		
-		
-	}
-	public void loadXml(String name) {
-		// TODO Auto-generated method stub
-		xs = xc.LoadSettingsFromClient(name);
-		if (xs != null && xs.getHost() != null && xs.getPort() != 0 && xs.getTimeout() != 0.0) {
-			m.setClientSettings(xs);
-			ArrayList<Double> checkSpeed = new ArrayList<Double>(Arrays.asList(0.25,0.5,0.75,1.0,1.25,1.5,1.75,2.0));
-			if (checkSpeed.contains(xs.getTimeout())) {
-				this.rate.setValue(xs.getTimeout());
-			}
-			else {
-				Alert a = new Alert(AlertType.ERROR);
-				a.setHeaderText("Wrong Speed");
-				a.setContentText("The default speed is 1.0");
-				a.showAndWait();
-				this.rate.setValue(1.0);
-			}
-			
-		}
-		
-	}
 	
 	public FeatureProperties getFeatureSetting(String ColName) {
-		for (FeatureProperties fs  : xs.getAfs()) {
+		for (FeatureProperties fs  : properties.getAfs()) {
 			if (fs.getRealName().equals(ColName)) {
 				return fs;
 			}
@@ -223,96 +218,66 @@ public class ViewModel implements Observer {
 		return null;
 	}
 
-	
-
-	public void loadAnomalyAlgo(String p, String name) {
-		// TODO Auto-generated method stub
-		try {
-			this.ad = new AlgoLoader(p, name).getAd();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			Alert a = new Alert(AlertType.ERROR);
-			a.setHeaderText("Failed load the algorithm - Please try again");
-//			a.setContentText("Unable to load the algorithm - Please try again ");
-			a.showAndWait();
-			this.ad = null;
-		}
-		if (this.ad != null) {
-			System.out.println("");
-			Alert a = new Alert(AlertType.INFORMATION);
-			a.setHeaderText("Success Algo Loading");
-//			a.setContentText("Success Algo Loading");
-			a.showAndWait();
-			m.setAnomalyDetector(ad);
-		}	
-	}
-
-	public void StartFligt(int start) {
+	public void StartFlight(int start) {
 		// TODO Auto-generated method stub
 		if (this.ts == null) {
-
-			Alert a = new Alert(AlertType.ERROR);
-			a.setHeaderText("Error - play flight");
-			a.setContentText("Please upload CSV before you fly");
-			a.showAndWait();
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setHeaderText("Error with play flight");
+			alert.setContentText("Please upload CSV before you fly");
+			alert.showAndWait();
 		}
 		else {
-			m.play(start);
+			model.play(start);
 		}
-		
-	}
-	public Runnable getPaint() {
-		return ad.paint();
 	}
 
 	public void stopFlight() {
-		m.stop();	
+		model.stop();
 	}
 
 	public void pauseFlight() {
-		m.pause();
-		
+		model.pause();
 	}
 
 	public void setTimeStemp(int timestemp){
-		m.ClearTask();
-		m.play(timestemp);
+		model.ClearTasks();
+		model.play(timestemp);
 	}
 
 	public void Forward1() {
-		if (m.getTime() + 10 < ts.num-1) {
-			m.ClearTask();
-			m.play(m.getTime() + 10);
+		if (model.getTime() + 10 < ts.num-1) {
+			model.ClearTasks();
+			model.play(model.getTime() + 10);
 		}
 	}
 
 	public void Forward2() {
 		// TODO Auto-generated method stub
-		if (m.getTime() + 20 < ts.num-1) {
-			m.ClearTask();
-			m.play(m.getTime() + 20);
+		if (model.getTime() + 20 < ts.num-1) {
+			model.ClearTasks();
+			model.play(model.getTime() + 20);
 		}
 		
 	}
 
 	public void Backward1() {
 		// TODO Auto-generated method stub
-		if (m.getTime() - 10 > 0) {
-			m.ClearTask();
-			m.play(m.getTime() - 10);
+		if (model.getTime() - 10 > 0) {
+			model.ClearTasks();
+			model.play(model.getTime() - 10);
 		}
 		
 	}
 
 	public void Backward2() {
 		// TODO Auto-generated method stub
-		if (m.getTime() - 20 > 0) {
-			m.ClearTask();
-			m.play(m.getTime() - 20);
+		if (model.getTime() - 20 > 0) {
+			model.ClearTasks();
+			model.play(model.getTime() - 20);
 		}
-		
 	}
-	
-	
-	
+
+	public Runnable getPaint() {
+		return tsAnomalyDetector.paint();
+	}
 }
