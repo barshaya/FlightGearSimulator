@@ -3,14 +3,14 @@ package model;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class ActiveObjectImplement implements ActiveObject{
+public class MyActiveObject implements ActiveObject{
 
 
     Thread activeThread;
     BlockingQueue<Runnable> queue;
     volatile boolean stop;
 
-    public ActiveObjectImplement() {
+    public MyActiveObject() {
         super();
         this.queue = new LinkedBlockingQueue<Runnable>();
         this.stop = true;
@@ -33,6 +33,15 @@ public class ActiveObjectImplement implements ActiveObject{
     }
 
 
+    public void pause() {
+        this.stop = true;
+        this.activeThread.interrupt();
+    }
+    public void ClearTasks() {
+        queue = new LinkedBlockingQueue<Runnable>();
+
+    }
+
     public void execute(Runnable r) {
         this.queue.add(r);
     }
@@ -53,12 +62,4 @@ public class ActiveObjectImplement implements ActiveObject{
         }
     }
 
-
-    public void pause() {
-        this.stop = true;
-        this.activeThread.interrupt();
-    }
-    public void ClearTasks() {
-        queue = new LinkedBlockingQueue<Runnable>();
-    }
 }

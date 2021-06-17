@@ -4,7 +4,6 @@ package view;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import model.Model;
-import model.ModelInterface;
 import model.XmlComplete;
 import viewModel.ViewModel;
 import javafx.scene.Scene;

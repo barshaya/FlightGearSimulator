@@ -8,22 +8,21 @@ import javafx.scene.control.Alert.AlertType;
 
 public class XmlComplete {
     ViewNameLoader LoadRealNames ;
-    XmlSettings ClientSettings;
-    String Path_to_real_name;
+    Properties ClientSettings;
+    String stringPath;
     ArrayList<String> fd;
-    String backup;
-    XmlSettings ClientBackUp;
+    Properties backup;
 
     public XmlComplete() {
         // TODO Auto-generated constructor stub
         LoadRealNames = new ViewNameLoader();
-        ClientSettings = new XmlSettings();
-        Path_to_real_name = "resources/ViewNamesSettings.txt";
+        ClientSettings = new Properties();
+        stringPath = "resources/ViewNamesSettings.txt";
         fd = new ArrayList<String>();
     }
 
     public void  LoadRealNames() {
-        this.fd  =  LoadRealNames.Load(Path_to_real_name);
+        this.fd  =  LoadRealNames.Load(stringPath);
     }
 
     public void WriteXmlToUser() throws IOException {
@@ -31,11 +30,11 @@ public class XmlComplete {
         ClientSettings.setHost("localhost");
         ClientSettings.setPort(5400);
         ClientSettings.setTimeout(10);
-        ArrayList<FeatureSettings> fs = new ArrayList<FeatureSettings>();
+        ArrayList<FeatureProperties> fs = new ArrayList<FeatureProperties>();
         for (String s : this.fd) {
-            FeatureSettings f = new FeatureSettings();
-            f.setReal_col_name(s);
-            f.setAssosicate_name("Enter name in CSV file");
+            FeatureProperties f = new FeatureProperties();
+            f.setRealName(s);
+            f.setAssociateName("Enter name in CSV file");
             f.setMax(1);
             f.setMin(-1);
             fs.add(f);
@@ -44,8 +43,8 @@ public class XmlComplete {
         XmlWR.WriteToXML(ClientSettings);
     }
 
-    public XmlSettings LoadSettingsFromClient(String path){
-        XmlSettings new_setting = new XmlSettings();
+    public Properties LoadSettingsFromClient(String path){
+        Properties new_setting = new Properties();
         try {
             new_setting = XmlWR.deserializeFromXML(path);
             this.SettingCheck(new_setting);
@@ -53,15 +52,15 @@ public class XmlComplete {
             a.setHeaderText("XML Success");
 //            a.setContentText("Success load the XML settings");
             a.show();
-            this.ClientBackUp = new_setting;
+            this.backup = new_setting;
         } catch (Exception e) {
             // TODO Auto-generated catch block
-            if (this.ClientBackUp != null) {
+            if (this.backup != null) {
                 Alert a = new Alert(AlertType.WARNING);
                 a.setHeaderText("XML Failed");
 //                a.setContentText("Failed load XML settings instead load backup settings");
                 a.showAndWait();
-                return this.ClientBackUp;
+                return this.backup;
             }
             Alert a = new Alert(AlertType.ERROR);
             a.setHeaderText("Failed load XML settings");
@@ -72,9 +71,9 @@ public class XmlComplete {
         return new_setting;
     }
     //|| FeatureSetting.getAssosicate_name().equals("please Enter Title here")
-    public void SettingCheck(XmlSettings xs) throws Exception {
-        for (FeatureSettings FeatureSetting : xs.getAfs()) {
-            if (FeatureSetting.getAssosicate_name().equals("") || FeatureSetting.getAssosicate_name().equals("Enter name in CSV file(Assosicate_name)")  ) {
+    public void SettingCheck(Properties xs) throws Exception {
+        for (FeatureProperties FeatureSetting : xs.getAfs()) {
+            if (FeatureSetting.getAssociateName().equals("") || FeatureSetting.getAssociateName().equals("Enter name in CSV file(Assosicate_name)")  ) {
                 throw new Exception("Missing Assosicate name");
             }
             if (FeatureSetting.getMax() <= FeatureSetting.getMin()) {
@@ -86,7 +85,7 @@ public class XmlComplete {
         }
 
     }
-    public void SaveXml(XmlSettings xs) {
+    public void SaveXml(Properties xs) {
 
         try {
             XmlWR.WriteToXML(xs);

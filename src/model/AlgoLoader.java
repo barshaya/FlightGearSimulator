@@ -13,42 +13,44 @@ import java.util.List;
 public class AlgoLoader implements TimeSeriesAnomalyDetector
 {
 
-    TimeSeriesAnomalyDetector algo;
+    TimeSeriesAnomalyDetector ad;
 
-    public AlgoLoader(String p,String classname) throws MalformedURLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        // TODO Auto-generated constructor stub
+    public AlgoLoader(String p,String classname) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+
         String path =  "file://" + p;
         URL[] urls = new URL[1];
-        urls[0] = new URL(path);
-        URLClassLoader classLoader = new URLClassLoader(urls);
-        Class<?> classInstance = classLoader.loadClass(classname);
-        algo = (TimeSeriesAnomalyDetector)classInstance.newInstance();
+        try {
+            urls[0] = new URL(path);
+            URLClassLoader classLoader = new URLClassLoader(urls);
+            Class<?> classInstance = classLoader.loadClass(classname);
+            ad = (TimeSeriesAnomalyDetector)classInstance.newInstance();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    public TimeSeriesAnomalyDetector getAlgo() {
-        return algo;
+    public TimeSeriesAnomalyDetector getAd() {
+        return ad;
     }
 
-    public void setAlgo(TimeSeriesAnomalyDetector algo) {
-        this.algo = algo;
+    public void setAlgo(TimeSeriesAnomalyDetector ad) {
+        this.ad = ad;
     }
 
     @Override
     public void learnNormal(TimeSeries ts) {
-        // TODO Auto-generated method stub
-        algo.learnNormal(ts);
+        ad.learnNormal(ts);
 
     }
 
     @Override
     public List<AnomalyReport> detect(TimeSeries ts) {
-        // TODO Auto-generated method stub
-        return algo.detect(ts);
+        return ad.detect(ts);
     }
 
     @Override
     public Runnable paint() {
-        // TODO Auto-generated method stub
         return null;
     }
 }

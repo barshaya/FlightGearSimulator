@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <java version="15.0.1" class="java.beans.XMLDecoder">
- <object class="model.XmlSettings">
+ <object class="model.Properties">
   <void property="afs">
    <object class="java.util.ArrayList">
     <void method="add">
-     <object class="model.FeatureSettings">
-      <void property="assosicate_name">
+     <object class="model.FeatureProperties">
+      <void property="associateName">
        <string>Enter name in CSV file</string>
       </void>
       <void property="max">
@@ -14,14 +14,14 @@
       <void property="min">
        <double>-1.0</double>
       </void>
-      <void property="real_col_name">
+      <void property="realName">
        <string>aileron</string>
       </void>
      </object>
     </void>
     <void method="add">
-     <object class="model.FeatureSettings">
-      <void property="assosicate_name">
+     <object class="model.FeatureProperties">
+      <void property="associateName">
        <string>Enter name in CSV file</string>
       </void>
       <void property="max">
@@ -30,14 +30,14 @@
       <void property="min">
        <double>-1.0</double>
       </void>
-      <void property="real_col_name">
+      <void property="realName">
        <string>elevator</string>
       </void>
      </object>
     </void>
     <void method="add">
-     <object class="model.FeatureSettings">
-      <void property="assosicate_name">
+     <object class="model.FeatureProperties">
+      <void property="associateName">
        <string>Enter name in CSV file</string>
       </void>
       <void property="max">
@@ -46,14 +46,14 @@
       <void property="min">
        <double>-1.0</double>
       </void>
-      <void property="real_col_name">
+      <void property="realName">
        <string>rudder</string>
       </void>
      </object>
     </void>
     <void method="add">
-     <object class="model.FeatureSettings">
-      <void property="assosicate_name">
+     <object class="model.FeatureProperties">
+      <void property="associateName">
        <string>Enter name in CSV file</string>
       </void>
       <void property="max">
@@ -62,14 +62,14 @@
       <void property="min">
        <double>-1.0</double>
       </void>
-      <void property="real_col_name">
+      <void property="realName">
        <string>throttle</string>
       </void>
      </object>
     </void>
     <void method="add">
-     <object class="model.FeatureSettings">
-      <void property="assosicate_name">
+     <object class="model.FeatureProperties">
+      <void property="associateName">
        <string>Enter name in CSV file</string>
       </void>
       <void property="max">
@@ -78,14 +78,14 @@
       <void property="min">
        <double>-1.0</double>
       </void>
-      <void property="real_col_name">
+      <void property="realName">
        <string>height</string>
       </void>
      </object>
     </void>
     <void method="add">
-     <object class="model.FeatureSettings">
-      <void property="assosicate_name">
+     <object class="model.FeatureProperties">
+      <void property="associateName">
        <string>Enter name in CSV file</string>
       </void>
       <void property="max">
@@ -94,14 +94,14 @@
       <void property="min">
        <double>-1.0</double>
       </void>
-      <void property="real_col_name">
+      <void property="realName">
        <string>speed</string>
       </void>
      </object>
     </void>
     <void method="add">
-     <object class="model.FeatureSettings">
-      <void property="assosicate_name">
+     <object class="model.FeatureProperties">
+      <void property="associateName">
        <string>Enter name in CSV file</string>
       </void>
       <void property="max">
@@ -110,14 +110,14 @@
       <void property="min">
        <double>-1.0</double>
       </void>
-      <void property="real_col_name">
+      <void property="realName">
        <string>direction</string>
       </void>
      </object>
     </void>
     <void method="add">
-     <object class="model.FeatureSettings">
-      <void property="assosicate_name">
+     <object class="model.FeatureProperties">
+      <void property="associateName">
        <string>Enter name in CSV file</string>
       </void>
       <void property="max">
@@ -126,14 +126,14 @@
       <void property="min">
        <double>-1.0</double>
       </void>
-      <void property="real_col_name">
+      <void property="realName">
        <string>roll</string>
       </void>
      </object>
     </void>
     <void method="add">
-     <object class="model.FeatureSettings">
-      <void property="assosicate_name">
+     <object class="model.FeatureProperties">
+      <void property="associateName">
        <string>Enter name in CSV file</string>
       </void>
       <void property="max">
@@ -142,14 +142,14 @@
       <void property="min">
        <double>-1.0</double>
       </void>
-      <void property="real_col_name">
+      <void property="realName">
        <string>pitch</string>
       </void>
      </object>
     </void>
     <void method="add">
-     <object class="model.FeatureSettings">
-      <void property="assosicate_name">
+     <object class="model.FeatureProperties">
+      <void property="associateName">
        <string>Enter name in CSV file</string>
       </void>
       <void property="max">
@@ -158,7 +158,7 @@
       <void property="min">
        <double>-1.0</double>
       </void>
-      <void property="real_col_name">
+      <void property="realName">
        <string>yaw</string>
       </void>
      </object>

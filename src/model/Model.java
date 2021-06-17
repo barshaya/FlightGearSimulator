@@ -1,19 +1,19 @@
 package model;
 
 import java.util.Observable;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 import algorithms.TimeSeries;
 import algorithms.TimeSeriesAnomalyDetector;
 import viewModel.ViewModel;
 
-public class Model extends Observable implements ModelInterface {
+public class Model extends Observable {
+
+
 	TimeSeries ts;
 	XmlComplete settings;
 	FGConnection fg;
 	TimeSeriesAnomalyDetector ad;
-	XmlSettings ClientSettings;
+	Properties ClientSettings;
 	double aileron ;
 	double elevators;
 	double rudder;
@@ -26,19 +26,24 @@ public class Model extends Observable implements ModelInterface {
 	double height;
 	String line;
 	String flightStatus;
-	ActiveObjectImplement ao;
+	MyActiveObject ao;
 	String connectMessage;
 	double rate;
 	int Time;
 
 
+	public Model() {
+		super();
+		this.ao = new MyActiveObject();
+		this.ao.start();
+	}
 
 	public int getTime() {
 		return Time;
 	}
 
 	public void setTime(int time) {
-		Time = time;
+		this.Time = time;
 	}
 
 	public double getRate() {
@@ -69,11 +74,7 @@ public class Model extends Observable implements ModelInterface {
 		this.notifyObservers("FligthStatus");
 	}
 
-	public Model() {
-		super();
-		this.ao = new ActiveObjectImplement();
-		this.ao.start();
-	}
+
 
 	public String getLine() {
 		return line;
@@ -84,8 +85,7 @@ public class Model extends Observable implements ModelInterface {
 		this.setChanged();
 		this.notifyObservers("line");
 	}
-	
-	
+
 	public double getAileron() {
 		return aileron;
 	}
@@ -95,6 +95,7 @@ public class Model extends Observable implements ModelInterface {
 		this.setChanged();
 		this.notifyObservers("aileron");
 	}
+
 
 	public double getElevators() {
 		return elevators;
@@ -106,6 +107,7 @@ public class Model extends Observable implements ModelInterface {
 		this.notifyObservers("elevators");
 	}
 
+
 	public double getRudder() {
 		return rudder;
 	}
@@ -116,9 +118,11 @@ public class Model extends Observable implements ModelInterface {
 		this.notifyObservers("rudder");
 	}
 
+
 	public double getThrottle() {
 		return throttle;
 	}
+
 
 	public void setThrottle(double throttle) {
 		this.throttle = throttle;
@@ -135,6 +139,7 @@ public class Model extends Observable implements ModelInterface {
 		this.setChanged();
 		this.notifyObservers("pitch");
 	}
+
 
 	public double getYaw() {
 		return yaw;
@@ -194,66 +199,23 @@ public class Model extends Observable implements ModelInterface {
 		return ts;
 	}
 
-	public XmlSettings getClientSettings() {
+	public Properties getClientSettings() {
 		return ClientSettings;
 	}
-	public void setClientSettings(XmlSettings clientSettings) {
+
+	public void setClientSettings(Properties clientSettings) {
 		ClientSettings = clientSettings;
-		//System.out.println(ClientSettings.timeout);
 	}
-	
-	@Override
+
 	public void setTimeSeries(TimeSeries ts) {
 		this.ts=ts;
 		resetValues();
 	}
-	
-	@Override
-	public void stop() {
-		// TODO Auto-generated method stub
-	//	executor.shutdownNow();
-		//executor= Executors.newCachedThreadPool();
-		
-		this.ao.stop();
-		if (fg != null) {
-			fg.CloseSocket();
-			fg = null;
-		}
-		
-		System.out.println("The flight is finish");
-		resetValues();
-	}
 
-	@Override
-	public void pause() {
-		this.ao.pause();
-		
-	}
-
-	@Override
-	public void setAnomalyDetector(TimeSeriesAnomalyDetector ad) {
-		this.ad=ad;
-		
-	}
-
-	@Override
-	public void addObservers(ViewModel viewModel) {
-		this.addObserver(viewModel);
-		
-	}
-
-
-	
-	@Override
-	public void setXmlComplete(XmlComplete c) {
-		this.settings=c;
-	}
-
-	@Override
 	public void play(int start) {
-	if (ao.stop == true) {
-		ao.start();
-	}
+		if (ao.stop == true) {
+			ao.start();
+		}
 		try {
 			if (this.fg == null) {
 				this.fg = new FGConnection(ClientSettings);
@@ -266,12 +228,12 @@ public class Model extends Observable implements ModelInterface {
 					setTime(j);
 					fg.SendCommand(ts.ReadLine(j));
 					try {Thread.sleep((long) (100/rate));} catch (InterruptedException e) {}
-					
+
 				});
 			}
 			ao.execute(()->fg.CloseSocket());
 			ao.execute(()->fg = null);
-			
+
 		}catch (Exception e) {
 			this.setConnectMessage("The FlightGear is not connected");
 			for (int i = start; i < ts.num; i++) {
@@ -285,14 +247,43 @@ public class Model extends Observable implements ModelInterface {
 		}
 		ao.execute(()->resetValues());
 		ao.execute(()->setFlightStatus("No fly"));
+
+	}
+
+	public void stop() {
+		this.ao.stop();
+		if (fg != null) {
+			fg.CloseSocket();
+			fg = null;
+		}
 		
-		
-		
+		System.out.println("The flight is finish");
+		resetValues();
+	}
+
+
+	public void pause() {
+		this.ao.pause();
 		
 	}
+
+
+	public void setAnomalyDetector(TimeSeriesAnomalyDetector ad) {
+		this.ad=ad;
 		
+	}
+
+
+	public void addObservers(ViewModel viewModel) {
+		this.addObserver(viewModel);
 		
-		
+	}
+
+
+	public void setXmlComplete(XmlComplete c) {
+		this.settings=c;
+	}
+
 		
 	public void updateValues(int i) {
 		setAileron(getTs().getValue(getClientSettings().getAssociate("aileron"),i));
@@ -322,7 +313,7 @@ public class Model extends Observable implements ModelInterface {
 		setSpeed(0);
 	}
 
-	@Override
+
 	public void ClearTask() {
 		// TODO Auto-generated method stub
 		ao.ClearTasks();

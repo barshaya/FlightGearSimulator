@@ -163,9 +163,6 @@ public class TimeSeries {
 		}
 		return line;
 	}
-	
-	
-	
 }
 
 

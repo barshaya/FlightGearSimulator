@@ -56,6 +56,10 @@ public class MyButtonsController {
         return this.videoSlider.valueProperty().intValue();
     }
 
+    public Slider getSlider(){
+        return this.videoSlider;
+    }
+
     @FXML public void startFlight() {
         FlightStatus.setValue("Fly");
     }
