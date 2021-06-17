@@ -9,7 +9,6 @@ import viewModel.ViewModel;
 public class Model extends Observable {
 	
 	TimeSeries ts;
-	XmlComplete settings;
 	FGConnection flightGear;
 	TimeSeriesAnomalyDetector tsAnomalyDetector;
 	Properties clientSettings;
@@ -194,7 +193,7 @@ public class Model extends Observable {
 	}
 
 	public void play(int start) {
-		if (this.activeObject.stop == true) {
+		if (this.activeObject.stop) {
 			this.activeObject.start();
 		}
 		try {

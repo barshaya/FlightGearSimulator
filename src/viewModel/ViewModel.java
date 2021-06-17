@@ -30,7 +30,6 @@ public class ViewModel implements Observer {
 	public StringProperty speed=new SimpleStringProperty();
 	public StringProperty direction=new SimpleStringProperty();
 	public StringProperty height=new SimpleStringProperty();
-	public StringProperty line=new SimpleStringProperty();
 	public StringProperty FlightStatus = new SimpleStringProperty();
 	public StringProperty FlightMessage= new SimpleStringProperty();
 	public SimpleDoubleProperty rate = new SimpleDoubleProperty();
@@ -115,7 +114,7 @@ public class ViewModel implements Observer {
 		properties = xmlComplete.LoadSettingsFromClient(name);
 		if (properties != null && properties.getHost() != null && properties.getPort() != 0 && properties.getTimeout() != 0.0) {
 			model.setClientSettings(properties);
-			ArrayList<Double> checkSpeed = new ArrayList<Double>(Arrays.asList(0.25,0.5,0.75,1.0,1.25,1.5,1.75,2.0));
+			ArrayList<Double> checkSpeed = new ArrayList<>(Arrays.asList(0.25,0.5,0.75,1.0,1.25,1.5,1.75,2.0));
 			if (checkSpeed.contains(properties.getTimeout())) {
 				this.rate.setValue(properties.getTimeout());
 			}
@@ -141,7 +140,6 @@ public class ViewModel implements Observer {
 			this.tsAnomalyDetector = null;
 		}
 		if (this.tsAnomalyDetector != null) {
-			System.out.println("");
 			Alert a = new Alert(AlertType.INFORMATION);
 			a.setHeaderText("Success Algo Loading");
 			a.showAndWait();

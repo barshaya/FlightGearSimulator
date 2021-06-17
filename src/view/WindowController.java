@@ -5,17 +5,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import view.buttons.MyButtons;
 import view.graphs.MyGraphs;
 import view.joystick.MyJoystick;
 import view.openfiles.OpenFiles;
 import view.viewlist.MyViewList;
 import viewModel.ViewModel;
-
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
 public class WindowController {
@@ -64,18 +60,18 @@ public class WindowController {
             }
         });
 
-        myButtons.forwardCnt.addListener((o,ov,nv)->{
+        myButtons.forwardCnt.addListener( e ->{
             vm.Forward1();
         });
-        myButtons.forward2Cnt.addListener((o,ov,nv)->{
+        myButtons.forward2Cnt.addListener(e->{
             vm.Forward2();
         });
 
-        myButtons.backwardCnt.addListener((o,ov,nv)->{
+        myButtons.backwardCnt.addListener(e->{
             vm.Backward1();
         });
 
-        myButtons.backward2Cnt.addListener((o,ov,nv)->{
+        myButtons.backward2Cnt.addListener(e->{
             vm.Backward2();
         });
 
