@@ -7,13 +7,12 @@ import algorithms.TimeSeriesAnomalyDetector;
 import viewModel.ViewModel;
 
 public class Model extends Observable {
-
-
+	
 	TimeSeries ts;
 	XmlComplete settings;
-	FGConnection fg;
-	TimeSeriesAnomalyDetector ad;
-	Properties ClientSettings;
+	FGConnection flightGear;
+	TimeSeriesAnomalyDetector tsAnomalyDetector;
+	Properties clientSettings;
 	double aileron ;
 	double elevators;
 	double rudder;
@@ -26,24 +25,23 @@ public class Model extends Observable {
 	double height;
 	String line;
 	String flightStatus;
-	MyActiveObject ao;
-	String connectMessage;
+	MyActiveObject activeObject;
+	String message;
 	double rate;
-	int Time;
-
+	int time;
 
 	public Model() {
 		super();
-		this.ao = new MyActiveObject();
-		this.ao.start();
+		this.activeObject = new MyActiveObject();
+		this.activeObject.start();
 	}
 
 	public int getTime() {
-		return Time;
+		return time;
 	}
 
 	public void setTime(int time) {
-		this.Time = time;
+		this.time = time;
 	}
 
 	public double getRate() {
@@ -55,17 +53,17 @@ public class Model extends Observable {
 	}
 
 	public String getConnectMessage() {
-		return connectMessage;
+		return message;
 	}
 
-	public void setConnectMessage(String connectMessage) {
-		this.connectMessage = connectMessage;
+	public void setConnectMessage(String message) {
+		this.message = message;
 		this.setChanged();
 		this.notifyObservers("flightMessage");
 	}
 
 	public String getFlightStatus() {
-		return flightStatus;
+		return this.flightStatus;
 	}
 
 	public void setFlightStatus(String flightStatus) {
@@ -74,20 +72,12 @@ public class Model extends Observable {
 		this.notifyObservers("FligthStatus");
 	}
 
-
-
 	public String getLine() {
-		return line;
-	}
-	
-	public void setLine(String line) {
-		this.line = line;
-		this.setChanged();
-		this.notifyObservers("line");
+		return this.line;
 	}
 
 	public double getAileron() {
-		return aileron;
+		return this.aileron;
 	}
 
 	public void setAileron(double aileron) {
@@ -95,7 +85,6 @@ public class Model extends Observable {
 		this.setChanged();
 		this.notifyObservers("aileron");
 	}
-
 
 	public double getElevators() {
 		return elevators;
@@ -107,7 +96,6 @@ public class Model extends Observable {
 		this.notifyObservers("elevators");
 	}
 
-
 	public double getRudder() {
 		return rudder;
 	}
@@ -118,11 +106,9 @@ public class Model extends Observable {
 		this.notifyObservers("rudder");
 	}
 
-
 	public double getThrottle() {
 		return throttle;
 	}
-
 
 	public void setThrottle(double throttle) {
 		this.throttle = throttle;
@@ -139,7 +125,6 @@ public class Model extends Observable {
 		this.setChanged();
 		this.notifyObservers("pitch");
 	}
-
 
 	public double getYaw() {
 		return yaw;
@@ -162,7 +147,7 @@ public class Model extends Observable {
 	}
 
 	public double getSpeed() {
-		return speed;
+		return this.speed;
 	}
 
 	public void setSpeed(double speed) {
@@ -172,7 +157,7 @@ public class Model extends Observable {
 	}
 
 	public double getRoll() {
-		return roll;
+		return this.roll;
 	}
 
 	public void setRoll(double roll) {
@@ -181,18 +166,14 @@ public class Model extends Observable {
 		this.notifyObservers("roll");
 	}
 
-	public double getHeigth() {
-		return height;
+	public double getHeight() {
+		return this.height;
 	}
 
-	public void setHeigth(double height) {
+	public void setHeight(double height) {
 		this.height = height;
 		this.setChanged();
 		this.notifyObservers("heigth");
-	}
-
-	public FGConnection getFg() {
-		return fg;
 	}
 
 	public TimeSeries getTs() {
@@ -200,11 +181,11 @@ public class Model extends Observable {
 	}
 
 	public Properties getClientSettings() {
-		return ClientSettings;
+		return clientSettings;
 	}
 
 	public void setClientSettings(Properties clientSettings) {
-		ClientSettings = clientSettings;
+		this.clientSettings = clientSettings;
 	}
 
 	public void setTimeSeries(TimeSeries ts) {
@@ -213,120 +194,93 @@ public class Model extends Observable {
 	}
 
 	public void play(int start) {
-		if (ao.stop == true) {
-			ao.start();
+		if (this.activeObject.stop == true) {
+			this.activeObject.start();
 		}
 		try {
-			if (this.fg == null) {
-				this.fg = new FGConnection(ClientSettings);
+			if (this.flightGear == null) {
+				this.flightGear = new FGConnection(clientSettings);
 			}
-			this.setConnectMessage("");
+			this.setConnectMessage("FlightGear is connected!");
 			for (int i = start; i < ts.num; i++) {
 				final int j = i;
-				ao.execute(()->{
+				activeObject.execute(()->{
 					updateValues(j);
 					setTime(j);
-					fg.SendCommand(ts.ReadLine(j));
+					flightGear.SendCommand(ts.ReadLine(j));
 					try {Thread.sleep((long) (100/rate));} catch (InterruptedException e) {}
-
 				});
 			}
-			ao.execute(()->fg.CloseSocket());
-			ao.execute(()->fg = null);
+			activeObject.execute(()->flightGear.CloseSocket());
+			activeObject.execute(()->flightGear = null);
 
-		}catch (Exception e) {
-			this.setConnectMessage("The FlightGear is not connected");
+		} catch (Exception e) {
+			this.setConnectMessage("FlightGear is not connected!");
 			for (int i = start; i < ts.num; i++) {
 				final int j = i;
-				ao.execute(()->{
+				activeObject.execute(()->{
 					updateValues(j);
 					setTime(j);
 					try {Thread.sleep((long) (100/rate));} catch (InterruptedException ex) {}
 				});
 			}
 		}
-		ao.execute(()->resetValues());
-		ao.execute(()->setFlightStatus("No fly"));
+		activeObject.execute(()->resetValues());
+		activeObject.execute(()->setFlightStatus("No fly"));
+	}
 
+	public void pause() {
+		this.activeObject.pause();
 	}
 
 	public void stop() {
-		this.ao.stop();
-		if (fg != null) {
-			fg.CloseSocket();
-			fg = null;
+		this.activeObject.stop();
+		if (flightGear != null) {
+			flightGear.CloseSocket();
+			flightGear = null;
 		}
-		
-		System.out.println("The flight is finish");
+		System.out.println("Flight Stop");
 		resetValues();
 	}
 
-
-	public void pause() {
-		this.ao.pause();
-		
+	public void setAnomalyDetector(TimeSeriesAnomalyDetector tsAnomalyDetector) {
+		this.tsAnomalyDetector = tsAnomalyDetector;
 	}
-
-
-	public void setAnomalyDetector(TimeSeriesAnomalyDetector ad) {
-		this.ad=ad;
-		
-	}
-
 
 	public void addObservers(ViewModel viewModel) {
 		this.addObserver(viewModel);
-		
 	}
 
-
-	public void setXmlComplete(XmlComplete c) {
-		this.settings=c;
-	}
-
-		
 	public void updateValues(int i) {
-		setAileron(getTs().getValue(getClientSettings().getAssociate("aileron"),i));
-		setElevators(getTs().getValue(getClientSettings().getAssociate("elevator"),i));
-		setRudder(getTs().getValue(getClientSettings().getAssociate("rudder"), i));
-		setThrottle(getTs().getValue(getClientSettings().getAssociate("throttle"), i));
-		setYaw(getTs().getValue(getClientSettings().getAssociate("yaw"), i));
-		setPitch(getTs().getValue(getClientSettings().getAssociate("pitch"), i));
-		setRoll(getTs().getValue(getClientSettings().getAssociate("roll"), i));
-		setHeigth(getTs().getValue(getClientSettings().getAssociate("heigth"), i));
-		setDirection(getTs().getValue(getClientSettings().getAssociate("direction"), i));
-		setSpeed(getTs().getValue(getClientSettings().getAssociate("speed"), i));
+		setThrottle(getTs().getValue(getClientSettings().getAssociateName("throttle"), i));
+		setYaw(getTs().getValue(getClientSettings().getAssociateName("yaw"), i));
+		setPitch(getTs().getValue(getClientSettings().getAssociateName("pitch"), i));
+		setRoll(getTs().getValue(getClientSettings().getAssociateName("roll"), i));
+		setAileron(getTs().getValue(getClientSettings().getAssociateName("aileron"),i));
+		setElevators(getTs().getValue(getClientSettings().getAssociateName("elevator"),i));
+		setRudder(getTs().getValue(getClientSettings().getAssociateName("rudder"), i));
+		setHeight(getTs().getValue(getClientSettings().getAssociateName("heigth"), i));
+		setDirection(getTs().getValue(getClientSettings().getAssociateName("direction"), i));
+		setSpeed(getTs().getValue(getClientSettings().getAssociateName("speed"), i));
 	}
-	
+
 	public void resetValues() {
-		double x = (this.ClientSettings.getSetting("aileron").getMax()+this.ClientSettings.getSetting("aileron").getMin())/2;
-		setAileron(x);
-		x=(this.ClientSettings.getSetting("elevator").getMax()+this.ClientSettings.getSetting("elevator").getMin())/2;
+		double x=(this.clientSettings.getSetting("elevator").getMin() + this.clientSettings.getSetting("elevator").getMax())/2;
 		setElevators(x);
+		x = (this.clientSettings.getSetting("aileron").getMin() + this.clientSettings.getSetting("aileron").getMax())/2;
+		setPitch(0);
+		setRoll(0);
+		setHeight(0);
+		setDirection(0);
+		setSpeed(0);
+		setAileron(x);
 		setRudder(0);
 		setThrottle(0);
 		setYaw(0);
-		setPitch(0);
-		setRoll(0);
-		setHeigth(0);
-		setDirection(0);
-		setSpeed(0);
 	}
 
-
-	public void ClearTask() {
+	public void ClearTasks() {
 		// TODO Auto-generated method stub
-		ao.ClearTasks();
-		
+		activeObject.ClearTasks();
 	}
-
-
-
-
-
-
-
-
-
-
 }

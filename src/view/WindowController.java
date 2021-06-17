@@ -18,8 +18,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
-public class WindowController implements Initializable {
-
+public class WindowController {
 
     ViewModel vm;
 
@@ -33,13 +32,6 @@ public class WindowController implements Initializable {
     @FXML MyButtons myButtons;
 
     @FXML OpenFiles openFiles;
-
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-    }
-
-
 
     @SuppressWarnings("unchecked")
     public void init(ViewModel vm2) {
@@ -104,8 +96,6 @@ public class WindowController implements Initializable {
             vm.setTimeStemp((int)myButtons.myButtonsController.getSlider().getValue());
         });
 
-
-
         vm.rate.bindBidirectional(myButtons.videoSpeed.valueProperty());
         myButtons.videoSpeed.valueProperty().addListener((o,ov,nv)->{
             myButtons.videoSpeed.setValue(nv);
@@ -114,7 +104,7 @@ public class WindowController implements Initializable {
         myButtons.FlightGear.textProperty().bind(vm.FlightMessage);
         myButtons.FlightStatus.addListener((o,ov,nv)->{
             if (((String)nv).equals("Fly")) {
-                this.vm.StartFligt(0);
+                this.vm.StartFlight(0);
             }
             else if (((String)nv).equals("not Fly")) {
                 this.vm.stopFlight();
@@ -136,6 +126,7 @@ public class WindowController implements Initializable {
             nv=myJoystick.NormlaizeJoystic((double)nv ,maxA,minA,a,b);
             myJoystick.joyCircle.setLayoutX((double) nv);
         });
+
         myJoystick.elevators.bind(this.vm.elevators);
         myJoystick.elevators.addListener((o,ov,nv)->{
             double maxE = this.vm.getXs().getSetting("elevator").getMax();
@@ -148,22 +139,19 @@ public class WindowController implements Initializable {
 
         myJoystick.rudder.bind(this.vm.rudder);
         myJoystick.throttle.bind(this.vm.throttle);
-
-        myJoystick.AltitudeValue.textProperty().bind(this.vm.heigth);
-        myJoystick.DirectionValue.textProperty().bind(this.vm.direction);
-        myJoystick.PitchValue.textProperty().bind(this.vm.pitch);
         myJoystick.RollValue.textProperty().bind(this.vm.roll);
         myJoystick.speedValue.textProperty().bind(this.vm.speed);
         myJoystick.yawValue.textProperty().bind(this.vm.yaw);
         myButtons.videoSlider.bindBidirectional(this.vm.videoslider);
-
-
+        myJoystick.AltitudeValue.textProperty().bind(this.vm.height);
+        myJoystick.DirectionValue.textProperty().bind(this.vm.direction);
+        myJoystick.PitchValue.textProperty().bind(this.vm.pitch);
     }
 
     public String toStringTime(Double object) {
         long seconds = object.longValue();
         long minutes = TimeUnit.SECONDS.toMinutes(seconds);
-        long remainingseconds = seconds - TimeUnit.MINUTES.toSeconds(minutes);
-        return String.format("%02d", minutes) + ":" + String.format("%02d", remainingseconds);
+        long remainingSeconds = seconds - TimeUnit.MINUTES.toSeconds(minutes);
+        return String.format("%02d", minutes) + ":" + String.format("%02d", remainingSeconds);
     }
 }

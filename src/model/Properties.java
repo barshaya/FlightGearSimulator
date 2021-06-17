@@ -47,7 +47,7 @@ public class Properties implements Serializable{
 
     }
 
-    public String getAssociate(String realName) {
+    public String getAssociateName(String realName) {
         for (FeatureProperties featureProperties : afs) {
             if (featureProperties.getRealName().equals(realName)) {
                 return featureProperties.getAssociateName();
