@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import view.buttons.MyButtons;
+import view.buttons.MyButtonsController;
 import view.graphs.MyGraphs;
 import view.joystick.MyJoystick;
 import view.openfiles.OpenFiles;
@@ -38,8 +39,6 @@ public class WindowController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
-
-
 
     @SuppressWarnings("unchecked")
     public void init(ViewModel vm2) {
@@ -98,11 +97,8 @@ public class WindowController implements Initializable {
                 String currTime = toStringTime(myButtons.videoSlider.doubleValue());
                 myButtons.VideoTime.textProperty().setValue(
                         currTime);
-                vm.setTime(newValue.intValue());
             }
         });
-
-
 
         vm.rate.bindBidirectional(myButtons.videoSpeed.valueProperty());
         myButtons.videoSpeed.valueProperty().addListener((o,ov,nv)->{

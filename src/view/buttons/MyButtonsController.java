@@ -1,5 +1,7 @@
 package view.buttons;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
 import javafx.beans.property.DoubleProperty;
@@ -7,6 +9,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -47,7 +50,10 @@ public class MyButtonsController {
         backwardCnt = new SimpleDoubleProperty();
         backward2Cnt = new SimpleDoubleProperty();
         videoSlider = new Slider();
-        videoSlider.setMax(1000);
+    }
+
+    public int getTime () {
+        return this.videoSlider.valueProperty().intValue();
     }
 
     @FXML public void startFlight() {
@@ -94,4 +100,6 @@ public class MyButtonsController {
         backward2Cnt.setValue(f++);
         FlightStatus.set("skip");
     }
+
+
 }

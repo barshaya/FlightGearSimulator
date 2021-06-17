@@ -33,6 +33,7 @@ public class MyButtons extends AnchorPane {
     public SimpleDoubleProperty forward2Cnt;
     public SimpleDoubleProperty backwardCnt;
     public SimpleDoubleProperty backward2Cnt;
+    public MyButtonsController myButtonsController;
 
 
     public MyButtons() {
@@ -40,7 +41,7 @@ public class MyButtons extends AnchorPane {
         try {
             FXMLLoader fxl = new FXMLLoader();
             AnchorPane Buttons = fxl.load(getClass().getResource("MyButtons.fxml").openStream());
-            MyButtonsController myButtonsController = fxl.getController();
+            myButtonsController = fxl.getController();
             back = myButtonsController.back;
             doubleback = myButtonsController.doubleback;
             doubleforward = myButtonsController.doubleforward;

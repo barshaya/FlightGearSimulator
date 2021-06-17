@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.event.ActionEvent?>
 
 <AnchorPane prefHeight="113.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.buttons.MyButtonsController">
     <children>
@@ -17,7 +18,7 @@
         <Button fx:id="doubleforward" layoutX="538.0" layoutY="14.0" mnemonicParsing="false" onAction="#SkipForwardDouble" prefHeight="26.0" prefWidth="76.0" text="&gt;&gt;" />
         <Label layoutX="660.0" layoutY="19.0" prefHeight="18.0" prefWidth="66.0" text="Flight Speed" />
         <ChoiceBox fx:id="videoSpeed" layoutX="752.0" layoutY="15.0" prefHeight="25.0" prefWidth="126.0" />
-        <Slider fx:id="videoSlider" layoutX="21.0" layoutY="63.0" prefHeight="14.0" prefWidth="788.0" max="2174"/>
+        <Slider fx:id="videoSlider" layoutX="21.0" layoutY="63.0" prefHeight="14.0" prefWidth="788.0"/>
         <Label fx:id="VideoTime" layoutX="815.0" layoutY="61.0" prefHeight="17.0" prefWidth="45.0" text="00:00" />
         <Label fx:id="FlightGear" layoutX="288.0" layoutY="90.0" prefHeight="18.0" prefWidth="253.0" textFill="#ef0808" />
 
