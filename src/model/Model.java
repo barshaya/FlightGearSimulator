@@ -252,16 +252,16 @@ public class Model extends Observable {
 	}
 
 	public void updateValues(int i) {
-		setThrottle(getTs().getValue(getClientSettings().getAssociateName("throttle"), i));
-		setYaw(getTs().getValue(getClientSettings().getAssociateName("yaw"), i));
-		setPitch(getTs().getValue(getClientSettings().getAssociateName("pitch"), i));
-		setRoll(getTs().getValue(getClientSettings().getAssociateName("roll"), i));
-		setAileron(getTs().getValue(getClientSettings().getAssociateName("aileron"),i));
-		setElevators(getTs().getValue(getClientSettings().getAssociateName("elevator"),i));
-		setRudder(getTs().getValue(getClientSettings().getAssociateName("rudder"), i));
-		setHeight(getTs().getValue(getClientSettings().getAssociateName("heigth"), i));
-		setDirection(getTs().getValue(getClientSettings().getAssociateName("direction"), i));
-		setSpeed(getTs().getValue(getClientSettings().getAssociateName("speed"), i));
+		setThrottle(getTs().getValue(getClientSettings().getAssociate("throttle"), i));
+		setYaw(getTs().getValue(getClientSettings().getAssociate("yaw"), i));
+		setPitch(getTs().getValue(getClientSettings().getAssociate("pitch"), i));
+		setRoll(getTs().getValue(getClientSettings().getAssociate("roll"), i));
+		setAileron(getTs().getValue(getClientSettings().getAssociate("aileron"),i));
+		setElevators(getTs().getValue(getClientSettings().getAssociate("elevator"),i));
+		setRudder(getTs().getValue(getClientSettings().getAssociate("rudder"), i));
+		setHeight(getTs().getValue(getClientSettings().getAssociate("heigth"), i));
+		setDirection(getTs().getValue(getClientSettings().getAssociate("direction"), i));
+		setSpeed(getTs().getValue(getClientSettings().getAssociate("speed"), i));
 	}
 
 	public void resetValues() {

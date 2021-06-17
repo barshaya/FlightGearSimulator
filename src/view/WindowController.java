@@ -59,7 +59,7 @@ public class WindowController implements Initializable {
 
         openFiles.csvpath.addListener((o,ov,nv)->{
             this.vm.loadCsv(nv);
-            ArrayList<String> titles =  this.vm.getColTitels();
+            ArrayList<String> titles =  this.vm.getColTitles();
             if (titles != null) {
                 ObservableList<String> list = FXCollections.observableArrayList(titles);
                 viewlist.list.setItems(list);
@@ -114,7 +114,7 @@ public class WindowController implements Initializable {
         myButtons.FlightGear.textProperty().bind(vm.FlightMessage);
         myButtons.FlightStatus.addListener((o,ov,nv)->{
             if (((String)nv).equals("Fly")) {
-                this.vm.StartFligt(0);
+                this.vm.StartFlight(0);
             }
             else if (((String)nv).equals("not Fly")) {
                 this.vm.stopFlight();
@@ -149,7 +149,7 @@ public class WindowController implements Initializable {
         myJoystick.rudder.bind(this.vm.rudder);
         myJoystick.throttle.bind(this.vm.throttle);
 
-        myJoystick.AltitudeValue.textProperty().bind(this.vm.heigth);
+        myJoystick.AltitudeValue.textProperty().bind(this.vm.height);
         myJoystick.DirectionValue.textProperty().bind(this.vm.direction);
         myJoystick.PitchValue.textProperty().bind(this.vm.pitch);
         myJoystick.RollValue.textProperty().bind(this.vm.roll);
