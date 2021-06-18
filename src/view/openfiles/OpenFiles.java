@@ -6,8 +6,6 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import view.viewlist.MyViewListController;
 
 public class OpenFiles extends AnchorPane{
 

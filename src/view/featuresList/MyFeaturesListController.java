@@ -1,16 +1,15 @@
-package view.viewlist;
+package view.featuresList;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 
-public class MyViewListController {
+public class MyFeaturesListController {
 
         @FXML
         ListView listView;
@@ -21,7 +20,7 @@ public class MyViewListController {
         StringProperty XmlPath;
 
 
-        public MyViewListController() {
+        public MyFeaturesListController() {
                 super();
                 XmlPath = new SimpleStringProperty();
         }

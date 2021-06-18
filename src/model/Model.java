@@ -4,6 +4,8 @@ import java.util.Observable;
 
 import algorithms.TimeSeries;
 import algorithms.TimeSeriesAnomalyDetector;
+import javafx.application.Platform;
+import javafx.scene.chart.XYChart;
 import viewModel.ViewModel;
 
 public class Model extends Observable {
@@ -42,6 +44,7 @@ public class Model extends Observable {
 
 	public void setTime(int time) {
 		this.time = time;
+		System.out.println(time);
 	}
 
 	public double getRate() {
@@ -277,6 +280,24 @@ public class Model extends Observable {
 		setRudder(0);
 		setThrottle(0);
 		setYaw(0);
+	}
+
+	public void addValueAtTime(String attribute, XYChart.Series s) {
+		Platform.runLater(()->{
+			double temp = ts.getValue(attribute,time);
+			s.getData().add(new XYChart.Data(time, temp));
+		});
+	}
+	public void addValueUntilTime(String attribute, XYChart.Series s) {
+		Platform.runLater(()->{
+			s.getData().clear();
+			for(int i=1;i<time;i++){
+				float temp = ts.getValue(attribute,time);
+				s.getData().add(new XYChart.Data(time, temp));
+
+			}
+
+		});
 	}
 
 	public void ClearTasks() {

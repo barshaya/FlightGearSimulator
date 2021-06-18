@@ -4,7 +4,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.viewlist.MyViewListController">
+<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.featuresList.MyFeaturesListController">
     <!-- TODO Add Nodes -->
     <children>
         <ListView fx:id="listView" layoutX="3.0" layoutY="33.0" prefHeight="351.0" prefWidth="200.0" />

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.layout.BorderPane?>
 <?import view.joystick.MyJoystick?>
-<?import view.viewlist.MyViewList?>
+<?import view.featuresList.MyFeaturesList?>
 <?import view.graphs.MyGraphs?>
 <?import view.openfiles.OpenFiles?>
 <?import view.buttons.MyButtons?>
@@ -13,11 +13,11 @@
     </top>
 
     <left>
-        <MyViewList fx:id="viewlist"></MyViewList>
+        <MyFeaturesList fx:id="viewlist"></MyFeaturesList>
     </left>
 
     <center>
-        <MyGraphs fx:id="Graph"></MyGraphs>
+        <MyGraphs fx:id="myGraphs"></MyGraphs>
     </center>
     <right>
         <MyJoystick fx:id="myJoystick"></MyJoystick>

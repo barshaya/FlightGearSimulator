@@ -8,11 +8,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.XYChart;
 import view.buttons.MyButtons;
 import view.graphs.MyGraphs;
 import view.joystick.MyJoystick;
 import view.openfiles.OpenFiles;
-import view.viewlist.MyViewList;
+import view.featuresList.MyFeaturesList;
 import viewModel.ViewModel;
 
 import java.net.URL;
@@ -22,21 +23,26 @@ import java.util.concurrent.TimeUnit;
 
 public class WindowController implements Initializable {
 
+    @FXML
+    MyJoystick myJoystick;
 
-    ViewModel vm;
+    @FXML
+    MyFeaturesList viewlist;
 
-    @FXML MyJoystick myJoystick;
-
-    @FXML MyViewList viewlist;
-
-    @FXML MyGraphs Graph;
-
+    @FXML MyGraphs myGraphs;
 
     @FXML MyButtons myButtons;
 
     @FXML OpenFiles openFiles;
 
+    ViewModel vm;
+
+
     private StringProperty selectedName;
+    private XYChart.Series seriesPointA;
+    private XYChart.Series seriesPointB;
+    private XYChart.Series seriesPointAnomaly;
+    private XYChart.Series seriesTimeAnomaly;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -44,12 +50,12 @@ public class WindowController implements Initializable {
 
 
 
+
     @SuppressWarnings("unchecked")
     public void init(ViewModel vm2) {
         // TODO Auto-generated method stub
         this.vm = vm2;
-
-        MyViewList.xmlpath.addListener((o,ov,nv)->{
+        MyFeaturesList.xmlpath.addListener((o, ov, nv)->{
             this.vm.loadXml(nv);
             if (vm.getXs() != null) {
                 double maxR = this.vm.getXs().getSetting("rudder").getMax();
@@ -63,10 +69,12 @@ public class WindowController implements Initializable {
 
         selectedName=new SimpleStringProperty("");
 
-        MyViewList.list.getSelectionModel().selectedItemProperty().addListener((o, ov, nv)->{
-            String selected=   MyViewList.list.getSelectionModel().getSelectedItem().toString();
+        MyFeaturesList.list.getSelectionModel().selectedItemProperty().addListener((o, ov, nv)->{
+            String selected=   MyFeaturesList.list.getSelectionModel().getSelectedItem().toString();
             selectedName.setValue(selected);
         });
+
+
 
 
 
@@ -77,12 +85,13 @@ public class WindowController implements Initializable {
                 ObservableList<String> list = FXCollections.observableArrayList(titles);
                 viewlist.list.setItems(list);
             }
+
         });
 
         openFiles.algoname.addListener((o,ov,nv)->{
             this.vm.loadAnomalyAlgo(openFiles.algopath.get(), nv);
             if (this.vm.getAd() !=null) {
-                Graph.Bchart.setTitle(nv.substring(11));
+                myGraphs.Bchart.setTitle(nv.substring(11));
             }
         });
 
@@ -169,6 +178,25 @@ public class WindowController implements Initializable {
         myJoystick.speedValue.textProperty().bind(this.vm.speed);
         myJoystick.yawValue.textProperty().bind(this.vm.yaw);
         myButtons.videoSlider.bindBidirectional(this.vm.videoslider);
+
+
+        seriesPointA= new XYChart.Series();
+        seriesPointB= new XYChart.Series();
+        seriesPointAnomaly= new XYChart.Series();
+        seriesTimeAnomaly= new XYChart.Series();
+
+        myGraphs.Fchart.getData().add(seriesPointA);
+        myGraphs.CorChart.getData().add(seriesPointB);
+        myGraphs.Bchart.getData().addAll(seriesPointAnomaly,seriesTimeAnomaly);
+            selectedName.addListener((o,nv,ov)->{
+                if((!(selectedName.getValue().equals("")))&&nv.equals(ov)){
+                    this.vm.getModel().addValueAtTime(selectedName.getValue(),seriesPointA);
+                }
+                else if(!nv.equals(ov)){
+                    this.vm.getModel().addValueUntilTime(selectedName.getValue(),seriesPointA);
+                }
+            });
+
 
 
     }

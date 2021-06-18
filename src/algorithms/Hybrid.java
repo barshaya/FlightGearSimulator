@@ -147,9 +147,5 @@ public class HybridAnomaly implements TimeSeriesAnomalyDetector
 		}
 		return minimumCircle;
     }
-	@Override
-	public Runnable paint() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 }

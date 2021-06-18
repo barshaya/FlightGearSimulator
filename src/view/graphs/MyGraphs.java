@@ -10,10 +10,10 @@ import javafx.scene.layout.BorderPane;
 public class MyGraphs extends AnchorPane
 {
 
-    public BubbleChart Bchart;
-    public LineChart CorChart;
-    public LineChart Fchart;
-
+    public BubbleChart <Number,Number> Bchart;
+    public LineChart <Number,Number> CorChart;
+    public LineChart  <Number,Number> Fchart;
+    MyGraphController myGraphController;
 
 
     public MyGraphs() {
@@ -21,10 +21,10 @@ public class MyGraphs extends AnchorPane
         try {
             FXMLLoader fxl = new FXMLLoader();
             AnchorPane graph = fxl.load(getClass().getResource("MyGraphs.fxml").openStream());
-            MyGraphController myGraphController = fxl.getController();
-            Bchart = myGraphController.algoChart;
-            CorChart = myGraphController.CorrelatedChart;
-            Fchart = myGraphController.FeatureChart;
+            myGraphController = fxl.getController();
+            Bchart = myGraphController.Bchart;
+            CorChart = myGraphController.CorChart;
+            Fchart = myGraphController.Fchart;
 
 
 
@@ -38,6 +38,40 @@ public class MyGraphs extends AnchorPane
 
 
     }
+    public MyGraphController getMyGraphController() {
+        return myGraphController;
+    }
+
+    public void setMyGraphController(MyGraphController myGraphController) {
+        this.myGraphController = myGraphController;
+    }
+
+/*
+    public BubbleChart getBchart() {
+        return Bchart;
+    }
+
+    public void setBchart(BubbleChart bchart) {
+        Bchart = bchart;
+    }
+
+    public LineChart getCorChart() {
+        return CorChart;
+    }
+
+    public void setCorChart(LineChart corChart) {
+        CorChart = corChart;
+    }
+
+    public LineChart getFchart() {
+        return Fchart;
+    }
+
+    public void setFchart(LineChart fchart) {
+        Fchart = fchart;
+    }*/
+
+
 
 }
 
