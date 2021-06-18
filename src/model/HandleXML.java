@@ -1,19 +1,25 @@
 package model;
 
+import java.beans.ExceptionListener;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-public class XmlComplete {
+public class HandleXML {
     ViewNameLoader LoadRealNames ;
     Properties ClientSettings;
     String stringPath;
     ArrayList<String> fd;
     Properties backup;
 
-    public XmlComplete() {
+    public HandleXML() {
         // TODO Auto-generated constructor stub
         LoadRealNames = new ViewNameLoader();
         ClientSettings = new Properties();
@@ -40,17 +46,17 @@ public class XmlComplete {
             fs.add(f);
         }
         ClientSettings.setAfs(fs);
-        XmlWR.WriteToXML(ClientSettings);
+        WriteToXML(ClientSettings);
     }
 
     public Properties LoadSettingsFromClient(String path){
         Properties new_setting = new Properties();
         try {
-            new_setting = XmlWR.deserializeFromXML(path);
+            new_setting = deserializeFromXML(path);
             this.SettingCheck(new_setting);
             Alert a = new Alert(AlertType.INFORMATION);
-            a.setHeaderText("XML Success");
-//            a.setContentText("Success load the XML settings");
+            a.setHeaderText("XML Uploaded");
+            a.setContentText("please upload CSV file");
             a.show();
             this.backup = new_setting;
         } catch (Exception e) {
@@ -58,23 +64,21 @@ public class XmlComplete {
             if (this.backup != null) {
                 Alert a = new Alert(AlertType.WARNING);
                 a.setHeaderText("XML Failed");
-//                a.setContentText("Failed load XML settings instead load backup settings");
                 a.showAndWait();
                 return this.backup;
             }
             Alert a = new Alert(AlertType.ERROR);
             a.setHeaderText("Failed load XML settings");
-//            a.setContentText("Failed load XML settings");
             a.showAndWait();
             new_setting = null;
         }
         return new_setting;
     }
-    //|| FeatureSetting.getAssosicate_name().equals("please Enter Title here")
+
     public void SettingCheck(Properties xs) throws Exception {
         for (FeatureProperties FeatureSetting : xs.getAfs()) {
             if (FeatureSetting.getAssociateName().equals("") || FeatureSetting.getAssociateName().equals("Enter name in CSV file(Assosicate_name)")  ) {
-                throw new Exception("Missing Assosicate name");
+                throw new Exception("Missing Associate name");
             }
             if (FeatureSetting.getMax() <= FeatureSetting.getMin()) {
                 throw new Exception("Invalid min max Values");
@@ -83,12 +87,16 @@ public class XmlComplete {
         if (xs.timeout == 0.0) {
             throw new Exception("Invalid timeout Value");
         }
+        ArrayList<Double> checkSpeed = new ArrayList<Double>(Arrays.asList(0.25,0.5,0.75,1.0,1.25,1.5,1.75,2.0));
+        if (!(checkSpeed.contains(xs.getTimeout()))) {
+            throw new Exception("Wrong speed");
+        }
 
     }
     public void SaveXml(Properties xs) {
 
         try {
-            XmlWR.WriteToXML(xs);
+            WriteToXML(xs);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             System.out.println("file could not save");
@@ -96,4 +104,28 @@ public class XmlComplete {
     }
 
 
+
+    public static void WriteToXML (Properties settings) throws IOException
+    {
+        FileOutputStream fos = new FileOutputStream("resources/wrongSpeed.xml");
+        XMLEncoder encoder = new XMLEncoder(fos);
+        encoder.setExceptionListener(new ExceptionListener() {
+            public void exceptionThrown(Exception e) {
+                System.out.println("Exception! :"+e.toString());
+            }
+        });
+        encoder.writeObject(settings);
+        encoder.close();
+        fos.close();
+    }
+
+
+    public static Properties deserializeFromXML(String path) throws Exception{
+        FileInputStream fis = new FileInputStream(path);
+        XMLDecoder decoder = new XMLDecoder(fis);
+        Properties decodedSettings = (Properties) decoder.readObject();
+        decoder.close();
+        fis.close();
+        return decodedSettings;
+    }
 }

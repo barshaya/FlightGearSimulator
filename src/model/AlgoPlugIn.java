@@ -10,12 +10,12 @@ import java.net.URLClassLoader;
 import java.util.List;
 
 
-public class AlgoLoader implements TimeSeriesAnomalyDetector
+public class AlgoPlugIn implements TimeSeriesAnomalyDetector
 {
 
     TimeSeriesAnomalyDetector ad;
 
-    public AlgoLoader(String p,String classname) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    public AlgoPlugIn(String p, String classname) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
 
         String path =  "file://" + p;
         URL[] urls = new URL[1];
