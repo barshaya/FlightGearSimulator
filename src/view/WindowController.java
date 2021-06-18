@@ -1,5 +1,7 @@
 package view;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -34,6 +36,7 @@ public class WindowController implements Initializable {
 
     @FXML OpenFiles openFiles;
 
+    private StringProperty selectedName;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -56,6 +59,16 @@ public class WindowController implements Initializable {
                 myJoystick.SetMaxMinForSliders(maxR, minR, maxT, minT);
             }
         });
+
+
+        selectedName=new SimpleStringProperty("");
+
+        MyViewList.list.getSelectionModel().selectedItemProperty().addListener((o, ov, nv)->{
+            String selected=   MyViewList.list.getSelectionModel().getSelectedItem().toString();
+            selectedName.setValue(selected);
+        });
+
+
 
         openFiles.csvpath.addListener((o,ov,nv)->{
             this.vm.loadCsv(nv);

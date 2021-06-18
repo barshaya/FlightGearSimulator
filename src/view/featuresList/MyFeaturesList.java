@@ -10,7 +10,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 
 public class MyViewList extends AnchorPane {
-    public ListView list;
+    public static ListView list;
     public Button xml;
     public static StringProperty xmlpath;
 

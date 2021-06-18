@@ -39,13 +39,13 @@ public class ViewModel implements Observer {
 	TimeSeries ts;
 	TimeSeriesAnomalyDetector tsAnomalyDetector;
 	Properties properties;
-	XmlComplete xmlComplete;
+	HandleXML handlexml;
 
 
 	public ViewModel(Model m) {
 		super();
 		this.model = m;
-		xmlComplete = new XmlComplete();
+		handlexml = new HandleXML();
 		m.addObservers(this);
 		rate.addListener((o,ov,nv)->m.setRate(nv.doubleValue()));
 	}
@@ -112,7 +112,7 @@ public class ViewModel implements Observer {
 
 	public void loadXml(String name) {
 		// TODO Auto-generated method stub
-		properties = xmlComplete.LoadSettingsFromClient(name);
+		properties = handlexml.LoadSettingsFromClient(name);
 		if (properties != null && properties.getHost() != null && properties.getPort() != 0 && properties.getTimeout() != 0.0) {
 			model.setClientSettings(properties);
 			ArrayList<Double> checkSpeed = new ArrayList<Double>(Arrays.asList(0.25,0.5,0.75,1.0,1.25,1.5,1.75,2.0));
@@ -132,7 +132,7 @@ public class ViewModel implements Observer {
 	public void loadAnomalyAlgo(String p, String name) {
 		// TODO Auto-generated method stub
 		try {
-			this.tsAnomalyDetector = new AlgoLoader(p, name).getAd();
+			this.tsAnomalyDetector = new AlgoPlugIn(p, name).getAd();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			Alert a = new Alert(AlertType.ERROR);

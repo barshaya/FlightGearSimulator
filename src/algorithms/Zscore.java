@@ -3,7 +3,7 @@ package algorithms;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ZscoreAnomalyDetector implements TimeSeriesAnomalyDetector{
+public class Zscore implements TimeSeriesAnomalyDetector{
 	ArrayList<Double> var = new ArrayList<Double>();
 
 	@Override

@@ -7,7 +7,7 @@ import java.util.List;
 import algorithms.TimeSeries.Feature;
 
 
-public class LinearAnomalyDetector implements TimeSeriesAnomalyDetector {
+public class Linear implements TimeSeriesAnomalyDetector {
 
 	ArrayList<CorrelatedFeatures> corFeaturesLs = new ArrayList<CorrelatedFeatures>();
 

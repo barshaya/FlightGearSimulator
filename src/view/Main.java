@@ -3,8 +3,8 @@ package view;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import model.HandleXML;
 import model.Model;
-import model.XmlComplete;
 import viewModel.ViewModel;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -15,7 +15,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            XmlComplete xc = new XmlComplete();
+            HandleXML xc = new HandleXML();
             xc.WriteXmlToUser();
             FXMLLoader fxl = new FXMLLoader();
             BorderPane root = fxl.load(getClass().getResource("sample.fxml").openStream());

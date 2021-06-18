@@ -9,7 +9,7 @@ import viewModel.ViewModel;
 public class Model extends Observable {
 	
 	TimeSeries ts;
-	XmlComplete settings;
+	HandleXML settings;
 	FGConnection flightGear;
 	TimeSeriesAnomalyDetector tsAnomalyDetector;
 	Properties clientSettings;

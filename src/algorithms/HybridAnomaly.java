@@ -7,10 +7,10 @@ import java.util.Random;
 
 import algorithms.TimeSeries.Feature;
 
-public class HybridAnomalyDetector implements TimeSeriesAnomalyDetector
+public class HybridAnomaly implements TimeSeriesAnomalyDetector
 {
-	HashMap<String, LinearAnomalyDetector> Linear = new HashMap<>();
-	HashMap<String, ZscoreAnomalyDetector> ZScore=new HashMap<>();
+	HashMap<String, algorithms.Linear> Linear = new HashMap<>();
+	HashMap<String, Zscore> ZScore=new HashMap<>();
 	HashMap<String, Circle> hybrid = new HashMap<>();
 	private Random rand = new Random();
 	
@@ -26,13 +26,13 @@ public class HybridAnomalyDetector implements TimeSeriesAnomalyDetector
 			if(Math.abs(correlatedFeature.correlation)>=0.95)
 			{
 				TimeSeries t1 = new TimeSeries(f1,f2);
-				LinearAnomalyDetector l= new LinearAnomalyDetector();
+				algorithms.Linear l= new Linear();
 				l.learnNormal(t1);
 				Linear.put(name,l);
 			}
 			else if(Math.abs(correlatedFeature.correlation)<0.5) {
 				TimeSeries t2 = new TimeSeries(f1,f2);
-				ZscoreAnomalyDetector z = new ZscoreAnomalyDetector();
+				Zscore z = new Zscore();
 				z.learnNormal(t2);
 				ZScore.put(name, z);
 			}
@@ -49,7 +49,7 @@ public class HybridAnomalyDetector implements TimeSeriesAnomalyDetector
 		}
 		for (Feature fe : StatLib.FindCorrelatedFeatures(ts).notCorrelated) {
 			TimeSeries ti = new TimeSeries(fe);
-			ZscoreAnomalyDetector z = new ZscoreAnomalyDetector();
+			Zscore z = new Zscore();
 			z.learnNormal(ti);
 			ZScore.put(fe.name, z);
 		}
