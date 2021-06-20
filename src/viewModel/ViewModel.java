@@ -286,7 +286,4 @@ public class ViewModel implements Observer {
 		this.model = model;
 	}
 
-	public Runnable getPaint() {
-		return tsAnomalyDetector.paint();
-	}
 }

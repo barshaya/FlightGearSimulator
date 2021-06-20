@@ -2,6 +2,7 @@ package model;
 
 import java.util.Observable;
 
+import algorithms.Linear;
 import algorithms.TimeSeries;
 import algorithms.TimeSeriesAnomalyDetector;
 import javafx.application.Platform;
@@ -303,5 +304,20 @@ public class Model extends Observable {
 	public void ClearTasks() {
 		// TODO Auto-generated method stub
 		activeObject.ClearTasks();
+	}
+
+	public String FindCorrelative(String value,String algo) {
+		if((algo.substring(11)).equals("Linear")){
+
+			return ((Linear)tsAnomalyDetector).getMapL().get(value).f2;
+
+		}if(algo.equals("Hybrid")){
+			//return ((Hybrid)tsAnomalyDetector).getMapL().get(value).f2;
+
+		}else{
+			//linear
+
+		}
+		return("");
 	}
 }

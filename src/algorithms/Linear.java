@@ -2,6 +2,7 @@ package algorithms;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import algorithms.TimeSeries.Feature;
@@ -10,6 +11,7 @@ import algorithms.TimeSeries.Feature;
 public class Linear implements TimeSeriesAnomalyDetector {
 
 	ArrayList<CorrelatedFeatures> corFeaturesLs = new ArrayList<CorrelatedFeatures>();
+	HashMap<String,CorrelatedFeatures> mapL=new HashMap<>();
 
 	public void learnNormal(TimeSeries ts) {
 		ArrayList<Feature> featureArray = ts.getTable();
@@ -45,6 +47,9 @@ public class Linear implements TimeSeriesAnomalyDetector {
 				CorrelatedFeatures cofe = new CorrelatedFeatures(featureArray.get(i).getName(), featureArray.get(index).getName(), maximum, lrg,(float) (threshold+0.025));
 				if (!contain(cofe)) {
 					this.corFeaturesLs.add(cofe);
+				}
+				else{
+					mapL.put(featureArray.get(i).getName(),cofe);
 				}
 			}
 			maximum =0;
@@ -99,9 +104,11 @@ public class Linear implements TimeSeriesAnomalyDetector {
 		return flag;
 	}
 
-	@Override
-	public Runnable paint() {
-		// TODO Auto-generated method stub
-		return null;
+	public HashMap<String, CorrelatedFeatures> getMapL() {
+		return mapL;
+	}
+
+	public void setMapL(HashMap<String, CorrelatedFeatures> mapL) {
+		this.mapL = mapL;
 	}
 }

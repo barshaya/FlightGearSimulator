@@ -63,10 +63,6 @@ public class Zscore implements TimeSeriesAnomalyDetector{
 		}
 		return arrayL;
 	}
-	@Override
-	public Runnable paint() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 }

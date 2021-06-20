@@ -110,16 +110,17 @@ public class WindowController implements Initializable {
             vm.Backward2();
         });
 
-        myButtons.videoSlider.addListener(new ChangeListener<Number>() {
+        myButtons.videoSlider.addListener(new ChangeListener<Number>()
+        {
             @Override
             public void changed(
                     ObservableValue<? extends Number> observableValue,
                     Number oldValue,
                     Number newValue) {
                 String currTime = toStringTime(myButtons.videoSlider.doubleValue());
-                myButtons.VideoTime.textProperty().setValue(
-                        currTime);
+                myButtons.VideoTime.textProperty().setValue(currTime);
             }
+
         });
 
         myButtons.myButtonsController.getSlider().setOnMouseReleased(e -> {
@@ -188,14 +189,32 @@ public class WindowController implements Initializable {
         myGraphs.Fchart.getData().add(seriesPointA);
         myGraphs.CorChart.getData().add(seriesPointB);
         myGraphs.Bchart.getData().addAll(seriesPointAnomaly,seriesTimeAnomaly);
-            selectedName.addListener((o,nv,ov)->{
-                if((!(selectedName.getValue().equals("")))&&nv.equals(ov)){
-                    this.vm.getModel().addValueAtTime(selectedName.getValue(),seriesPointA);
+
+        selectedName.addListener((o,nv,ov)->{
+            if((!(selectedName.getValue().equals("")))&&nv.equals(ov)){
+                this.vm.getModel().addValueAtTime(selectedName.getValue(),seriesPointA);
+            }
+            else if(!nv.equals(ov)){
+                this.vm.getModel().addValueUntilTime(selectedName.getValue(),seriesPointA);
+            }
+        });
+
+        this.vm.videoslider.addListener(v->{
+            if(!selectedName.getValue().equals("")){
+                this.vm.getModel().addValueAtTime(selectedName.getValue(),seriesPointA);
+                if(!(openFiles.algoname.getValue().equals("Zscore"))){
+                    this.vm.getModel().addValueAtTime(this.vm.getModel().FindCorrelative(selectedName.getValue(),openFiles.algoname.getValue()),seriesPointB);
+
                 }
-                else if(!nv.equals(ov)){
-                    this.vm.getModel().addValueUntilTime(selectedName.getValue(),seriesPointA);
-                }
-            });
+            }
+//            if(!(openFiles.algoname.getValue().equals("Zscore"))){
+//                this.vm.getModel().addValueAtTime(this.vm.getModel().FindCorrelative(selectedName.getValue(),openFiles.algoname.getValue()),seriesPointB);
+//            }
+        });
+
+
+
+
 
 
 

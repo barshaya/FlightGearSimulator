@@ -49,8 +49,5 @@ public class AlgoPlugIn implements TimeSeriesAnomalyDetector
         return ad.detect(ts);
     }
 
-    @Override
-    public Runnable paint() {
-        return null;
-    }
+
 }

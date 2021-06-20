@@ -7,7 +7,7 @@ import java.util.Random;
 
 import algorithms.TimeSeries.Feature;
 
-public class HybridAnomaly implements TimeSeriesAnomalyDetector
+public class Hybrid implements TimeSeriesAnomalyDetector
 {
 	HashMap<String, algorithms.Linear> Linear = new HashMap<>();
 	HashMap<String, Zscore> ZScore=new HashMap<>();
@@ -118,6 +118,7 @@ public class HybridAnomaly implements TimeSeriesAnomalyDetector
 		});
 		return resultList;
 	}
+
 	public Circle findMinimumCircle(final List<Point> points) {
 		return WelezAlgo(points, new ArrayList<Point>());
     }
@@ -147,5 +148,6 @@ public class HybridAnomaly implements TimeSeriesAnomalyDetector
 		}
 		return minimumCircle;
     }
+
 
 }
