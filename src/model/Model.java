@@ -316,6 +316,7 @@ public class Model extends Observable {
 	}
 
 	public String FindCorrelative(String value,String algo) {
+
 		if((algo.substring(11)).equals("Linear")){
 
 			String s=((Linear)tsAnomalyDetector).getMapL().get(value);
@@ -325,7 +326,7 @@ public class Model extends Observable {
 			return s;
 
 		}
-		if(algo.equals("Hybrid")) {
+		if((algo.substring(11)).equals("Hybrid")) {
 			String s = ((Hybrid) tsAnomalyDetector).getMapL().get(value);
 			if (s == null) {
 				return null;

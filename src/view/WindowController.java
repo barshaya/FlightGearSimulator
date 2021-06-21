@@ -199,8 +199,8 @@ public class WindowController implements Initializable {
             }
         });
 
-        this.vm.videoslider.addListener(v->{
-            if(!selectedName.getValue().equals("")){
+        this.vm.videoslider.addListener((o,nv,ov)->{
+            if(!selectedName.getValue().equals("")&&nv.equals(ov)){
                 this.vm.getModel().addValueAtTime(selectedName.getValue(),seriesPointA);
                 if(!(openFiles.algoname.getValue().equals("Zscore"))){
                     String fCor=this.vm.getModel().FindCorrelative(selectedName.getValue(),openFiles.algoname.getValue());
@@ -209,9 +209,17 @@ public class WindowController implements Initializable {
                     }
                 }
             }
-//            if(!(openFiles.algoname.getValue().equals("Zscore"))){
-//                this.vm.getModel().addValueAtTime(this.vm.getModel().FindCorrelative(selectedName.getValue(),openFiles.algoname.getValue()),seriesPointB);
-//            }
+            else    if(!nv.equals(ov)){
+                this.vm.getModel().addValueAtTime(selectedName.getValue(),seriesPointA);
+                if(!(openFiles.algoname.getValue().equals("Zscore"))){
+                    String fCor=this.vm.getModel().FindCorrelative(selectedName.getValue(),openFiles.algoname.getValue());
+                    if(fCor!=null) {
+                        this.vm.getModel().addValueUntilTime(fCor, seriesPointB);
+                    }
+                }
+
+            }
+//
         });
 
 
