@@ -2,6 +2,7 @@ package model;
 
 import java.util.Observable;
 
+import algorithms.Hybrid;
 import algorithms.Linear;
 import algorithms.TimeSeries;
 import algorithms.TimeSeriesAnomalyDetector;
@@ -197,6 +198,10 @@ public class Model extends Observable {
 		resetValues();
 	}
 
+
+
+
+
 	public void play(int start) {
 		if (this.activeObject.stop == true) {
 			this.activeObject.start();
@@ -251,21 +256,25 @@ public class Model extends Observable {
 		this.tsAnomalyDetector = tsAnomalyDetector;
 	}
 
+	public TimeSeriesAnomalyDetector getTsAnomalyDetector() {
+		return tsAnomalyDetector;
+	}
+
 	public void addObservers(ViewModel viewModel) {
 		this.addObserver(viewModel);
 	}
 
 	public void updateValues(int i) {
-		setThrottle(getTs().getValue(getClientSettings().getAssociate("throttle"), i));
-		setYaw(getTs().getValue(getClientSettings().getAssociate("yaw"), i));
-		setPitch(getTs().getValue(getClientSettings().getAssociate("pitch"), i));
-		setRoll(getTs().getValue(getClientSettings().getAssociate("roll"), i));
-		setAileron(getTs().getValue(getClientSettings().getAssociate("aileron"),i));
-		setElevators(getTs().getValue(getClientSettings().getAssociate("elevator"),i));
-		setRudder(getTs().getValue(getClientSettings().getAssociate("rudder"), i));
-		setHeight(getTs().getValue(getClientSettings().getAssociate("heigth"), i));
-		setDirection(getTs().getValue(getClientSettings().getAssociate("direction"), i));
-		setSpeed(getTs().getValue(getClientSettings().getAssociate("speed"), i));
+		setThrottle(getTs().getTimeStempValue(getClientSettings().getAssociate("throttle"), i));
+		setYaw(getTs().getTimeStempValue(getClientSettings().getAssociate("yaw"), i));
+		setPitch(getTs().getTimeStempValue(getClientSettings().getAssociate("pitch"), i));
+		setRoll(getTs().getTimeStempValue(getClientSettings().getAssociate("roll"), i));
+		setAileron(getTs().getTimeStempValue(getClientSettings().getAssociate("aileron"),i));
+		setElevators(getTs().getTimeStempValue(getClientSettings().getAssociate("elevator"),i));
+		setRudder(getTs().getTimeStempValue(getClientSettings().getAssociate("rudder"), i));
+		setHeight(getTs().getTimeStempValue(getClientSettings().getAssociate("heigth"), i));
+		setDirection(getTs().getTimeStempValue(getClientSettings().getAssociate("direction"), i));
+		setSpeed(getTs().getTimeStempValue(getClientSettings().getAssociate("speed"), i));
 	}
 
 	public void resetValues() {
@@ -285,7 +294,7 @@ public class Model extends Observable {
 
 	public void addValueAtTime(String attribute, XYChart.Series s) {
 		Platform.runLater(()->{
-			double temp = ts.getValue(attribute,time);
+			double temp = ts.getTimeStempValue(attribute,time);
 			s.getData().add(new XYChart.Data(time, temp));
 		});
 	}
@@ -293,7 +302,7 @@ public class Model extends Observable {
 		Platform.runLater(()->{
 			s.getData().clear();
 			for(int i=1;i<time;i++){
-				float temp = ts.getValue(attribute,time);
+				float temp = ts.getTimeStempValue(attribute,time);
 				s.getData().add(new XYChart.Data(time, temp));
 
 			}
@@ -309,13 +318,19 @@ public class Model extends Observable {
 	public String FindCorrelative(String value,String algo) {
 		if((algo.substring(11)).equals("Linear")){
 
-			return ((Linear)tsAnomalyDetector).getMapL().get(value).f2;
+			String s=((Linear)tsAnomalyDetector).getMapL().get(value);
+			if(s==null){
+				return null;
+			}
+			return s;
 
-		}if(algo.equals("Hybrid")){
-			//return ((Hybrid)tsAnomalyDetector).getMapL().get(value).f2;
-
-		}else{
-			//linear
+		}
+		if(algo.equals("Hybrid")) {
+			String s = ((Hybrid) tsAnomalyDetector).getMapL().get(value);
+			if (s == null) {
+				return null;
+			}
+			return s;
 
 		}
 		return("");

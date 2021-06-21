@@ -34,7 +34,7 @@ public class TimeSeries {
 		public void setExamples(ArrayList<Float> Examples) {
 			this.examples = Examples;
 		}
-		protected String getNameId() {
+		public String getNameId() {
 			return nameId;
 		}
 		protected void setNameId(String Id) {
@@ -135,8 +135,12 @@ public class TimeSeries {
 		return null;	
 	}
 
-	
-	public float getValue(String ColName , int TimeStemp) {
+	public String getFeatureNameByNameid(String s){
+		return getFeatureByNameid(s).getName();
+	}
+
+	// return the specific value of the colname at the timestemp
+	public float getTimeStempValue(String ColName , int TimeStemp) {
 		Feature f = this.getFeatureByNameid(ColName);
 		if (f == null) {
 			return (Float) null;

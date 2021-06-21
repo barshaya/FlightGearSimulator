@@ -146,6 +146,9 @@ public class ViewModel implements Observer {
 			a.setHeaderText("Success Algo Loading");
 			a.showAndWait();
 			model.setAnomalyDetector(tsAnomalyDetector);
+			model.getTsAnomalyDetector().learnNormal(model.getTs());
+			model.getTsAnomalyDetector().detect(model.getTs());
+
 		}
 	}
 

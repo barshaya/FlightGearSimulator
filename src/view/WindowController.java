@@ -203,8 +203,10 @@ public class WindowController implements Initializable {
             if(!selectedName.getValue().equals("")){
                 this.vm.getModel().addValueAtTime(selectedName.getValue(),seriesPointA);
                 if(!(openFiles.algoname.getValue().equals("Zscore"))){
-                    this.vm.getModel().addValueAtTime(this.vm.getModel().FindCorrelative(selectedName.getValue(),openFiles.algoname.getValue()),seriesPointB);
-
+                    String fCor=this.vm.getModel().FindCorrelative(selectedName.getValue(),openFiles.algoname.getValue());
+                    if(fCor!=null) {
+                        this.vm.getModel().addValueAtTime(fCor, seriesPointB);
+                    }
                 }
             }
 //            if(!(openFiles.algoname.getValue().equals("Zscore"))){

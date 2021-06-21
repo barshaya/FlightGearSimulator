@@ -13,7 +13,9 @@ public class Hybrid implements TimeSeriesAnomalyDetector
 	HashMap<String, Zscore> ZScore=new HashMap<>();
 	HashMap<String, Circle> hybrid = new HashMap<>();
 	private Random rand = new Random();
-	
+	HashMap<String,String> mapL=new HashMap<>();
+
+
 	@Override
 	public void learnNormal(TimeSeries ts) {
 		ArrayList<Point> points = new ArrayList<>();
@@ -29,6 +31,8 @@ public class Hybrid implements TimeSeriesAnomalyDetector
 				algorithms.Linear l= new Linear();
 				l.learnNormal(t1);
 				Linear.put(name,l);
+				mapL.put(f1.getNameId(),f2.getNameId());
+
 			}
 			else if(Math.abs(correlatedFeature.correlation)<0.5) {
 				TimeSeries t2 = new TimeSeries(f1,f2);
@@ -149,5 +153,11 @@ public class Hybrid implements TimeSeriesAnomalyDetector
 		return minimumCircle;
     }
 
+	public HashMap<String, String> getMapL() {
+		return mapL;
+	}
 
+	public void setMapL(HashMap<String, String> mapL) {
+		this.mapL = mapL;
+	}
 }
