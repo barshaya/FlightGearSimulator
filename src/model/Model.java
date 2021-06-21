@@ -300,7 +300,7 @@ public class Model extends Observable {
 	}
 	public void addValueUntilTime(String attribute, XYChart.Series s) {
 		Platform.runLater(()->{
-			s.getData().clear();
+			//s.getData().clear();
 			for(int i=1;i<time;i++){
 				float temp = ts.getTimeStempValue(attribute,time);
 				s.getData().add(new XYChart.Data(time, temp));

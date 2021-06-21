@@ -200,21 +200,29 @@ public class WindowController implements Initializable {
         });
 
         this.vm.videoslider.addListener((o,nv,ov)->{
-            if(!selectedName.getValue().equals("")&&nv.equals(ov)){
+            if(!(selectedName.getValue().equals(""))&&(ov.intValue()+1)==nv.intValue()){
                 this.vm.getModel().addValueAtTime(selectedName.getValue(),seriesPointA);
                 if(!(openFiles.algoname.getValue().equals("Zscore"))){
                     String fCor=this.vm.getModel().FindCorrelative(selectedName.getValue(),openFiles.algoname.getValue());
                     if(fCor!=null) {
                         this.vm.getModel().addValueAtTime(fCor, seriesPointB);
                     }
+                    else{
+                        seriesPointB.getData().clear();
+                    }
                 }
             }
-            else    if(!nv.equals(ov)){
+            else  if(!(selectedName.getValue().equals("")))
+            {
+
                 this.vm.getModel().addValueAtTime(selectedName.getValue(),seriesPointA);
                 if(!(openFiles.algoname.getValue().equals("Zscore"))){
                     String fCor=this.vm.getModel().FindCorrelative(selectedName.getValue(),openFiles.algoname.getValue());
                     if(fCor!=null) {
                         this.vm.getModel().addValueUntilTime(fCor, seriesPointB);
+                    }
+                    else{
+                        seriesPointB.getData().clear();
                     }
                 }
 
