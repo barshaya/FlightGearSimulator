@@ -5,10 +5,10 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.graphs.MyGraphController">
+<AnchorPane prefHeight="395.0" prefWidth="469.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.graphs.MyGraphController">
     <!-- TODO Add Nodes -->
     <children>
-        <LineChart fx:id="Fchart" layoutX="-15.0" layoutY="28.0" prefHeight="158.0" prefWidth="195.0">
+        <LineChart fx:id="Fchart" layoutX="14.0" layoutY="28.0" prefHeight="158.0" prefWidth="195.0">
             <xAxis>
                 <NumberAxis side="BOTTOM" />
             </xAxis>
@@ -16,7 +16,7 @@
                 <NumberAxis side="LEFT" />
             </yAxis>
         </LineChart>
-        <LineChart fx:id="CorChart" layoutX="170.0" layoutY="28.0" prefHeight="158.0" prefWidth="195.0">
+        <LineChart fx:id="CorChart" layoutX="221.0" layoutY="28.0" prefHeight="158.0" prefWidth="195.0">
             <xAxis>
                 <NumberAxis side="BOTTOM" />
             </xAxis>

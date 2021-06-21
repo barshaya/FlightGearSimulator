@@ -190,40 +190,54 @@ public class WindowController implements Initializable {
         myGraphs.CorChart.getData().add(seriesPointB);
         myGraphs.Bchart.getData().addAll(seriesPointAnomaly,seriesTimeAnomaly);
 
-        selectedName.addListener((o,nv,ov)->{
+        selectedName.addListener((o,ov,nv)->{
             if((!(selectedName.getValue().equals("")))&&nv.equals(ov)){
                 this.vm.getModel().addValueAtTime(selectedName.getValue(),seriesPointA);
             }
             else if(!nv.equals(ov)){
+                myGraphs.Fchart.setTitle(nv);
+                seriesPointA.getData().clear();
+                seriesPointB.getData().clear();
                 this.vm.getModel().addValueUntilTime(selectedName.getValue(),seriesPointA);
             }
         });
 
-        this.vm.videoslider.addListener((o,nv,ov)->{
+        this.vm.videoslider.addListener((o,ov,nv)->{
             if(!(selectedName.getValue().equals(""))&&(ov.intValue()+1)==nv.intValue()){
                 this.vm.getModel().addValueAtTime(selectedName.getValue(),seriesPointA);
-                if(!(openFiles.algoname.getValue().equals("Zscore"))){
+                if(!((openFiles.algoname.getValue()).substring(11).equals("Zscore"))){
                     String fCor=this.vm.getModel().FindCorrelative(selectedName.getValue(),openFiles.algoname.getValue());
                     if(fCor!=null) {
+                        myGraphs.CorChart.setTitle(fCor);
                         this.vm.getModel().addValueAtTime(fCor, seriesPointB);
                     }
                     else{
+                        myGraphs.CorChart.setTitle("no correlated");
                         seriesPointB.getData().clear();
                     }
+                }
+                else{
+                    myGraphs.CorChart.setTitle("");
+                    seriesPointB.getData().clear();
                 }
             }
             else  if(!(selectedName.getValue().equals("")))
             {
 
                 this.vm.getModel().addValueAtTime(selectedName.getValue(),seriesPointA);
-                if(!(openFiles.algoname.getValue().equals("Zscore"))){
+                if(!((openFiles.algoname.getValue()).substring(11).equals("Zscore"))){
                     String fCor=this.vm.getModel().FindCorrelative(selectedName.getValue(),openFiles.algoname.getValue());
                     if(fCor!=null) {
                         this.vm.getModel().addValueUntilTime(fCor, seriesPointB);
                     }
                     else{
                         seriesPointB.getData().clear();
+                        myGraphs.CorChart.setTitle("no correlated");
                     }
+                }
+                else{
+                    myGraphs.CorChart.setTitle("");
+                    seriesPointB.getData().clear();
                 }
 
             }
