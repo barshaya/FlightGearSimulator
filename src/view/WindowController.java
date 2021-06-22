@@ -55,7 +55,7 @@ public class WindowController implements Initializable {
     public void init(ViewModel vm2) {
         // TODO Auto-generated method stub
         this.vm = vm2;
-        MyFeaturesList.xmlpath.addListener((o, ov, nv)->{
+        MyFeaturesList.xmlpath.addListener((o, ov, nv) -> {
             this.vm.loadXml(nv);
             if (vm.getXs() != null) {
                 double maxR = this.vm.getXs().getSetting("rudder").getMax();
@@ -67,20 +67,17 @@ public class WindowController implements Initializable {
         });
 
 
-        selectedName=new SimpleStringProperty("");
+        selectedName = new SimpleStringProperty("");
 
-        MyFeaturesList.list.getSelectionModel().selectedItemProperty().addListener((o, ov, nv)->{
-            String selected=   MyFeaturesList.list.getSelectionModel().getSelectedItem().toString();
+        MyFeaturesList.list.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> {
+            String selected = MyFeaturesList.list.getSelectionModel().getSelectedItem().toString();
             selectedName.setValue(selected);
         });
 
 
-
-
-
-        openFiles.csvpath.addListener((o,ov,nv)->{
+        openFiles.csvpath.addListener((o, ov, nv) -> {
             this.vm.loadCsv(nv);
-            ArrayList<String> titles =  this.vm.getColTitles();
+            ArrayList<String> titles = this.vm.getColTitles();
             if (titles != null) {
                 ObservableList<String> list = FXCollections.observableArrayList(titles);
                 viewlist.list.setItems(list);
@@ -88,30 +85,29 @@ public class WindowController implements Initializable {
 
         });
 
-        openFiles.algoname.addListener((o,ov,nv)->{
+        openFiles.algoname.addListener((o, ov, nv) -> {
             this.vm.loadAnomalyAlgo(openFiles.algopath.get(), nv);
-            if (this.vm.getAd() !=null) {
+            if (this.vm.getAd() != null) {
                 myGraphs.Bchart.setTitle(nv.substring(11));
             }
         });
 
-        myButtons.forwardCnt.addListener((o,ov,nv)->{
+        myButtons.forwardCnt.addListener((o, ov, nv) -> {
             vm.Forward1();
         });
-        myButtons.forward2Cnt.addListener((o,ov,nv)->{
+        myButtons.forward2Cnt.addListener((o, ov, nv) -> {
             vm.Forward2();
         });
 
-        myButtons.backwardCnt.addListener((o,ov,nv)->{
+        myButtons.backwardCnt.addListener((o, ov, nv) -> {
             vm.Backward1();
         });
 
-        myButtons.backward2Cnt.addListener((o,ov,nv)->{
+        myButtons.backward2Cnt.addListener((o, ov, nv) -> {
             vm.Backward2();
         });
 
-        myButtons.videoSlider.addListener(new ChangeListener<Number>()
-        {
+        myButtons.videoSlider.addListener(new ChangeListener<Number>() {
             @Override
             public void changed(
                     ObservableValue<? extends Number> observableValue,
@@ -124,26 +120,23 @@ public class WindowController implements Initializable {
         });
 
         myButtons.myButtonsController.getSlider().setOnMouseReleased(e -> {
-            vm.setTimeStemp((int)myButtons.myButtonsController.getSlider().getValue());
+            vm.setTimeStemp((int) myButtons.myButtonsController.getSlider().getValue());
         });
 
 
-
         vm.rate.bindBidirectional(myButtons.videoSpeed.valueProperty());
-        myButtons.videoSpeed.valueProperty().addListener((o,ov,nv)->{
+        myButtons.videoSpeed.valueProperty().addListener((o, ov, nv) -> {
             myButtons.videoSpeed.setValue(nv);
         });
         myButtons.FlightStatus.bindBidirectional(vm.FlightStatus);
         myButtons.FlightGear.textProperty().bind(vm.FlightMessage);
-        myButtons.FlightStatus.addListener((o,ov,nv)->{
-            if (((String)nv).equals("Fly")) {
+        myButtons.FlightStatus.addListener((o, ov, nv) -> {
+            if (((String) nv).equals("Fly")) {
                 this.vm.StartFlight(0);
-            }
-            else if (((String)nv).equals("not Fly")) {
+            } else if (((String) nv).equals("not Fly")) {
                 this.vm.stopFlight();
                 this.vm.setTime(0);
-            }
-            else if (((String)nv).equals("pause Fly")) {
+            } else if (((String) nv).equals("pause Fly")) {
                 int currentTime = this.vm.getTime();
                 this.vm.pauseFlight();
                 this.vm.setTime(currentTime);
@@ -151,21 +144,21 @@ public class WindowController implements Initializable {
         });
 
         myJoystick.aileron.bind(this.vm.aileron);
-        myJoystick.aileron.addListener((o,ov,nv)->{
+        myJoystick.aileron.addListener((o, ov, nv) -> {
             double maxA = this.vm.getXs().getSetting("aileron").getMax();
             double minA = this.vm.getXs().getSetting("aileron").getMin();
-            double a=myJoystick.bigCircle.getLayoutX()-myJoystick.bigCircle.getRadius();
-            double b=myJoystick.bigCircle.getLayoutX()+myJoystick.bigCircle.getRadius();
-            nv=myJoystick.NormlaizeJoystic((double)nv ,maxA,minA,a,b);
+            double a = myJoystick.bigCircle.getLayoutX() - myJoystick.bigCircle.getRadius();
+            double b = myJoystick.bigCircle.getLayoutX() + myJoystick.bigCircle.getRadius();
+            nv = myJoystick.NormlaizeJoystic((double) nv, maxA, minA, a, b);
             myJoystick.joyCircle.setLayoutX((double) nv);
         });
         myJoystick.elevators.bind(this.vm.elevators);
-        myJoystick.elevators.addListener((o,ov,nv)->{
+        myJoystick.elevators.addListener((o, ov, nv) -> {
             double maxE = this.vm.getXs().getSetting("elevator").getMax();
             double minE = this.vm.getXs().getSetting("elevator").getMin();
-            double a=myJoystick.bigCircle.getLayoutY()-myJoystick.bigCircle.getRadius();
-            double b=myJoystick.bigCircle.getLayoutY()+myJoystick.bigCircle.getRadius();
-            nv=myJoystick.NormlaizeJoystic((double)nv ,maxE,minE,a,b);
+            double a = myJoystick.bigCircle.getLayoutY() - myJoystick.bigCircle.getRadius();
+            double b = myJoystick.bigCircle.getLayoutY() + myJoystick.bigCircle.getRadius();
+            nv = myJoystick.NormlaizeJoystic((double) nv, maxE, minE, a, b);
             myJoystick.joyCircle.setLayoutY((double) nv);
         });
 
@@ -181,77 +174,51 @@ public class WindowController implements Initializable {
         myButtons.videoSlider.bindBidirectional(this.vm.videoslider);
 
 
-        seriesPointA= new XYChart.Series();
-        seriesPointB= new XYChart.Series();
-        seriesPointAnomaly= new XYChart.Series();
-        seriesTimeAnomaly= new XYChart.Series();
+        seriesPointA = new XYChart.Series();
+        seriesPointB = new XYChart.Series();
+        seriesPointAnomaly = new XYChart.Series();
+        seriesTimeAnomaly = new XYChart.Series();
 
         myGraphs.Fchart.getData().add(seriesPointA);
         myGraphs.CorChart.getData().add(seriesPointB);
-        myGraphs.Bchart.getData().addAll(seriesPointAnomaly,seriesTimeAnomaly);
+        myGraphs.Bchart.getData().addAll(seriesPointAnomaly, seriesTimeAnomaly);
 
-        selectedName.addListener((o,ov,nv)->{
-            if((!(selectedName.getValue().equals("")))&&nv.equals(ov)){
-                this.vm.getModel().addValueAtTime(selectedName.getValue(),seriesPointA);
-            }
-            else if(!nv.equals(ov)){
-                myGraphs.Fchart.setTitle(nv);
-                seriesPointA.getData().clear();
-                seriesPointB.getData().clear();
-                this.vm.getModel().addValueUntilTime(selectedName.getValue(),seriesPointA);
+        selectedName.addListener((o, ov, nv) -> {
+            if ((!(selectedName.getValue().equals(""))) && nv.equals(ov)) {
+                this.vm.getModel().addValueAtTime(selectedName.getValue(), seriesPointA);
+            } else if (!nv.equals(ov)) {
+                this.vm.getModel().addValueUntilTime(selectedName.getValue(), seriesPointA);
             }
         });
 
-        this.vm.videoslider.addListener((o,ov,nv)->{
-            if(!(selectedName.getValue().equals(""))&&(ov.intValue()+1)==nv.intValue()){
-                this.vm.getModel().addValueAtTime(selectedName.getValue(),seriesPointA);
-                if(!((openFiles.algoname.getValue()).substring(11).equals("Zscore"))){
-                    String fCor=this.vm.getModel().FindCorrelative(selectedName.getValue(),openFiles.algoname.getValue());
-                    if(fCor!=null) {
-                        myGraphs.CorChart.setTitle(fCor);
+        this.vm.videoslider.addListener((o, ov, nv) -> {
+            if (!(selectedName.getValue().equals("")) && (ov.intValue() + 1) == nv.intValue()) {
+                this.vm.getModel().addValueAtTime(selectedName.getValue(), seriesPointA);
+                if (!(openFiles.algoname.getValue().equals("Zscore"))) {
+                    String fCor = this.vm.getModel().FindCorrelative(selectedName.getValue(), openFiles.algoname.getValue());
+                    if (fCor != null) {
                         this.vm.getModel().addValueAtTime(fCor, seriesPointB);
-                    }
-                    else{
-                        myGraphs.CorChart.setTitle("no correlated");
+                    } else {
                         seriesPointB.getData().clear();
                     }
                 }
-                else{
-                    myGraphs.CorChart.setTitle("");
-                    seriesPointB.getData().clear();
-                }
-            }
-            else  if(!(selectedName.getValue().equals("")))
-            {
+            } else if (!(selectedName.getValue().equals(""))) {
 
-                this.vm.getModel().addValueAtTime(selectedName.getValue(),seriesPointA);
-                if(!((openFiles.algoname.getValue()).substring(11).equals("Zscore"))){
-                    String fCor=this.vm.getModel().FindCorrelative(selectedName.getValue(),openFiles.algoname.getValue());
-                    if(fCor!=null) {
+                this.vm.getModel().addValueAtTime(selectedName.getValue(), seriesPointA);
+                if (!(openFiles.algoname.getValue().equals("Zscore"))) {
+                    String fCor = this.vm.getModel().FindCorrelative(selectedName.getValue(), openFiles.algoname.getValue());
+                    if (fCor != null) {
                         this.vm.getModel().addValueUntilTime(fCor, seriesPointB);
-                    }
-                    else{
+                    } else {
                         seriesPointB.getData().clear();
-                        myGraphs.CorChart.setTitle("no correlated");
                     }
-                }
-                else{
-                    myGraphs.CorChart.setTitle("");
-                    seriesPointB.getData().clear();
                 }
 
             }
-//
+
         });
-
-
-
-
-
-
 
     }
-
     public String toStringTime(Double object) {
         long seconds = object.longValue();
         long minutes = TimeUnit.SECONDS.toMinutes(seconds);
