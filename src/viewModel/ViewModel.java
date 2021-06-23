@@ -102,6 +102,7 @@ public class ViewModel implements Observer {
 			else {
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setHeaderText("Success loading CSV file");
+				alert.setContentText("please upload Algo file");
 				alert.showAndWait();
 				model.setTimeSeries(ts);
 			}
@@ -145,7 +146,6 @@ public class ViewModel implements Observer {
 				this.tsAnomalyDetector = null;
 			}
 			if (this.tsAnomalyDetector != null) {
-				System.out.println("");
 				Alert a = new Alert(AlertType.INFORMATION);
 				a.setHeaderText("Success Algo Loading");
 				a.showAndWait();
