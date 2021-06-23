@@ -16,6 +16,8 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import model.*;
+import view.WindowController;
+import view.buttons.MyButtons;
 
 public class ViewModel implements Observer {
 	
@@ -30,17 +32,18 @@ public class ViewModel implements Observer {
 	public StringProperty speed=new SimpleStringProperty();
 	public StringProperty direction=new SimpleStringProperty();
 	public StringProperty height=new SimpleStringProperty();
-	public StringProperty line=new SimpleStringProperty();
 	public StringProperty FlightStatus = new SimpleStringProperty();
 	public StringProperty FlightMessage= new SimpleStringProperty();
 	public SimpleDoubleProperty rate = new SimpleDoubleProperty();
 	public DoubleProperty videoslider =new SimpleDoubleProperty();
 
+
+
 	TimeSeries ts;
 	TimeSeriesAnomalyDetector tsAnomalyDetector;
 	Properties properties;
 	HandleXML handlexml;
-
+	MyButtons mb;
 
 	public ViewModel(Model m) {
 		super();
@@ -48,6 +51,7 @@ public class ViewModel implements Observer {
 		handlexml = new HandleXML();
 		m.addObservers(this);
 		rate.addListener((o,ov,nv)->m.setRate(nv.doubleValue()));
+		this.mb = new MyButtons();
 	}
 
 	@Override
@@ -83,6 +87,10 @@ public class ViewModel implements Observer {
 		} else if (o == model && arg.equals("roll")) {
 			Platform.runLater(() -> roll.setValue(dFormat.format(model.getRoll())));
 		}
+	}
+
+	public TimeSeries getTs() {
+		return ts;
 	}
 
 	public void loadCsv(String csvPath) {

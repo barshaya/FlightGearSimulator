@@ -49,11 +49,11 @@ public class MyButtonsController {
         forward2Cnt = new SimpleDoubleProperty();
         backwardCnt = new SimpleDoubleProperty();
         backward2Cnt = new SimpleDoubleProperty();
-        videoSlider = new Slider();
+        this.videoSlider = new Slider();
     }
 
-    public int getTime () {
-        return this.videoSlider.valueProperty().intValue();
+    public void setSliderMax(int max){
+        this.videoSlider.setMax((double)max);
     }
 
     public Slider getSlider(){

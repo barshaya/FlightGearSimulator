@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.XYChart;
+import javafx.util.Duration;
 import view.buttons.MyButtons;
 import view.graphs.MyGraphs;
 import view.joystick.MyJoystick;
@@ -48,8 +49,9 @@ public class WindowController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
     }
 
-
-
+//    public void setSliderMax(int max){
+//        this.myButtons.myButtonsController;
+//    }
 
     @SuppressWarnings("unchecked")
     public void init(ViewModel vm2) {
@@ -82,6 +84,7 @@ public class WindowController implements Initializable {
                 ObservableList<String> list = FXCollections.observableArrayList(titles);
                 viewlist.list.setItems(list);
             }
+            this.myButtons.myButtonsController.setSliderMax(vm.getTs().num);
 
         });
 
@@ -113,16 +116,18 @@ public class WindowController implements Initializable {
                     ObservableValue<? extends Number> observableValue,
                     Number oldValue,
                     Number newValue) {
-                String currTime = toStringTime(myButtons.videoSlider.doubleValue());
-                myButtons.VideoTime.textProperty().setValue(currTime);
+                if(vm.getTs() != null){
+                    if (myButtons.myButtonsController.getSlider().isPressed()) {
+                        myButtons.videoSlider.unbindBidirectional(vm.videoslider);
+                        myButtons.myButtonsController.getSlider().setOnMouseReleased(e -> {
+                            vm.setTimeStemp((int) myButtons.myButtonsController.getSlider().getValue());
+                            myButtons.videoSlider.bindBidirectional(vm.videoslider);
+                        });
+                    }
+                    myButtons.VideoTime.textProperty().setValue(toStringTime(myButtons.videoSlider.doubleValue()));
+                }
             }
-
         });
-
-        myButtons.myButtonsController.getSlider().setOnMouseReleased(e -> {
-            vm.setTimeStemp((int) myButtons.myButtonsController.getSlider().getValue());
-        });
-
 
         vm.rate.bindBidirectional(myButtons.videoSpeed.valueProperty());
         myButtons.videoSpeed.valueProperty().addListener((o, ov, nv) -> {
