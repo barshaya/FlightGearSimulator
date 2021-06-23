@@ -66,9 +66,8 @@ public class ViewModel implements Observer {
 			this.throttle.setValue((model.getThrottle()));
 		} else if (o == model && arg.equals("yaw")) {
 			Platform.runLater(() -> yaw.setValue(dFormat.format(model.getYaw())));
-			Platform.runLater(() -> videoslider.setValue(this.model.getTime()));
 		} else if (o == model && arg.equals("time")) {
-			Platform.runLater(() -> videoslider.setValue(this.model.getTime()));
+			Platform.runLater(() -> videoslider.setValue((double)this.model.getTime()));
 		} else if (o == model && arg.equals("heigth")) {
 			Platform.runLater(() -> height.setValue(dFormat.format(model.getHeight())));
 		} else if (o == model && arg.equals("pitch")) {
@@ -89,7 +88,7 @@ public class ViewModel implements Observer {
 	public void loadCsv(String csvPath) {
 		if (this.properties == null) {
 			Alert alert = new Alert(AlertType.ERROR);
-			alert.setHeaderText("Error with XML");
+			alert.setHeaderText("Error - Please load XML");
 			alert.showAndWait();
 		}
 		else {
@@ -131,24 +130,30 @@ public class ViewModel implements Observer {
 
 	public void loadAnomalyAlgo(String p, String name) {
 		// TODO Auto-generated method stub
-		try {
-			this.tsAnomalyDetector = new AlgoPlugIn(p, name).getAd();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			Alert a = new Alert(AlertType.ERROR);
-			a.setHeaderText("Failed load the algorithm - Please try again");
-			a.showAndWait();
-			this.tsAnomalyDetector = null;
-		}
-		if (this.tsAnomalyDetector != null) {
-			System.out.println("");
-			Alert a = new Alert(AlertType.INFORMATION);
-			a.setHeaderText("Success Algo Loading");
-			a.showAndWait();
-			model.setAnomalyDetector(tsAnomalyDetector);
-			model.getTsAnomalyDetector().learnNormal(model.getTs());
-			model.getTsAnomalyDetector().detect(model.getTs());
+		if(this.ts == null){
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setHeaderText("Error - Please load CSV");
+			alert.showAndWait();
+		} else {
+			try {
+				this.tsAnomalyDetector = new AlgoPlugIn(p, name).getAd();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				Alert a = new Alert(AlertType.ERROR);
+				a.setHeaderText("Failed load the algorithm - Please try again");
+				a.showAndWait();
+				this.tsAnomalyDetector = null;
+			}
+			if (this.tsAnomalyDetector != null) {
+				System.out.println("");
+				Alert a = new Alert(AlertType.INFORMATION);
+				a.setHeaderText("Success Algo Loading");
+				a.showAndWait();
+				model.setAnomalyDetector(tsAnomalyDetector);
+				model.getTsAnomalyDetector().learnNormal(model.getTs());
+				model.getTsAnomalyDetector().detect(model.getTs());
 
+			}
 		}
 	}
 
@@ -162,10 +167,6 @@ public class ViewModel implements Observer {
 	
 	public TimeSeriesAnomalyDetector getAd() {
 		return tsAnomalyDetector;
-	}
-
-	public TimeSeries getTs() {
-		return ts;
 	}
 
 	public DoubleProperty getRudder() {

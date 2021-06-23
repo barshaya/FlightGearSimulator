@@ -46,7 +46,8 @@ public class Model extends Observable {
 
 	public void setTime(int time) {
 		this.time = time;
-		System.out.println(time);
+		this.setChanged();
+		this.notifyObservers("time");
 	}
 
 	public double getRate() {
@@ -217,7 +218,9 @@ public class Model extends Observable {
 					updateValues(j);
 					setTime(j);
 					flightGear.SendCommand(ts.ReadLine(j));
-					try {Thread.sleep((long) (100/rate));} catch (InterruptedException e) {}
+					try {Thread.sleep((long) (100/rate));} catch (InterruptedException e) {
+						System.out.println(e);
+					}
 				});
 			}
 			activeObject.execute(()->flightGear.CloseSocket());
@@ -230,7 +233,9 @@ public class Model extends Observable {
 				activeObject.execute(()->{
 					updateValues(j);
 					setTime(j);
-					try {Thread.sleep((long) (100/rate));} catch (InterruptedException ex) {}
+					try {Thread.sleep((long) (100/rate));} catch (InterruptedException ex) {
+						System.out.println(e);
+					}
 				});
 			}
 		}
@@ -290,6 +295,7 @@ public class Model extends Observable {
 		setRudder(0);
 		setThrottle(0);
 		setYaw(0);
+		setTime(0);
 	}
 
 	public void addValueAtTime(String attribute, XYChart.Series s) {
