@@ -12,8 +12,10 @@ public class OpenFiles extends AnchorPane{
 	public MenuItem algo;
 	public StringProperty algoname;
 	public StringProperty algopath;
-	public MenuItem csv;
-	public StringProperty csvpath;
+	public MenuItem csvTrain;
+	public StringProperty csvTrainpath;
+	public MenuItem csvTest;
+	public StringProperty csvTestpath;
 
 	public OpenFiles() {
 		super();
@@ -24,8 +26,10 @@ public class OpenFiles extends AnchorPane{
 			algo = myOpenFilesController.algo;
 			algoname = myOpenFilesController.AlgoName;
 			algopath = myOpenFilesController.AlgoPath;
-			csv = myOpenFilesController.csv;
-			csvpath = myOpenFilesController.CsvPath;
+			csvTrain = myOpenFilesController.csvTrain;
+			csvTest=myOpenFilesController.csvTest;
+			csvTrainpath = myOpenFilesController.CsvTrainPath;
+			csvTestpath=myOpenFilesController.CSVTestPath;
 			this.getChildren().add(open);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

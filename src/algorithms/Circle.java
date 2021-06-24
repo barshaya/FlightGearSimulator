@@ -54,17 +54,7 @@ public class Circle {
 			}
 		}
 	}
-	//-------------Circle Functions---------------
-	//Checking if the circle contains all the points in the list
-	public boolean isContainsAllPoints(List<Point> points) {
-		for (Point p : points) {
-			if (p != center && !isContainsPoint(p)) 
-				return false;
-		}
-		return true;
-	}
-	
-	//Checking if the circle contains the point
+
 	public boolean isContainsPoint(Point p) {
 		return p.distanceSquaredTo(center) <= radius * radius;
 	}

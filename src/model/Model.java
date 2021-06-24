@@ -1,18 +1,18 @@
 package model;
 
+import java.util.List;
 import java.util.Observable;
 
-import algorithms.Hybrid;
-import algorithms.Linear;
-import algorithms.TimeSeries;
-import algorithms.TimeSeriesAnomalyDetector;
+import algorithms.*;
 import javafx.application.Platform;
 import javafx.scene.chart.XYChart;
 import viewModel.ViewModel;
 
 public class Model extends Observable {
 	
-	TimeSeries ts;
+	TimeSeries tsTrain;
+	TimeSeries tsTest;
+
 	HandleXML settings;
 	FGConnection flightGear;
 	TimeSeriesAnomalyDetector tsAnomalyDetector;
@@ -39,6 +39,7 @@ public class Model extends Observable {
 		this.activeObject = new MyActiveObject();
 		this.activeObject.start();
 	}
+
 
 	public int getTime() {
 		return time;
@@ -182,8 +183,20 @@ public class Model extends Observable {
 		this.notifyObservers("heigth");
 	}
 
-	public TimeSeries getTs() {
-		return ts;
+	public TimeSeries getTsTrain() {
+		return tsTrain;
+	}
+
+	public void setTsTrain(TimeSeries tsTrain) {
+		this.tsTrain = tsTrain;
+	}
+
+	public TimeSeries getTsTest() {
+		return tsTest;
+	}
+
+	public void setTsTest(TimeSeries tsTest) {
+		this.tsTest = tsTest;
 	}
 
 	public Properties getClientSettings() {
@@ -193,13 +206,6 @@ public class Model extends Observable {
 	public void setClientSettings(Properties clientSettings) {
 		this.clientSettings = clientSettings;
 	}
-
-	public void setTimeSeries(TimeSeries ts) {
-		this.ts=ts;
-		resetValues();
-	}
-
-
 
 
 
@@ -212,14 +218,13 @@ public class Model extends Observable {
 				this.flightGear = new FGConnection(clientSettings);
 			}
 			this.setConnectMessage("FlightGear is connected!");
-			for (int i = start; i < ts.num; i++) {
+			for (int i = start; i < tsTest.num; i++) {
 				final int j = i;
 				activeObject.execute(()->{
 					updateValues(j);
 					setTime(j);
-					flightGear.SendCommand(ts.ReadLine(j));
+					flightGear.SendCommand(tsTest.ReadLine(j));
 					try {Thread.sleep((long) (100/rate));} catch (InterruptedException e) {
-						System.out.println(e);
 					}
 				});
 			}
@@ -228,7 +233,7 @@ public class Model extends Observable {
 
 		} catch (Exception e) {
 			this.setConnectMessage("FlightGear is not connected!");
-			for (int i = start; i < ts.num; i++) {
+			for (int i = start; i < tsTest.num; i++) {
 				final int j = i;
 				activeObject.execute(()->{
 					updateValues(j);
@@ -270,16 +275,16 @@ public class Model extends Observable {
 	}
 
 	public void updateValues(int i) {
-		setThrottle(getTs().getTimeStempValue(getClientSettings().getAssociate("throttle"), i));
-		setYaw(getTs().getTimeStempValue(getClientSettings().getAssociate("yaw"), i));
-		setPitch(getTs().getTimeStempValue(getClientSettings().getAssociate("pitch"), i));
-		setRoll(getTs().getTimeStempValue(getClientSettings().getAssociate("roll"), i));
-		setAileron(getTs().getTimeStempValue(getClientSettings().getAssociate("aileron"),i));
-		setElevators(getTs().getTimeStempValue(getClientSettings().getAssociate("elevator"),i));
-		setRudder(getTs().getTimeStempValue(getClientSettings().getAssociate("rudder"), i));
-		setHeight(getTs().getTimeStempValue(getClientSettings().getAssociate("heigth"), i));
-		setDirection(getTs().getTimeStempValue(getClientSettings().getAssociate("direction"), i));
-		setSpeed(getTs().getTimeStempValue(getClientSettings().getAssociate("speed"), i));
+		setThrottle(getTsTest().getTimeStempValue(getClientSettings().getAssociate("throttle"), i));
+		setYaw(getTsTest().getTimeStempValue(getClientSettings().getAssociate("yaw"), i));
+		setPitch(getTsTest().getTimeStempValue(getClientSettings().getAssociate("pitch"), i));
+		setRoll(getTsTest().getTimeStempValue(getClientSettings().getAssociate("roll"), i));
+		setAileron(getTsTest().getTimeStempValue(getClientSettings().getAssociate("aileron"),i));
+		setElevators(getTsTest().getTimeStempValue(getClientSettings().getAssociate("elevator"),i));
+		setRudder(getTsTest().getTimeStempValue(getClientSettings().getAssociate("rudder"), i));
+		setHeight(getTsTest().getTimeStempValue(getClientSettings().getAssociate("heigth"), i));
+		setDirection(getTsTest().getTimeStempValue(getClientSettings().getAssociate("direction"), i));
+		setSpeed(getTsTest().getTimeStempValue(getClientSettings().getAssociate("speed"), i));
 	}
 
 	public void resetValues() {
@@ -300,7 +305,7 @@ public class Model extends Observable {
 
 	public void addValueAtTime(String attribute, XYChart.Series s) {
 		Platform.runLater(()->{
-			double temp = ts.getTimeStempValue(attribute,time);
+			double temp = tsTest.getTimeStempValue(attribute,time);
 			s.getData().add(new XYChart.Data(time, temp));
 		});
 	}
@@ -308,7 +313,7 @@ public class Model extends Observable {
 		Platform.runLater(()->{
 			s.getData().clear();
 			for(int i=1;i<time;i++){
-				float temp = ts.getTimeStempValue(attribute,time);
+				float temp = tsTest.getTimeStempValue(attribute,time);
 				s.getData().add(new XYChart.Data(time, temp));
 
 			}

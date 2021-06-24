@@ -17,14 +17,16 @@ import javafx.stage.FileChooser.ExtensionFilter;
 public class OpenFilesController {
 
 
-	@FXML MenuItem csv;
+	@FXML MenuItem csvTrain;
+	@FXML MenuItem csvTest;
 	@FXML MenuItem algo;
 
-	StringProperty CsvPath,AlgoPath,AlgoName;
+	StringProperty CsvTrainPath,CSVTestPath,AlgoPath,AlgoName;
 
 	public OpenFilesController() {
 		super();
-		CsvPath = new SimpleStringProperty();
+		CsvTrainPath = new SimpleStringProperty();
+		CSVTestPath=new SimpleStringProperty();
 		ObservableList<Object> csvTitle = FXCollections.observableArrayList();
 		AlgoPath = new SimpleStringProperty();
 		AlgoName = new SimpleStringProperty();
@@ -32,7 +34,7 @@ public class OpenFilesController {
 
 	}
 
-	public void openCSVFile() {
+	public void openCSVTrainFile() {
 		FileChooser fc = new FileChooser();
 		fc.setTitle("\"The File Choose");
 		fc.setInitialDirectory(new File("./resources"));
@@ -41,7 +43,21 @@ public class OpenFilesController {
 		File chosen = fc.showOpenDialog(null);
 		if(chosen!=null)
 		{
-			CsvPath.setValue("resources/"+chosen.getName());
+			CsvTrainPath.setValue("resources/"+chosen.getName());
+		}
+	}
+
+
+	public void openCSVTestFile() {
+		FileChooser fc = new FileChooser();
+		fc.setTitle("\"The File Choose");
+		fc.setInitialDirectory(new File("./resources"));
+		ExtensionFilter ef = new ExtensionFilter("CSV Files (*.csv)","*.csv");
+		fc.getExtensionFilters().add(ef);
+		File chosen = fc.showOpenDialog(null);
+		if(chosen!=null)
+		{
+			CSVTestPath.setValue("resources/"+chosen.getName());
 		}
 	}
 

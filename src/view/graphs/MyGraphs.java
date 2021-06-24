@@ -4,6 +4,7 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.chart.BubbleChart;
 import javafx.scene.chart.LineChart;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
@@ -14,6 +15,8 @@ public class MyGraphs extends AnchorPane
     public LineChart <Number,Number> CorChart;
     public LineChart  <Number,Number> Fchart;
     MyGraphController myGraphController;
+    public Label selectedF;
+    public Label correlatedF;
 
 
     public MyGraphs() {
@@ -25,6 +28,8 @@ public class MyGraphs extends AnchorPane
             Bchart = myGraphController.Bchart;
             CorChart = myGraphController.CorChart;
             Fchart = myGraphController.Fchart;
+            selectedF=this.myGraphController.selectedF;
+            correlatedF= this.myGraphController.correlatedF;
 
 
 
@@ -46,30 +51,6 @@ public class MyGraphs extends AnchorPane
         this.myGraphController = myGraphController;
     }
 
-/*
-    public BubbleChart getBchart() {
-        return Bchart;
-    }
-
-    public void setBchart(BubbleChart bchart) {
-        Bchart = bchart;
-    }
-
-    public LineChart getCorChart() {
-        return CorChart;
-    }
-
-    public void setCorChart(LineChart corChart) {
-        CorChart = corChart;
-    }
-
-    public LineChart getFchart() {
-        return Fchart;
-    }
-
-    public void setFchart(LineChart fchart) {
-        Fchart = fchart;
-    }*/
 
 
 

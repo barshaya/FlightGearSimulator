@@ -2,12 +2,15 @@ package view.graphs;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.BubbleChart;
+import javafx.scene.control.Label;
 
 public class MyGraphController {
 
     @FXML LineChart <Number,Number> CorChart;
     @FXML LineChart  <Number,Number> Fchart;
     @FXML BubbleChart  <Number,Number> Bchart;
+    @FXML Label selectedF;
+    @FXML Label correlatedF;
 
 
     public MyGraphController() {
@@ -16,27 +19,4 @@ public class MyGraphController {
 
     }
 
-    public BubbleChart getBchart() {
-        return Bchart;
-    }
-
-    public void setBchart(BubbleChart bchart) {
-        Bchart = bchart;
-    }
-
-    public LineChart getCorChart() {
-        return CorChart;
-    }
-
-    public void setCorChart(LineChart corChart) {
-        CorChart = corChart;
-    }
-
-    public LineChart getFchart() {
-        return Fchart;
-    }
-
-    public void setFchart(LineChart fchart) {
-        Fchart = fchart;
-    }
     }

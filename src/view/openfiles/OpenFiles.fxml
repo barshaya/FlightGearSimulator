@@ -3,15 +3,17 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
 <AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.openfiles.OpenFilesController">
     <!-- TODO Add Nodes -->
     <MenuBar prefHeight="26.0" prefWidth="900" BorderPane.alignment="CENTER">
         <menus>
             <Menu mnemonicParsing="false" text="File">
                 <items>
-                    <MenuItem fx:id="csv" mnemonicParsing="false" onAction="#openCSVFile" text="Load CSV File" />
+                    <MenuItem fx:id="csvTrain" mnemonicParsing="false" onAction="#openCSVTrainFile" text="Load CSV Train File" />
+                     <MenuItem fx:id="csvTest" mnemonicParsing="false" onAction="#openCSVTestFile" text="Load CSV Test File" />
                     <MenuItem fx:id="algo" mnemonicParsing="false" onAction="#openCLASSFile" text="Load Algo File" />
                 </items>
             </Menu>

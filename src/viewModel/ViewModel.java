@@ -1,11 +1,9 @@
 package viewModel;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
+import algorithms.AnomalyReport;
 import algorithms.TimeSeries;
 import algorithms.TimeSeriesAnomalyDetector;
 import javafx.application.Platform;
@@ -16,6 +14,7 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import model.*;
+import model.Properties;
 import view.WindowController;
 import view.buttons.MyButtons;
 
@@ -38,8 +37,13 @@ public class ViewModel implements Observer {
 	public DoubleProperty videoslider =new SimpleDoubleProperty();
 
 
+	List<AnomalyReport> reportsList = new LinkedList<>();
 
-	TimeSeries ts;
+
+
+
+	TimeSeries tsTrain;
+	TimeSeries tsTest;
 	TimeSeriesAnomalyDetector tsAnomalyDetector;
 	Properties properties;
 	HandleXML handlexml;
@@ -89,33 +93,75 @@ public class ViewModel implements Observer {
 		}
 	}
 
-	public TimeSeries getTs() {
-		return ts;
+
+	public DoubleProperty aileronProperty() {
+		return aileron;
 	}
 
-	public void loadCsv(String csvPath) {
+	public void setAileron(double aileron) {
+		this.aileron.set(aileron);
+	}
+
+	public TimeSeries getTsTrain() {
+		return tsTrain;
+	}
+
+	public void setTsTrain(TimeSeries tsTrain) {
+		this.tsTrain = tsTrain;
+	}
+
+	public TimeSeries getTsTest() {
+		return tsTest;
+	}
+
+	public void setTsTest(TimeSeries tsTest) {
+		this.tsTest = tsTest;
+	}
+
+	public void loadTrainCsv(String csvTrainPath) {
 		if (this.properties == null) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setHeaderText("Error - Please load XML");
 			alert.showAndWait();
-		}
-		else {
-			this.ts = new TimeSeries(csvPath);
-			if (this.ts.table == null) {
+		} else {
+			this.tsTrain = new TimeSeries(csvTrainPath);
+			if (this.tsTrain.table == null) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setHeaderText("Error with CSV");
 				alert.showAndWait();
-				this.ts = null;
-			}
-			else {
+				this.tsTrain = null;
+			} else {
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setHeaderText("Success loading CSV file");
-				alert.setContentText("please upload Algo file");
+				alert.setContentText("please upload CSV Test file");
 				alert.showAndWait();
-				model.setTimeSeries(ts);
+				model.setTsTrain(tsTrain);
 			}
 		}
 	}
+
+	public void loadTestCsv (String csvTestPath) {
+			if (this.tsTrain == null) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setHeaderText("Error - Please load Train CSV file");
+				alert.showAndWait();
+			} else {
+				this.tsTest = new TimeSeries(csvTestPath);
+				if (this.tsTest.table == null) {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setHeaderText("Error with CSV");
+					alert.showAndWait();
+					this.tsTest = null;
+				} else {
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setHeaderText("Success loading CSV Test file");
+					alert.setContentText("please upload Algo file");
+					alert.showAndWait();
+					model.setTsTest(tsTest);
+				}
+			}
+		}
+
 
 
 	public void loadXml(String name) {
@@ -139,7 +185,7 @@ public class ViewModel implements Observer {
 
 	public void loadAnomalyAlgo(String p, String name) {
 		// TODO Auto-generated method stub
-		if(this.ts == null){
+		if(this.tsTest == null){
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setHeaderText("Error - Please load CSV");
 			alert.showAndWait();
@@ -158,8 +204,8 @@ public class ViewModel implements Observer {
 				a.setHeaderText("Success Algo Loading");
 				a.showAndWait();
 				model.setAnomalyDetector(tsAnomalyDetector);
-				model.getTsAnomalyDetector().learnNormal(model.getTs());
-				model.getTsAnomalyDetector().detect(model.getTs());
+				model.getTsAnomalyDetector().learnNormal(model.getTsTrain());
+				reportsList=model.getTsAnomalyDetector().detect(model.getTsTest());
 
 			}
 		}
@@ -214,8 +260,8 @@ public class ViewModel implements Observer {
 	}
 
 	public ArrayList<String> getColTitles(){
-		if (ts != null) {
-			return ts.ColumnNames;
+		if (tsTest != null) {
+			return tsTest.ColumnNames;
 		}
 		return null;
 	}
@@ -232,7 +278,7 @@ public class ViewModel implements Observer {
 
 	public void StartFlight(int start) {
 		// TODO Auto-generated method stub
-		if (this.ts == null) {
+		if (this.tsTest == null) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setHeaderText("Error with play flight");
 			alert.setContentText("Please upload CSV before you fly");
@@ -257,7 +303,7 @@ public class ViewModel implements Observer {
 	}
 
 	public void Forward1() {
-		if (model.getTime() + 10 < ts.num-1) {
+		if (model.getTime() + 10 < tsTest.num-1) {
 			model.ClearTasks();
 			model.play(model.getTime() + 10);
 		}
@@ -265,7 +311,7 @@ public class ViewModel implements Observer {
 
 	public void Forward2() {
 		// TODO Auto-generated method stub
-		if (model.getTime() + 20 < ts.num-1) {
+		if (model.getTime() + 20 < tsTest.num-1) {
 			model.ClearTasks();
 			model.play(model.getTime() + 20);
 		}

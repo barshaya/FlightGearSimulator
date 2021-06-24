@@ -1,5 +1,6 @@
 package view;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -39,11 +40,14 @@ public class WindowController implements Initializable {
     ViewModel vm;
 
 
-    private StringProperty selectedName;
+    private StringProperty selectedName=new SimpleStringProperty();
+    public StringProperty selectedF=new SimpleStringProperty();
+    public StringProperty correlatedF=new SimpleStringProperty();
     private XYChart.Series seriesPointA;
     private XYChart.Series seriesPointB;
     private XYChart.Series seriesPointAnomaly;
     private XYChart.Series seriesTimeAnomaly;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -77,14 +81,19 @@ public class WindowController implements Initializable {
         });
 
 
-        openFiles.csvpath.addListener((o, ov, nv) -> {
-            this.vm.loadCsv(nv);
+        openFiles.csvTrainpath.addListener((o, ov, nv) -> {
+            this.vm.loadTrainCsv(nv);
+
+        });
+
+        openFiles.csvTestpath.addListener((o, ov, nv) -> {
+            this.vm.loadTestCsv(nv);
             ArrayList<String> titles = this.vm.getColTitles();
             if (titles != null) {
                 ObservableList<String> list = FXCollections.observableArrayList(titles);
                 viewlist.list.setItems(list);
             }
-            this.myButtons.myButtonsController.setSliderMax(vm.getTs().num);
+            this.myButtons.myButtonsController.setSliderMax(vm.getTsTest().num);
 
         });
 
@@ -116,10 +125,11 @@ public class WindowController implements Initializable {
                     ObservableValue<? extends Number> observableValue,
                     Number oldValue,
                     Number newValue) {
-                if(vm.getTs() != null){
+                if(vm.getTsTest() != null){
                     if (myButtons.myButtonsController.getSlider().isPressed()) {
                         myButtons.videoSlider.unbindBidirectional(vm.videoslider);
                         myButtons.myButtonsController.getSlider().setOnMouseReleased(e -> {
+                            seriesPointA.getData().clear();
                             vm.setTimeStemp((int) myButtons.myButtonsController.getSlider().getValue());
                             myButtons.videoSlider.bindBidirectional(vm.videoslider);
                         });
@@ -139,6 +149,8 @@ public class WindowController implements Initializable {
             if (((String) nv).equals("Fly")) {
                 this.vm.StartFlight(0);
             } else if (((String) nv).equals("not Fly")) {
+                seriesPointA.getData().clear();
+                seriesPointB.getData().clear();
                 this.vm.stopFlight();
                 this.vm.setTime(0);
             } else if (((String) nv).equals("pause Fly")) {
@@ -177,6 +189,9 @@ public class WindowController implements Initializable {
         myJoystick.speedValue.textProperty().bind(this.vm.speed);
         myJoystick.yawValue.textProperty().bind(this.vm.yaw);
         myButtons.videoSlider.bindBidirectional(this.vm.videoslider);
+        myGraphs.selectedF.textProperty().bind(this.selectedF);
+        myGraphs.correlatedF.textProperty().bind(this.correlatedF);
+
 
 
         seriesPointA = new XYChart.Series();
@@ -192,38 +207,37 @@ public class WindowController implements Initializable {
             if ((!(selectedName.getValue().equals(""))) && nv.equals(ov)) {
                 this.vm.getModel().addValueAtTime(selectedName.getValue(), seriesPointA);
             } else if (!nv.equals(ov)) {
+                 selectedF.setValue(nv);
                 this.vm.getModel().addValueUntilTime(selectedName.getValue(), seriesPointA);
             }
         });
 
-        this.vm.videoslider.addListener((o, ov, nv) -> {
-            if (!(selectedName.getValue().equals("")) && (ov.intValue() + 1) == nv.intValue()) {
-                this.vm.getModel().addValueAtTime(selectedName.getValue(), seriesPointA);
-                if (!(openFiles.algoname.getValue().equals("Zscore"))) {
-                    String fCor = this.vm.getModel().FindCorrelative(selectedName.getValue(), openFiles.algoname.getValue());
-                    if (fCor != null) {
-                        this.vm.getModel().addValueAtTime(fCor, seriesPointB);
-                    } else {
-                        seriesPointB.getData().clear();
-                    }
-                }
-            } else if (!(selectedName.getValue().equals(""))) {
 
+
+
+        this.vm.videoslider.addListener((o, ov, nv) -> {
+            if(!(selectedName.getValue().equals("")))
+            {
                 this.vm.getModel().addValueAtTime(selectedName.getValue(), seriesPointA);
-                if (!(openFiles.algoname.getValue().equals("Zscore"))) {
+                if (!(openFiles.algoname.getValue().substring(11).equals("Zscore"))) {
                     String fCor = this.vm.getModel().FindCorrelative(selectedName.getValue(), openFiles.algoname.getValue());
                     if (fCor != null) {
+                        correlatedF.setValue(fCor);
+                        if ((ov.intValue() + 1) == nv.intValue())
+                            this.vm.getModel().addValueAtTime(fCor, seriesPointB);
+                        else
                         this.vm.getModel().addValueUntilTime(fCor, seriesPointB);
                     } else {
+                        correlatedF.setValue("no correlated feature");
                         seriesPointB.getData().clear();
                     }
+
                 }
-
             }
-
         });
-
     }
+
+
     public String toStringTime(Double object) {
         long seconds = object.longValue();
         long minutes = TimeUnit.SECONDS.toMinutes(seconds);
