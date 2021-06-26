@@ -309,14 +309,41 @@ public class Model extends Observable {
 			s.getData().add(new XYChart.Data(time, temp));
 		});
 	}
-	public void addValueUntilTime(String attribute, XYChart.Series s) {
+	public void addLine(Line l, XYChart.Series s) {
 		Platform.runLater(()->{
 			s.getData().clear();
+			s.getData().add(new XYChart.Data(0,l.f(0)));
+			s.getData().add(new XYChart.Data(1000,l.f(1000)));
+
+		});
+	}
+
+
+	public void addValueUntilTime(String attribute, XYChart.Series s) {
+		Platform.runLater(()->{
 			for(int i=1;i<time;i++){
+				clearData(s);
 				float temp = tsTest.getTimeStempValue(attribute,time);
 				s.getData().add(new XYChart.Data(time, temp));
 
 			}
+
+		});
+	}
+
+	public void addAnomalyPoint(String a, String b, XYChart.Series s){
+		Platform.runLater(()-> {
+			float tempA = tsTest.getTimeStempValue(a, time);
+			float tempB = tsTest.getTimeStempValue(b, time);
+
+			s.getData().add(new XYChart.Data(tempA,tempB));
+
+		});
+	}
+
+	public void clearData(XYChart.Series s){
+		Platform.runLater(()-> {
+			s.getData().clear();
 
 		});
 	}
@@ -328,23 +355,38 @@ public class Model extends Observable {
 
 	public String FindCorrelative(String value,String algo) {
 
-		if((algo.substring(11)).equals("Linear")){
+		String s=null;
+		if((algo.substring(11)).equals("Linear"))
+			s=((Linear)tsAnomalyDetector).getMapL().get(value);
 
-			String s=((Linear)tsAnomalyDetector).getMapL().get(value);
-			if(s==null){
-				return null;
-			}
-			return s;
 
-		}
-		if((algo.substring(11)).equals("Hybrid")) {
-			String s = ((Hybrid) tsAnomalyDetector).getMapL().get(value);
-			if (s == null) {
-				return null;
-			}
-			return s;
+		if((algo.substring(11)).equals("Hybrid"))
+			s = ((Hybrid) tsAnomalyDetector).getMapL().get(value);
 
-		}
-		return("");
+
+		if (s == null)
+			return null;
+
+		return s;
+
 	}
+
+
+	public Line FindCorrelativeLine(String value,String algo){
+
+		Line l=null;
+		if((algo.substring(11)).equals("Linear")){
+			l=((Linear)tsAnomalyDetector).getMapLine().get(value).lin_reg;
+		}
+		if((algo.substring(11)).equals("hybrid")){
+			l=((Linear)tsAnomalyDetector).getMapLine().get(value).lin_reg;
+		}
+
+		if(l==null){
+			return null;
+		}
+		return l;
+	}
+
+
 }

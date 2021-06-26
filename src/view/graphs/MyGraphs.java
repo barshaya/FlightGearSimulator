@@ -11,7 +11,7 @@ import javafx.scene.layout.BorderPane;
 public class MyGraphs extends AnchorPane
 {
 
-    public BubbleChart <Number,Number> Bchart;
+    public LineChart <Number,Number> Bchart;
     public LineChart <Number,Number> CorChart;
     public LineChart  <Number,Number> Fchart;
     MyGraphController myGraphController;

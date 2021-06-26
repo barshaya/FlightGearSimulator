@@ -8,7 +8,7 @@ public class MyGraphController {
 
     @FXML LineChart <Number,Number> CorChart;
     @FXML LineChart  <Number,Number> Fchart;
-    @FXML BubbleChart  <Number,Number> Bchart;
+    @FXML LineChart  <Number,Number> Bchart;
     @FXML Label selectedF;
     @FXML Label correlatedF;
 

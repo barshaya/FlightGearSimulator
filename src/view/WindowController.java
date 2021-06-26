@@ -1,5 +1,7 @@
 package view;
 
+import algorithms.CorrelatedFeatures;
+import algorithms.Line;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -58,9 +60,9 @@ public class WindowController implements Initializable {
 //    }
 
     @SuppressWarnings("unchecked")
-    public void init(ViewModel vm2) {
+    public void init(ViewModel vm) {
         // TODO Auto-generated method stub
-        this.vm = vm2;
+        this.vm = vm;
         MyFeaturesList.xmlpath.addListener((o, ov, nv) -> {
             this.vm.loadXml(nv);
             if (vm.getXs() != null) {
@@ -100,7 +102,7 @@ public class WindowController implements Initializable {
         openFiles.algoname.addListener((o, ov, nv) -> {
             this.vm.loadAnomalyAlgo(openFiles.algopath.get(), nv);
             if (this.vm.getAd() != null) {
-                myGraphs.Bchart.setTitle(nv.substring(11));
+                // myGraphs.Bchart.setTitle(nv.substring(11));
             }
         });
 
@@ -125,11 +127,11 @@ public class WindowController implements Initializable {
                     ObservableValue<? extends Number> observableValue,
                     Number oldValue,
                     Number newValue) {
-                if(vm.getTsTest() != null){
+                if (vm.getTsTest() != null) {
                     if (myButtons.myButtonsController.getSlider().isPressed()) {
                         myButtons.videoSlider.unbindBidirectional(vm.videoslider);
                         myButtons.myButtonsController.getSlider().setOnMouseReleased(e -> {
-                            seriesPointA.getData().clear();
+                            vm.getModel().clearData(seriesPointA);
                             vm.setTimeStemp((int) myButtons.myButtonsController.getSlider().getValue());
                             myButtons.videoSlider.bindBidirectional(vm.videoslider);
                         });
@@ -193,7 +195,6 @@ public class WindowController implements Initializable {
         myGraphs.correlatedF.textProperty().bind(this.correlatedF);
 
 
-
         seriesPointA = new XYChart.Series();
         seriesPointB = new XYChart.Series();
         seriesPointAnomaly = new XYChart.Series();
@@ -207,35 +208,61 @@ public class WindowController implements Initializable {
             if ((!(selectedName.getValue().equals(""))) && nv.equals(ov)) {
                 this.vm.getModel().addValueAtTime(selectedName.getValue(), seriesPointA);
             } else if (!nv.equals(ov)) {
-                 selectedF.setValue(nv);
+                selectedF.setValue(nv);
                 this.vm.getModel().addValueUntilTime(selectedName.getValue(), seriesPointA);
+                this.vm.getModel().clearData(seriesPointA);
             }
+
+
+            String fCor = this.vm.getModel().FindCorrelative(selectedName.getValue(), openFiles.algoname.getValue());
+             if (fCor != null) {
+                 correlatedF.setValue(fCor);
+                 if((openFiles.algoname.getValue().substring(11)).equals("Linear")) {
+                     Line l = this.vm.getModel().FindCorrelativeLine(selectedName.getValue(), openFiles.algoname.getValue());
+                     this.vm.getModel().addLine(l, seriesTimeAnomaly);
+                 }
+             } else {
+                 correlatedF.setValue("no correlated feature");
+                 this.vm.getModel().clearData(seriesPointB);
+                 this.vm.getModel().clearData(seriesTimeAnomaly);
+                 this.vm.getModel().clearData(seriesPointAnomaly);
+
+             }
+
+
+
         });
-
-
 
 
         this.vm.videoslider.addListener((o, ov, nv) -> {
-            if(!(selectedName.getValue().equals("")))
-            {
+            if (!(selectedName.getValue().equals(""))) {
                 this.vm.getModel().addValueAtTime(selectedName.getValue(), seriesPointA);
-                if (!(openFiles.algoname.getValue().substring(11).equals("Zscore"))) {
-                    String fCor = this.vm.getModel().FindCorrelative(selectedName.getValue(), openFiles.algoname.getValue());
-                    if (fCor != null) {
-                        correlatedF.setValue(fCor);
-                        if ((ov.intValue() + 1) == nv.intValue())
-                            this.vm.getModel().addValueAtTime(fCor, seriesPointB);
-                        else
+                String fCor = this.vm.getModel().FindCorrelative(selectedName.getValue(), openFiles.algoname.getValue());
+
+                if (fCor != null) {
+
+                    if ((ov.intValue() + 1) == nv.intValue()) {
+                        this.vm.getModel().addValueAtTime(fCor, seriesPointB);
+                        if((openFiles.algoname.getValue().substring(11)).equals("Linear")) {
+                            this.vm.getModel().addAnomalyPoint(selectedName.getValue(), fCor, seriesPointAnomaly);
+                        }
+                    }else {
                         this.vm.getModel().addValueUntilTime(fCor, seriesPointB);
-                    } else {
-                        correlatedF.setValue("no correlated feature");
-                        seriesPointB.getData().clear();
                     }
 
+                } else { //no correlative
+                    correlatedF.setValue("no correlated feature");
+                    this.vm.getModel().clearData(seriesPointB);
+                    this.vm.getModel().clearData(seriesTimeAnomaly);
+                    this.vm.getModel().clearData(seriesPointAnomaly);
+
+
                 }
+
             }
         });
     }
+
 
 
     public String toStringTime(Double object) {

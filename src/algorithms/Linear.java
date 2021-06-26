@@ -11,7 +11,9 @@ import algorithms.TimeSeries.Feature;
 public class Linear implements TimeSeriesAnomalyDetector {
 
 	ArrayList<CorrelatedFeatures> corFeaturesLs = new ArrayList<CorrelatedFeatures>();
+	HashMap<String,CorrelatedFeatures> mapLine=new HashMap<>();
 	HashMap<String,String> mapL=new HashMap<>();
+
 
 	public void learnNormal(TimeSeries ts) {
 		ArrayList<Feature> featureArray = ts.getTable();
@@ -49,6 +51,7 @@ public class Linear implements TimeSeriesAnomalyDetector {
 					this.corFeaturesLs.add(cofe);
 				}
 				mapL.put(featureArray.get(i).getNameId(),featureArray.get(index).getNameId());
+				mapLine.put(featureArray.get(i).getNameId(),cofe);
 
 			}
 			maximum =0;
@@ -107,7 +110,10 @@ public class Linear implements TimeSeriesAnomalyDetector {
 		return mapL;
 	}
 
-	public void setMapL(HashMap<String, String> mapL) {
-		this.mapL = mapL;
+
+	public HashMap<String, CorrelatedFeatures> getMapLine() {
+		return mapLine;
 	}
+
+
 }

@@ -33,6 +33,7 @@ public class Hybrid implements TimeSeriesAnomalyDetector
 				Linear.put(name,l);
 				mapL.put(f1.getNameId(),f2.getNameId());
 
+
 			}
 			else if(Math.abs(correlatedFeature.correlation)<0.5) {
 				TimeSeries t2 = new TimeSeries(f1,f2);
@@ -157,7 +158,4 @@ public class Hybrid implements TimeSeriesAnomalyDetector
 		return mapL;
 	}
 
-	public void setMapL(HashMap<String, String> mapL) {
-		this.mapL = mapL;
-	}
 }
