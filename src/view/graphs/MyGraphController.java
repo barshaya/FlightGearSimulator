@@ -11,6 +11,7 @@ public class MyGraphController {
     @FXML LineChart  <Number,Number> Bchart;
     @FXML Label selectedF;
     @FXML Label correlatedF;
+    @FXML Label selectedAlgo;
 
 
     public MyGraphController() {

@@ -17,6 +17,7 @@ public class MyGraphs extends AnchorPane
     MyGraphController myGraphController;
     public Label selectedF;
     public Label correlatedF;
+    public Label selectedAlgo;
 
 
     public MyGraphs() {
@@ -30,6 +31,7 @@ public class MyGraphs extends AnchorPane
             Fchart = myGraphController.Fchart;
             selectedF=this.myGraphController.selectedF;
             correlatedF= this.myGraphController.correlatedF;
+            selectedAlgo=this.myGraphController.selectedAlgo;
 
 
 

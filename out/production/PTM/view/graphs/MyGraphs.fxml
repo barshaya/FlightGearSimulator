@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.BubbleChart?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
@@ -33,7 +32,8 @@
                 <NumberAxis side="LEFT" />
             </yAxis>
         </LineChart>
-      <Label fx:id="selectedF" layoutX="21.0" layoutY="19.0" prefHeight="17.0" prefWidth="164.0"  />
-      <Label fx:id="correlatedF" layoutX="243.0" layoutY="19.0" prefHeight="17.0" prefWidth="155.0"    />
+      <Label fx:id="selectedF" contentDisplay="CENTER" layoutX="21.0" layoutY="19.0" prefHeight="17.0" prefWidth="164.0" />
+      <Label fx:id="correlatedF" contentDisplay="CENTER" layoutX="243.0" layoutY="19.0" prefHeight="17.0" prefWidth="155.0" />
+      <Label fx:id="selectedAlgo" contentDisplay="CENTER" layoutX="137.0" layoutY="192.0" prefHeight="17.0" prefWidth="115.0" />
     </children>
 </AnchorPane>
