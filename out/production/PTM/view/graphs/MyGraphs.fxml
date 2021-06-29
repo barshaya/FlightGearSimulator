@@ -32,8 +32,8 @@
                 <NumberAxis side="LEFT" />
             </yAxis>
         </LineChart>
-      <Label fx:id="selectedF" contentDisplay="CENTER" layoutX="21.0" layoutY="19.0" prefHeight="17.0" prefWidth="164.0" />
-      <Label fx:id="correlatedF" contentDisplay="CENTER" layoutX="243.0" layoutY="19.0" prefHeight="17.0" prefWidth="155.0" />
-      <Label fx:id="selectedAlgo" contentDisplay="CENTER" layoutX="137.0" layoutY="192.0" prefHeight="17.0" prefWidth="115.0" />
+      <Label fx:id="selectedF" contentDisplay="CENTER" layoutX="21.0" layoutY="19.0" prefHeight="17.0" prefWidth="164.0" textAlignment="CENTER" />
+      <Label fx:id="correlatedF" contentDisplay="CENTER" layoutX="243.0" layoutY="19.0" prefHeight="17.0" prefWidth="155.0" textAlignment="CENTER" />
+      <Label fx:id="selectedAlgo" contentDisplay="CENTER" layoutX="152.0" layoutY="192.0" prefHeight="17.0" prefWidth="115.0" textAlignment="CENTER" />
     </children>
 </AnchorPane>
