@@ -255,7 +255,6 @@ public class Model extends Observable {
 			flightGear.CloseSocket();
 			flightGear = null;
 		}
-		System.out.println("Flight Stop");
 		resetValues();
 	}
 
