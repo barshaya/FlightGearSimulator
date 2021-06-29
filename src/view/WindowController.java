@@ -1,8 +1,6 @@
 package view;
 
-import algorithms.CorrelatedFeatures;
 import algorithms.Line;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -12,14 +10,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.XYChart;
-import javafx.util.Duration;
 import view.buttons.MyButtons;
 import view.graphs.MyGraphs;
 import view.joystick.MyJoystick;
 import view.openfiles.OpenFiles;
 import view.featuresList.MyFeaturesList;
 import viewModel.ViewModel;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;

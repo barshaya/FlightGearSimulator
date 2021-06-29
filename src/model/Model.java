@@ -1,8 +1,6 @@
 package model;
 
-import java.util.List;
 import java.util.Observable;
-
 import algorithms.*;
 import javafx.application.Platform;
 import javafx.scene.chart.XYChart;
@@ -13,7 +11,6 @@ public class Model extends Observable {
 	TimeSeries tsTrain;
 	TimeSeries tsTest;
 
-	HandleXML settings;
 	FGConnection flightGear;
 	TimeSeriesAnomalyDetector tsAnomalyDetector;
 	Properties clientSettings;

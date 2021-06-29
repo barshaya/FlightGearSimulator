@@ -2,7 +2,6 @@ package viewModel;
 
 import java.text.DecimalFormat;
 import java.util.*;
-
 import algorithms.AnomalyReport;
 import algorithms.TimeSeries;
 import algorithms.TimeSeriesAnomalyDetector;
@@ -15,7 +14,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import model.*;
 import model.Properties;
-import view.WindowController;
 import view.buttons.MyButtons;
 
 public class ViewModel implements Observer {
